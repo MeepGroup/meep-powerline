@@ -2,7 +2,7 @@
 // get all the tools we need
 const express  = require('express');
 const app      = express();
-const port     = process.env.PORT || 3002;
+const port     = 3002;
 const mongoose = require('mongoose');
 const passport = require('passport');
 const flash    = require('connect-flash');
