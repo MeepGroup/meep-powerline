@@ -1,6 +1,40 @@
+const request = require('request');
+
 module.exports = function(app, passport) {
 
-// normal routes ===============================================================
+
+// =============================================================================
+// Meat and Bones  =============================================================
+// =============================================================================
+
+  // Get stats on a nest by address
+  app.get('/prey/:address', isLoggedIn, function(req, res) {
+    request(`https://meeppanel.com/hawk/prey/${req.params.address}`,
+    function (error, response, body) {
+      if(error){
+        res.status(500).jsonp(error);
+      }else{
+        res.jsonp(JSON.parse(body));
+      }
+    });
+  });
+
+  // Trust a new nest.
+  app.get('/trust/:address', isLoggedIn, function(req, res) {
+    request(`https://meeppanel.com/rooster/trust/${req.params.address}`,
+    function (error, response, body) {
+      if(error){
+        res.status(500).jsonp(error);
+      }else{
+        res.jsonp(JSON.parse(body));
+      }
+    });
+  });
+
+
+// =============================================================================
+// Normal Routes  ==============================================================
+// =============================================================================
 
     // show the home page (will also have our login links)
     app.get('/', function(req, res) {
@@ -97,5 +131,5 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    res.redirect('/');
+    res.status(401).jsonp({ error: 'You must be logged in to tap this powerline.' });
 }
