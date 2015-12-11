@@ -7,6 +7,17 @@ module.exports = function(app, passport) {
 // Meat and Bones  =============================================================
 // =============================================================================
 
+  app.get('/status', function(req, res) {
+    request.get('https://meeppanel.com/hawk/status', (err,httpResponse,hawkBody) => {
+      request.get('https://meeppanel.com/rooster/status', (err,httpResponse,roosterBody) => {
+        res.status(200).jsonp({
+          hawk: JSON.parse(hawkBody),
+          rooster: JSON.parse(roosterBody)
+        });
+      });
+    });
+  });
+
   // Get stats on a nest by address
   app.get('/prey/:address', isLoggedIn, function(req, res) {
     request(`https://meeppanel.com/hawk/prey/${req.params.address}`,
