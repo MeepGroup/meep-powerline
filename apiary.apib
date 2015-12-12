@@ -31,7 +31,7 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
 
 ### /login [POST]
 
-+ Response 200 (application/json)
++ Request 200 (application/json)
 
         {
             "email": "example@gmail.com",
@@ -73,12 +73,47 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
             }
         }
 
+## Profile [/profile]
+
+### /profile [GET]
+
++ Response 200 (application/json)
+
+        {
+            "_id": "idNumber",
+            "__v": 0,
+            "isAdmin": true,
+            "local": {
+                "password": "hashed_password",
+                "email": "example@gmail.com"
+            }
+        }
+
 
 ## Logout [/logout]
 
 ### /logout [GET]
 
 + Response 200 (application/json)
+
+
+## Config [/config]
+
+### /config [GET]
+
++ Response 200 (application/json)
+
+        {
+            "master_address": [
+                "master.meeppanel.com",
+                "192.168.0.1"
+            ],
+            "hawk_address": "meeppanel.com:3000",
+            "trusted_connections": [
+                "192.168.0.1"
+            ]
+        }
+
 
 ## Registry List [/registry/list]
 
@@ -147,3 +182,113 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
             "error": "Egg not found."
         }
 
+
+## Prey [/prey/{address}]
+
++ Parameters
+    + address (string) - IP of the machine to prey on
+
+### /prey [GET]
+
++ Response 200 (application/json)
+
+        {
+          "__v": 0,
+          "_id": "5662779eaa79b96503f351f6",
+          "address": "127.0.0.1",
+          "cpu": {
+            "usage": {
+              "per_tread": [
+                "0.0",
+                "0.0"
+              ],
+              "overall": "0.0879013"
+            },
+            "Architecture": "x86_64",
+            "CPU op-mode(s)": "32-bit,64-bit",
+            "Byte Order": "LittleEndian",
+            "CPU(s)": "8",
+            "On-line CPU(s) list": "0-7",
+            "Thread(s) per core": "2",
+            "Core(s) per socket": "4",
+            "Socket(s)": "1",
+            "NUMA node(s)": "1",
+            "Vendor ID": "GenuineIntel",
+            "CPU family": "6",
+            "Model": "60",
+            "Stepping": "3",
+            "CPU MHz": "3499.742",
+            "BogoMIPS": "6999.48",
+            "Virtualization": "VT-x",
+            "L1d cache": "32K",
+            "L1i cache": "32K",
+            "L2 cache": "256K",
+            "L3 cache": "8192K",
+            "NUMA node0 CPU(s)": "0-7"
+          },
+          "hdd": {
+            "spaceUsed": "99"
+          },
+          "id": 1,
+          "instanceType": "master",
+          "mem": {
+            "MemTotal": "8135740kB",
+            "MemFree": "5640208kB",
+            "Buffers": "258480kB",
+            "Cached": "1475348kB",
+            "SwapCached": "0kB",
+            "Active": "1409336kB",
+            "Inactive": "780376kB",
+            "Active(anon)": "458540kB",
+            "Inactive(anon)": "432kB",
+            "Active(file)": "950796kB",
+            "Inactive(file)": "779944kB",
+            "Unevictable": "3704kB",
+            "Mlocked": "3704kB",
+            "SwapTotal": "999420kB",
+            "SwapFree": "999420kB",
+            "Dirty": "4kB",
+            "Writeback": "0kB",
+            "AnonPages": "459608kB",
+            "Mapped": "42836kB",
+            "Shmem": "628kB",
+            "Slab": "196356kB",
+            "SReclaimable": "167700kB",
+            "SUnreclaim": "28656kB",
+            "KernelStack": "2488kB",
+            "PageTables": "7156kB",
+            "NFS_Unstable": "0kB",
+            "Bounce": "0kB",
+            "WritebackTmp": "0kB",
+            "CommitLimit": "5067288kB",
+            "Committed_AS": "1529416kB",
+            "VmallocTotal": "34359738367kB",
+            "VmallocUsed": "91828kB",
+            "VmallocChunk": "34359636476kB",
+            "HardwareCorrupted": "0kB",
+            "AnonHugePages": "174080kB",
+            "HugePages_Total": "0",
+            "HugePages_Free": "0",
+            "HugePages_Rsvd": "0",
+            "HugePages_Surp": "0",
+            "Hugepagesize": "2048kB",
+            "DirectMap4k": "74044kB",
+            "DirectMap2M": "1982464kB",
+            "DirectMap1G": "6291456kB"
+          },
+          "name": "Dodo"
+        }
+
+
+## Trust [/trust/{address}]
+
++ Parameters
+    + address (string) - IP of the machine to trust with access to config file.
+
+### /trust [GET]
+
++ Response 200 (application/json)
+
+        {
+            "success": "Sucessfully trusted {address}."
+        }
