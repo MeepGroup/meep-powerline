@@ -86,7 +86,7 @@ app.post('/nest/prey', isLoggedIn, isAdmin, function(req, res) {
 
   app.post('/registry/register', isLoggedIn, isAdmin, function(req, res) {
     registerEgg(req.body, (response) => {
-      res.status(200).jsonp(response);
+      res.status(response.status).jsonp(response.data);
     });
   });
 

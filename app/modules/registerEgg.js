@@ -22,7 +22,10 @@ const registerEgg = function(options, callback) {
     if (err) return handleError(err);
     if(egg.length) {
       callback({
-        error: `${options.eggName} Egg with this version already exists, Please bump version.`
+        status: 500,
+        data: {
+          error: `${options.eggName} Egg with this version already exists, Please bump version.`
+        }
       });
     }else {
       console.log(options);
@@ -36,7 +39,10 @@ const registerEgg = function(options, callback) {
           callback(err);
         }
         callback({
-          success: `${options.eggName} Egg created and stored on the registry.`
+          status: 200,
+          data: {
+            success: `${options.eggName} Egg created and stored on the registry.`
+          }
         })
       });
     }

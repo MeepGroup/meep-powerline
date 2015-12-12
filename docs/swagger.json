@@ -1,0 +1,118 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Powerline",
+        "description": "Powerline is the powerhouse API that runs Meep. It's build on NodeJS and supports any frontend that can make Get, Post and Put requests.",
+        "version": "1.0.0"
+    },
+    "host": "meeppanel.com",
+    "schemes": [
+        "https"
+    ],
+    "basePath": "/api",
+    "produces": [
+        "application/json"
+    ],
+    "paths": {
+        "/registry/register": {
+            "post": {
+                "summary": "Register Egg",
+                "description": "Register an egg to be used to load an application, game etc. onto a Nest.",
+                "parameters": [
+                    {
+                        "eggName": "name for egg, no spaces or special chars.",
+                        "version": "version of egg",
+                        "egg": "JSON.stringify()'d egg file."
+                    }
+                ],
+                "tags": [
+                    "Register",
+                    "Egg"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully added egg to registry.",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "success": "Success message"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error registering egg.",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "error": "Error message"
+                            }
+                        }
+                    }
+                }
+            },
+            "get": {
+                "summary": "Register Egg UI",
+                "description": "UI to register an egg to be used to load an application, game etc. onto a Nest."
+            }
+        },
+        "/registry/list": {
+            "get": {
+                "summary": "Lists all registered Eggs.",
+                "description": "Get a list of all Eggs in the registry.",
+                "parameters": [],
+                "tags": [
+                    "Register",
+                    "Egg",
+                    "List"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfully added egg to registry.",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "egg": "Stringified egg."
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal error registering egg.",
+                        "schema": {
+                            "type": "object",
+                            "items": {
+                                "error": "Error message"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Product": {
+            "type": "object",
+            "properties": {
+                "product_id": {
+                    "type": "string",
+                    "description": "Unique identifier representing a specific product for a given latitude & longitude. For example, uberX in San Francisco will have a different product_id than uberX in Los Angeles."
+                },
+                "description": {
+                    "type": "string",
+                    "description": "Description of product."
+                },
+                "display_name": {
+                    "type": "string",
+                    "description": "Display name of product."
+                },
+                "capacity": {
+                    "type": "string",
+                    "description": "Capacity of product. For example, 4 people."
+                },
+                "image": {
+                    "type": "string",
+                    "description": "Image URL representing the product."
+                }
+            }
+        }
+    }
+}
