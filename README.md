@@ -1,4 +1,4 @@
-![Powerline Logo](http://i.imgur.com/g9vkPYh.png =450x)
+![Powerline Logo](http://i.imgur.com/g9vkPYh.png){:height="350px"}
 
 ## Build
 
