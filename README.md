@@ -23,4 +23,9 @@ npm start
 
 ## Developer Documentation
 
-Developer documentation is coming soon!
+Developer documentation can be found on apiary.io via the link below.
+
+http://docs.powerline.apiary.io/#
+
+Notice: Due to limitations with browser sessions you will not be able to test methods
+that require authentication right now. 
