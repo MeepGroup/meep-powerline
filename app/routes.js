@@ -6,7 +6,7 @@ module.exports = function(app, passport) {
 
 
 // =============================================================================
-// Meat and Bones  =============================================================
+// Core ========================================================================
 // =============================================================================
 
   app.get('/status', function(req, res) {
@@ -21,7 +21,7 @@ module.exports = function(app, passport) {
   });
 
   // Get stats on a nest by address
-  app.get('/prey/:address', isLoggedIn, function(req, res) {
+  app.get('/prey/:address', isLoggedIn, isAdmin, function(req, res) {
     request(`https://meeppanel.com/hawk/prey/${req.params.address}`,
     function (error, response, body) {
       if(error){
@@ -33,7 +33,7 @@ module.exports = function(app, passport) {
   });
 
   // Trust a new nest.
-  app.get('/trust/:address', isLoggedIn, function(req, res) {
+  app.get('/trust/:address', isLoggedIn, isAdmin, function(req, res) {
     request(`https://meeppanel.com/rooster/trust/${req.params.address}`,
     function (error, response, body) {
       if(error){
@@ -44,12 +44,17 @@ module.exports = function(app, passport) {
     });
   });
 
+
+// =============================================================================
+// Registry ====================================================================
+// =============================================================================
+
   // Register eggs
-  app.get('/registry/register', isLoggedIn, function(req, res) {
+  app.get('/registry/register', isLoggedIn, isAdmin, function(req, res) {
     res.render('registerEgg.ejs');
   });
 
-  app.post('/registry/register', isLoggedIn, function(req, res) {
+  app.post('/registry/register', isLoggedIn, isAdmin, function(req, res) {
     registerEgg(req.body, (response) => {
       res.status(200).jsonp(response);
     });
@@ -170,6 +175,14 @@ module.exports = function(app, passport) {
     });
 
 };
+
+// route middleware to ensure user is logged in
+function isAdmin(req, res, next) {
+    if(req.user.isAdmin) {
+      return next();
+    }
+    res.status(401).jsonp({ error: 'You must be an admin to tap this powerline.' });
+}
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
