@@ -1,4 +1,4 @@
-![Powerline Logo](http://i.imgur.com/g9vkPYh.png)
+![Powerline Logo](http://i.imgur.com/g9vkPYh.png =450x)
 
 ## Build
 
