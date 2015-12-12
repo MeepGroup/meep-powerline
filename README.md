@@ -1,4 +1,4 @@
-<img src="http://i.imgur.com/g9vkPYh.png" alt="Powerline Logo" width="350" style="width:350px">
+<img src="http://i.imgur.com/g9vkPYh.png" alt="Powerline Logo" width="350">
 
 ## Build
 
