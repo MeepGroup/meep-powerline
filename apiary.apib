@@ -292,3 +292,52 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
         {
             "success": "Sucessfully trusted {address}."
         }
+        
+        
+## Nest Provision [/nest/provision]
+
+### /nest/provision [POST]
+
++ Request 200 (application/json)
+
+        {
+            "user": "root",
+            "host": 22,
+            "address": "127.0.0.1",
+            "password": "password123"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": "Sucessfully started provisioning, check /nest/view for status."
+        }
+
+## Nest Prey [/nest/prey]
+
+### /nest/prey [POST]
+
++ Request 200 (application/json)
+
+        {
+            "address": "127.0.0.1"
+        }
+
++ Response 200 (application/json)
+        
+        {
+          "_id": "566b9011b63ac11cc4e7c111",
+          "address": "75.126.217.82",
+          "name": "Wombat",
+          "port": 22,
+          "user": "root",
+          "password": "REDACTED",
+          "provision_token": "d9f35ff0-a07d-11e5-bdf7-554d324f0b70",
+          "busy": true,
+          "__v": 0,
+          "provisioned": true,
+          "provisioned_at": "2015-12-12T03:11:14.022Z",
+          "eggs": [
+            "provision"
+          ]
+        }
