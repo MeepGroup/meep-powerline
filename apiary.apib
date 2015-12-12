@@ -7,17 +7,15 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
 
 ## Login [/login]
 
-### login [POST]
+### /login [POST]
 
 + Response 200 (application/json)
 
-        [
-            {
-                "email": "example@gmail.com",
-                "password": "yourpassword"
-            }
-        ]
-        
+        {
+            "email": "example@gmail.com",
+            "password": "yourpassword"
+        }
+
 + Response 200 (application/json)
 
         {
@@ -32,17 +30,15 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
 
 ## Signup [/signup]
 
-### signup [POST]
+### /signup [POST]
 
 + Request
 
-        [
-            {
-                "email": "example@gmail.com",
-                "password": "yourpassword"
-            }
-        ]
-        
+        {
+            "email": "example@gmail.com",
+            "password": "yourpassword"
+        }
+
 + Response 200 (application/json)
 
         {
@@ -58,12 +54,74 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
 
 ## Logout [/logout]
 
-### logout [GET]
+### /logout [GET]
 
 + Response 200 (application/json)
 
-## Registry - List [/registry/list]
+## Registry List [/registry/list]
 
-### list [GET]
+### /registry/list [GET]
 
 + Response 200 (application/json)
+
+        [
+            {
+                "_id": "13125146215",
+                "version": "5.0.0",
+                "name": "Node",
+                "egg": "{\"server\":{\"host\":\"192.167.0.4\",\"user\":\"root\",\"password\":\"psw123\",\"port\":22},\"tasks\":[\"curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -\",\"apt-get install -y nodejs\"],\"test\":true}",
+                "__v": 0
+            }
+        ]
+
+## Registry Register [/registry/register]
+
+### /registry/register [POST]
+
++ Request
+
+        {
+            "eggName": "Node Egg",
+            "version": "0.0.1",
+            "egg"    : "Object (Stringified)"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": "Successfully registered egg"
+        }
+
++ Response 500 (application/json)
+
+        {
+            "error": "Egg with this version already exists, please bump version."
+        }
+
+## Registry Find [/registry/find]
+
+### /registry/find [POST]
+
++ Request
+
+        {
+            "eggName": "Node",
+            "version": "4.0.0"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "_id": "1234567890",
+            "version": "4.0.0",
+            "name": "Node",
+            "egg": "{\"server\":{\"host\":\"192.167.0.4\",\"user\":\"root\",\"password\":\"psw123\",\"port\":22},\"tasks\":[\"curl -sL https://deb.nodesource.com/setup_4.x | sudo -E bash -\",\"apt-get install -y nodejs\"],\"test\":true}",
+            "__v": 0
+        }
+
++ Response 404 (application/json)
+
+        {
+            "error": "Egg not found."
+        }
+
