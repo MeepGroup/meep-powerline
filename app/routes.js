@@ -1,6 +1,7 @@
 const request = require('request');
 require('./modules/schemaInit.js');
-const { registerEgg, allEggs, findEgg } = require('./modules/');
+const { registerEgg, allEggs, findEgg, provision, viewNest
+} = require('./modules/');
 
 module.exports = function(app, passport) {
 
@@ -17,6 +18,18 @@ module.exports = function(app, passport) {
           rooster: JSON.parse(roosterBody)
         });
       });
+    });
+  });
+
+  // Get config
+  app.get('/config', isLoggedIn, isAdmin, function(req, res) {
+    request(`https://meeppanel.com/rooster`,
+    function (error, response, body) {
+      if(error){
+        res.status(500).jsonp(error);
+      }else{
+        res.jsonp(JSON.parse(body));
+      }
     });
   });
 
@@ -44,6 +57,23 @@ module.exports = function(app, passport) {
     });
   });
 
+
+// =============================================================================
+// Nest  =======================================================================
+// =============================================================================
+
+app.post('/nest/provision', isLoggedIn, isAdmin, function(req, res) {
+  provision(req.body, (response) => {
+    res.status(response.status).jsonp(response.data);
+  });
+});
+
+// different from /prey, /nest/prey shows database data, such as provision stats.
+app.post('/nest/prey', isLoggedIn, isAdmin, function(req, res) {
+  viewNest(req.body, (response) => {
+    res.status(response.status).jsonp(response.data);
+  });
+});
 
 // =============================================================================
 // Registry ====================================================================
