@@ -1,12 +1,13 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: http://meeppanel.com:3002/
 
 # Powerline
 
 Powerline is the powerhouse API that runs Meep. It's build on NodeJS and supports any frontend that can make Get, Post and Put requests.
+
 ## Login [/login]
 
-### Login [POST]
+### login [POST]
 
 + Response 200 (application/json)
 
@@ -16,12 +17,24 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
                 "password": "yourpassword"
             }
         ]
+        
++ Response 200 (application/json)
+
+        {
+            "_id": "idNumber",
+            "__v": 0,
+            "isAdmin": true,
+            "local": {
+                "password": "hashed_password",
+                "email": "example@gmail.com"
+            }
+        }
 
 ## Signup [/signup]
 
-### Login [POST]
+### signup [POST]
 
-+ Response 200 (application/json)
++ Request
 
         [
             {
@@ -29,11 +42,28 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
                 "password": "yourpassword"
             }
         ]
+        
++ Response 200 (application/json)
+
+        {
+            "_id": "idNumber",
+            "__v": 0,
+            "isAdmin": true,
+            "local": {
+                "password": "hashed_password",
+                "email": "example@gmail.com"
+            }
+        }
 
 
 ## Logout [/logout]
 
-### Logout [GET]
+### logout [GET]
 
 + Response 200 (application/json)
 
+## Registry - List [/registry/list]
+
+### list [GET]
+
++ Response 200 (application/json)
