@@ -1,5 +1,4 @@
-![Powerline Logo](http://i.imgur.com/g9vkPYh.png =350px)
-
+<img src="http://i.imgur.com/g9vkPYh.png" alt="Powerline Logo" style="width:350px">
 ## Build
 
 ```
