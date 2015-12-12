@@ -1,4 +1,4 @@
-# Meep Powerline
+![Powerline Logo](i.imgur.com/g9vkPYh.png)
 
 ## Build
 

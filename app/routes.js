@@ -1,4 +1,6 @@
 const request = require('request');
+require('./modules/schemaInit.js');
+const { registerEgg, allEggs, findEgg } = require('./modules/');
 
 module.exports = function(app, passport) {
 
@@ -37,8 +39,33 @@ module.exports = function(app, passport) {
       if(error){
         res.status(500).jsonp(error);
       }else{
-        res.jsonp(JSON.parse(body));
+        res.jsonp(body);
       }
+    });
+  });
+
+  // Register eggs
+  app.get('/registry/register', isLoggedIn, function(req, res) {
+    res.render('registerEgg.ejs');
+  });
+
+  app.post('/registry/register', isLoggedIn, function(req, res) {
+    registerEgg(req.body, (response) => {
+      res.status(200).jsonp(response);
+    });
+  });
+
+  // Find All Eggs
+  app.get('/registry/list', isLoggedIn, function(req, res) {
+    allEggs((response) => {
+      res.jsonp(response);
+    });
+  });
+
+  // Find All Eggs
+  app.post('/registry/find', isLoggedIn, function(req, res) {
+    findEgg(req.body, (response) => {
+      res.status(response.code).jsonp(response.data);
     });
   });
 
@@ -84,6 +111,10 @@ module.exports = function(app, passport) {
 
     // locally --------------------------------
 
+        // show the login form
+        app.get('/login', function(req, res) {
+            res.render('login.ejs', { message: req.flash('loginMessage') });
+        });
 
         // process the login form
         app.post('/login', passport.authenticate('local-login', {
@@ -93,7 +124,10 @@ module.exports = function(app, passport) {
         }));
 
         // SIGNUP =================================
-
+        // show the signup form
+        app.get('/signup', function(req, res) {
+            res.render('signup.ejs', { message: req.flash('signupMessage') });
+        });
         // process the signup form
         app.post('/signup', passport.authenticate('local-signup', {
             successRedirect : '/profile', // redirect to the secure profile section
