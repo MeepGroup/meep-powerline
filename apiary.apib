@@ -29,6 +29,7 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
 
 ## Login [/login]
 
+*For ease of use, a web UI is provided when accessing this route via the browser.*
 ### /login [POST]
 
 + Request 200 (application/json)
@@ -51,6 +52,7 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
         }
 
 ## Signup [/signup]
+*For ease of use, a web UI is provided when accessing this route via the browser.*
 
 ### /signup [POST]
 
@@ -133,6 +135,8 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
 
 ## Registry Register [/registry/register]
 
+*For ease of use, a web UI is provided when accessing this route via the browser.*
+
 ### /registry/register [POST]
 
 + Request
@@ -184,6 +188,8 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
 
 
 ## Prey [/prey/{address}]
+*Please note, this is not the same as /nest/prey. This route gives
+you usage and performance statistics about the nest.*
 
 + Parameters
     + address (string) - IP of the machine to prey on
@@ -314,7 +320,8 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
         }
 
 ## Nest Prey [/nest/prey]
-
+*Please note, this is not the same as /prey. This route gives
+you ownership, provision and other stats about this nest.*
 ### /nest/prey [POST]
 
 + Request 200 (application/json)
