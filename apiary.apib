@@ -300,9 +300,9 @@ you usage and performance statistics about the nest.*
         }
         
         
-## Nest Provision [/nest/provision]
-
-### /nest/provision [POST]
+## Nest Register [/nest/register]
+*Please note, Nest will be automatically assigned to the user who issued the request.*
+### /nest/register [POST]
 
 + Request 200 (application/json)
 
@@ -316,9 +316,33 @@ you usage and performance statistics about the nest.*
 + Response 200 (application/json)
 
         {
-            "success": "Sucessfully started provisioning, check /nest/view for status."
+            "success": "Sucessfully registered server."
         }
 
+## Nest Provision [/nest/provision]
+*Please note, You can only provision nests you own.*
+
+### /nest/provision [POST]
+
++ Request 200 (application/json)
+
+        {
+            "address": "127.0.0.1",
+        }
+
++ Response 200 (application/json)
+
+        {
+            "success": "Sucessfully started provisioning, check /nest/view for status."
+        }
+        
++ Response 403 (application/json)
+
+        {
+            "success": "You do not own this nest!"
+        }
+        
+        
 ## Nest Prey [/nest/prey]
 *Please note, this is not the same as /prey. This route gives
 you ownership, provision and other stats about this nest.*
