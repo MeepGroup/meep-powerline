@@ -341,11 +341,12 @@ you usage and performance statistics about the nest.*
         {
             "success": "You do not own this nest!"
         }
-        
-        
-## Nest Prey [/nest/prey]
+    
+# Nest Prey [/nest/prey]
+
 *Please note, this is not the same as /prey. This route gives
 you ownership, provision and other stats about this nest.*
+
 ### /nest/prey [POST]
 
 + Request 200 (application/json)
@@ -371,4 +372,66 @@ you ownership, provision and other stats about this nest.*
           "eggs": [
             "provision"
           ]
+        }
+        
+
+## Nest Add Role [/nest/addrole]
+
+### /nest/addrole [POST]
+
++ Request 200 (application/json)
+
+        {
+            "address": "127.0.0.1",
+            "role": "admins",
+            "user": "exampleuser@gmail.com"
+        }
+
++ Response 200 (application/json)
+        
+        {
+          "success": "User exampleuser@gmail.com has been added to group admins"
+        }
+        
++ Response 200 (application/json)
+        
+        {
+        "success": "User already in group admins"
+        }
+
++ Response 404 (application/json)
+        
+        {
+          "success": "Group admins not found."
+        }
+    
+
+## Nest Revoke Role [/nest/revokerole]
+
+### /nest/revokerole [POST]
+
++ Request 200 (application/json)
+
+        {
+            "address": "127.0.0.1",
+            "role": "admins",
+            "user": "exampleuser@gmail.com"
+        }
+
++ Response 200 (application/json)
+        
+        {
+          "success": "User exampleuser@gmail.com has been removed from group admins"
+        }
+        
++ Response 200 (application/json)
+        
+        {
+        "success": "User not in group admins"
+        }
+
++ Response 404 (application/json)
+        
+        {
+          "success": "Group admins not found."
         }
