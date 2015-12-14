@@ -9,6 +9,7 @@ const eggSchema = mongoose.Schema({
 mongoose.model('Egg', eggSchema);
 
 const nestSchema = mongoose.Schema({
+  registered_at: Date,
   name: String,
   OS: String,
   provisioned: Boolean,
@@ -20,7 +21,12 @@ const nestSchema = mongoose.Schema({
   port: Number,
   password: String, // We need to salt and hash this
   eggs: Array,
-  busy: Boolean
+  busy: Boolean,
+  roles: {
+    owner: String,
+    admins: {type: Array, default: []},
+    users: {type: Array, default: []},
+  },
 });
 
 mongoose.model('Nest', nestSchema);

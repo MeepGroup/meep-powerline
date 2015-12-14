@@ -3,6 +3,8 @@ var LocalStrategy    = require('passport-local').Strategy;
 var FacebookStrategy = require('passport-facebook').Strategy;
 var TwitterStrategy  = require('passport-twitter').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
+var chalk = require('chalk');
+var debug = true;
 
 // load up the user model
 var User       = require('../app/models/user');
@@ -78,6 +80,8 @@ module.exports = function(passport) {
         if (email)
             email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
 
+        if(debug)
+          console.log(chalk.blue(`New user registered: ${email}`));
         // asynchronous
         process.nextTick(function() {
             // if the user is not already logged in:

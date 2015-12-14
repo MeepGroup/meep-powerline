@@ -7,6 +7,7 @@ const mongoose = require('mongoose');
 const passport = require('passport');
 const flash    = require('connect-flash');
 const chalk    = require('chalk');
+const cors = require('cors');
 
 const cookieParser = require('cookie-parser');
 const bodyParser   = require('body-parser');
@@ -20,6 +21,7 @@ mongoose.connect(configDB.url); // connect to our database
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application
+app.use(cors());
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));

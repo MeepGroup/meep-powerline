@@ -1,0 +1,74 @@
+'use strict';
+
+const mongoose = require('mongoose');
+const provision = require('meep-provision');
+const uuid = require('uuid');
+
+var Nest = mongoose.model('Nest');
+
+/** @function
+ * @name registerEgg
+ * @param {object} options - Egg options
+ * @param {string} options.version - The version of the Egg. Must not already exist.
+ * @param {string} options.eggName - The name of the egg.
+ * @param {object} options.egg - The egg.
+ */
+const provisionServer = function(options, callback) {
+  var query = Nest.findOne({'address': options.address});
+
+  query.find(function (err, nests) {
+
+    if (err) return handleError(err);
+    if(nests.length) {
+      let nest = nests[0];
+      if(nest.roles.owner === options.owner) {
+        callback({status: 200, data: {
+          success: 'Nest provision has started please check status at /nest/find providing the provision_token',
+          provision_token: nest.provision_token
+        }});
+        nest.busy = true;
+        nest.save();
+
+        provision({
+          server: {
+            host: nest.address,
+            port: nest.port,
+            user: nest.user,
+            password: nest.password
+          }
+        }, (response) => {
+          if (response.success) {
+            nest.provisioned = true;
+            nest.provisioned_at = Date.now();
+            nest.busy = false;
+            nest.save(function(err){
+              if(err) console.log(err);
+            });
+          }else if(response.error){
+            nest.provision_error = response.error;
+            nest.busy = false;
+            nest.save(function(err){
+              if(err) console.log(err);
+            });
+          }
+        });
+      }else {
+        callback({
+          status: 403,
+          data: {
+            error: `You do not own this nest!`
+          }
+        });
+      }
+    }else {
+      callback({
+        status: 404,
+        data: {
+          error: `Nest with address ${options.address} not found!`
+        }
+      });
+    }
+  });
+};
+
+module.exports = provisionServer;

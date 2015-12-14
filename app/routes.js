@@ -1,11 +1,17 @@
+'use strict';
+
 const request = require('request');
 require('./modules/schemaInit.js');
-const { registerEgg, allEggs, findEgg, provision, viewNest
+
+const chalk = require('chalk');
+let debug = true;
+
+const {
+  registerEgg, allEggs, findEgg, provision, viewNest, registerNest, addrole,
+  revokerole
 } = require('./modules/');
 
 module.exports = function(app, passport) {
-
-
 // =============================================================================
 // Core ========================================================================
 // =============================================================================
@@ -52,6 +58,8 @@ module.exports = function(app, passport) {
       if(error){
         res.status(500).jsonp(error);
       }else{
+        if(debug)
+          console.log(chalk.blue(`New address trusted: ${req.params.address}`));
         res.jsonp(body);
       }
     });
@@ -62,18 +70,48 @@ module.exports = function(app, passport) {
 // Nest  =======================================================================
 // =============================================================================
 
-app.post('/nest/provision', isLoggedIn, isAdmin, function(req, res) {
-  provision(req.body, (response) => {
-    res.status(response.status).jsonp(response.data);
-  });
-});
+  app.post('/nest/addrole', isLoggedIn, function(req, res) {
+    var options = req.body;
+    options.owner = req.user.local.email;
 
-// different from /prey, /nest/prey shows database data, such as provision stats.
-app.post('/nest/prey', isLoggedIn, isAdmin, function(req, res) {
-  viewNest(req.body, (response) => {
-    res.status(response.status).jsonp(response.data);
+    addrole(options, (response) => {
+      res.status(response.status).jsonp(response.data);
+    });
   });
-});
+
+  app.post('/nest/revokerole', isLoggedIn, function(req, res) {
+    var options = req.body;
+    options.owner = req.user.local.email;
+
+    revokerole(options, (response) => {
+      res.status(response.status).jsonp(response.data);
+    });
+  });
+
+  app.post('/nest/register', isLoggedIn, function(req, res) {
+    var options = req.body;
+    options.owner = req.user.local.email;
+
+    registerNest(options, (response) => {
+      res.status(response.status).jsonp(response.data);
+    });
+  });
+
+  app.post('/nest/provision', isLoggedIn, function(req, res) {
+    var options = req.body;
+    options.owner = req.user.local.email;
+
+    provision(options, (response) => {
+      res.status(response.status).jsonp(response.data);
+    });
+  });
+
+  // different from /prey, /nest/prey shows database data, such as provision stats.
+  app.post('/nest/prey', isLoggedIn, isAdmin, function(req, res) {
+    viewNest(req.body, (response) => {
+      res.status(response.status).jsonp(response.data);
+    });
+  });
 
 // =============================================================================
 // Registry ====================================================================
@@ -86,6 +124,9 @@ app.post('/nest/prey', isLoggedIn, isAdmin, function(req, res) {
 
   app.post('/registry/register', isLoggedIn, isAdmin, function(req, res) {
     registerEgg(req.body, (response) => {
+      if(debug)
+        console.log(chalk.blue(`New Egg Registered by: ${req.user.email}`));
+
       res.status(response.status).jsonp(response.data);
     });
   });
@@ -109,36 +150,36 @@ app.post('/nest/prey', isLoggedIn, isAdmin, function(req, res) {
 // Normal Routes  ==============================================================
 // =============================================================================
 
-    // show the home page (will also have our login links)
-    app.get('/', function(req, res) {
-        res.jsonp({
-          routes: [
-            {
-              name: 'login',
-              desc: 'Login to Meep API.'
-            },
-            {
-              name: 'signup',
-              desc: 'Signup for Meep API.'
-            },
-            {
-              name: 'profile',
-              desc: 'Gett profile for current user.'
-            }
-          ]
-        });
-    });
+  // show the home page (will also have our login links)
+  app.get('/', function(req, res) {
+      res.jsonp({
+        routes: [
+          {
+            name: 'login',
+            desc: 'Login to Meep API.'
+          },
+          {
+            name: 'signup',
+            desc: 'Signup for Meep API.'
+          },
+          {
+            name: 'profile',
+            desc: 'Gett profile for current user.'
+          }
+        ]
+      });
+  });
 
-    // PROFILE SECTION =========================
-    app.get('/profile', isLoggedIn, function(req, res) {
-        res.jsonp(req.user);
-    });
+  // PROFILE SECTION =========================
+  app.get('/profile', isLoggedIn, function(req, res) {
+      res.jsonp(req.user);
+  });
 
-    // LOGOUT ==============================
-    app.get('/logout', function(req, res) {
-        req.logout();
-        res.redirect('/');
-    });
+  // LOGOUT ==============================
+  app.get('/logout', function(req, res) {
+      req.logout();
+      res.redirect('/');
+  });
 
 // =============================================================================
 // AUTHENTICATE (FIRST LOGIN) ==================================================
@@ -146,29 +187,32 @@ app.post('/nest/prey', isLoggedIn, isAdmin, function(req, res) {
 
     // locally --------------------------------
 
-        // show the login form
-        app.get('/login', function(req, res) {
-            res.render('login.ejs', { message: req.flash('loginMessage') });
-        });
+    // show the login form
+    app.get('/login', function(req, res) {
+        res.render('login.ejs', { message: req.flash('loginMessage') });
+        if(debug)
+          console.log(chalk.blue(`${req.user.email} logged in.`));
 
-        // process the login form
-        app.post('/login', passport.authenticate('local-login', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/login', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
+    });
 
-        // SIGNUP =================================
-        // show the signup form
-        app.get('/signup', function(req, res) {
-            res.render('signup.ejs', { message: req.flash('signupMessage') });
-        });
-        // process the signup form
-        app.post('/signup', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/signup', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
+    // process the login form
+    app.post('/login', passport.authenticate('local-login', {
+        successRedirect : '/profile', // redirect to the secure profile section
+        failureRedirect : '/login', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
+
+    // SIGNUP =================================
+    // show the signup form
+    app.get('/signup', function(req, res) {
+        res.render('signup.ejs', { message: req.flash('signupMessage') });
+    });
+    // process the signup form
+    app.post('/signup', passport.authenticate('local-signup', {
+        successRedirect : '/profile', // redirect to the secure profile section
+        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
 
 
 // =============================================================================
@@ -176,14 +220,14 @@ app.post('/nest/prey', isLoggedIn, isAdmin, function(req, res) {
 // =============================================================================
 
     // locally --------------------------------
-        app.get('/connect/local', function(req, res) {
-            res.render('connect-local.ejs', { message: req.flash('loginMessage') });
-        });
-        app.post('/connect/local', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
+    app.get('/connect/local', function(req, res) {
+        res.render('connect-local.ejs', { message: req.flash('loginMessage') });
+    });
+    app.post('/connect/local', passport.authenticate('local-signup', {
+        successRedirect : '/profile', // redirect to the secure profile section
+        failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
 
 
 
