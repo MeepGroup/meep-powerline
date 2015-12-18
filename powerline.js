@@ -9,6 +9,8 @@ const flash    = require('connect-flash');
 const chalk    = require('chalk');
 const cors = require('cors');
 
+require('./app/modules/schemaInit.js');
+
 const cookieParser = require('cookie-parser');
 const bodyParser   = require('body-parser');
 const session      = require('express-session');
@@ -21,7 +23,15 @@ mongoose.connect(configDB.url); // connect to our database
 require('./config/passport')(passport); // pass passport for configuration
 
 // set up our express application
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:3000',
+    'http://192.168.1.100:3000',
+    'http://192.168.1.100:3000/',
+    'http://localhost'
+  ],
+  credentials: true
+}));
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser.json()); // get information from html forms
 app.use(bodyParser.urlencoded({ extended: true }));

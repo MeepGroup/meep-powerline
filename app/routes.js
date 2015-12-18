@@ -1,14 +1,13 @@
 'use strict';
 
 const request = require('request');
-require('./modules/schemaInit.js');
 
 const chalk = require('chalk');
 let debug = true;
 
 const {
   registerEgg, allEggs, findEgg, provision, viewNest, registerNest, addrole,
-  revokerole
+  revokerole, addCredits, myNests
 } = require('./modules/');
 
 module.exports = function(app, passport) {
@@ -67,6 +66,16 @@ module.exports = function(app, passport) {
 
 
 // =============================================================================
+// Pay   =======================================================================
+// =============================================================================
+
+  app.get('/pay/credit/add', isLoggedIn, isAdmin, function(req, res) {
+    addCredits(req.body, (response) => {
+      res.status(response.status).jsonp(response.data);
+    });
+  });
+
+// =============================================================================
 // Nest  =======================================================================
 // =============================================================================
 
@@ -102,6 +111,15 @@ module.exports = function(app, passport) {
     options.owner = req.user.local.email;
 
     provision(options, (response) => {
+      res.status(response.status).jsonp(response.data);
+    });
+  });
+
+  app.get('/nest/mynests', isLoggedIn, function(req, res) {
+    let options = {
+      owner: req.user.local.email
+    };
+    myNests(options, (response) => {
       res.status(response.status).jsonp(response.data);
     });
   });
@@ -171,7 +189,7 @@ module.exports = function(app, passport) {
   });
 
   // PROFILE SECTION =========================
-  app.get('/profile', isLoggedIn, function(req, res) {
+  app.post('/profile', isLoggedIn, function(req, res) {
       res.jsonp(req.user);
   });
 
@@ -190,17 +208,18 @@ module.exports = function(app, passport) {
     // show the login form
     app.get('/login', function(req, res) {
         res.render('login.ejs', { message: req.flash('loginMessage') });
-        if(debug)
-          console.log(chalk.blue(`${req.user.email} logged in.`));
-
     });
 
     // process the login form
-    app.post('/login', passport.authenticate('local-login', {
-        successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/login', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    }));
+    app.post('/login', passport.authenticate('local-login'), function(req, res) {
+      if( req.user ) {
+        res.status(200).jsonp({
+          success: 'Successfully logged in.'
+        });
+      } else {
+        res.status(500).jsonp({error: 'Failed to authenticate'});
+      }
+    });
 
     // SIGNUP =================================
     // show the signup form
@@ -208,11 +227,15 @@ module.exports = function(app, passport) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
     // process the signup form
-    app.post('/signup', passport.authenticate('local-signup', {
-        successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/signup', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    }));
+    app.post('/signup', passport.authenticate('local-signup'), function(req, res) {
+      if( req.user ) {
+        res.status(200).jsonp({
+          success: 'Successfully signed up.'
+        });
+      } else {
+        res.status(500).jsonp({error: 'Failed to sign up.'});
+      }
+    });
 
 
 // =============================================================================

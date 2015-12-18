@@ -5,9 +5,10 @@ var TwitterStrategy  = require('passport-twitter').Strategy;
 var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
 var chalk = require('chalk');
 var debug = true;
+var mongoose = require('mongoose');
 
 // load up the user model
-var User       = require('../app/models/user');
+var User       = mongoose.model('User');
 
 // load the auth variables
 var configAuth = require('./auth'); // use this one for testing
