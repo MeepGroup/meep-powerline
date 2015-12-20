@@ -27,6 +27,8 @@ npm start
 
 Powerline is the powerhouse API that runs Meep. It's build on NodeJS and supports any frontend that can make Get, Post and Put requests.
 
+# Group Authentication & Account
+
 ## Login [/login]
 
 *For ease of use, a web UI is provided when accessing this route via the browser.*
@@ -98,6 +100,8 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
 
 + Response 200 (application/json)
 
+# Group Configuration
+
 
 ## Config [/config]
 
@@ -117,7 +121,9 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
         }
 
 
-## Registry List [/registry/list]
+# Group Registry
+
+## List [/registry/list]
 
 ### /registry/list [GET]
 
@@ -133,7 +139,7 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
             }
         ]
 
-## Registry Register [/registry/register]
+## Register [/registry/register]
 
 *For ease of use, a web UI is provided when accessing this route via the browser.*
 
@@ -159,7 +165,7 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
             "error": "Egg with this version already exists, please bump version."
         }
 
-## Registry Find [/registry/find]
+## Find [/registry/find]
 
 ### /registry/find [POST]
 
@@ -186,6 +192,7 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
             "error": "Egg not found."
         }
 
+# Group Prey & Trust (Rooster)
 
 ## Prey [/prey/{address}]
 *Please note, this is not the same as /nest/prey. This route gives
@@ -299,8 +306,11 @@ you usage and performance statistics about the nest.*
             "success": "Sucessfully trusted {address}."
         }
         
-        
-## Nest Register [/nest/register]
+     
+     
+# Group Nest
+   
+## Register [/nest/register]
 *Please note, Nest will be automatically assigned to the user who issued the request.*
 ### /nest/register [POST]
 
@@ -319,7 +329,7 @@ you usage and performance statistics about the nest.*
             "success": "Sucessfully registered server."
         }
 
-## Nest Provision [/nest/provision]
+## Provision [/nest/provision]
 *Please note, You can only provision nests you own.*
 
 ### /nest/provision [POST]
@@ -342,7 +352,7 @@ you usage and performance statistics about the nest.*
             "success": "You do not own this nest!"
         }
     
-# Nest Prey [/nest/prey]
+## Prey [/nest/prey]
 
 *Please note, this is not the same as /prey. This route gives
 you ownership, provision and other stats about this nest.*
@@ -375,7 +385,7 @@ you ownership, provision and other stats about this nest.*
         }
         
 
-## Nest Add Role [/nest/addrole]
+## Add Role [/nest/addrole]
 
 ### /nest/addrole [POST]
 
@@ -406,7 +416,7 @@ you ownership, provision and other stats about this nest.*
         }
     
 
-## Nest Revoke Role [/nest/revokerole]
+## Revoke Role [/nest/revokerole]
 
 ### /nest/revokerole [POST]
 
@@ -437,7 +447,10 @@ you ownership, provision and other stats about this nest.*
         }
         
 
-## Pay Add Credits [/pay/credit/add]
+
+# Group Payments
+
+## Add Credits [/pay/credit/add]
 
 ### /pay/credit/add [POST]
 
@@ -462,7 +475,7 @@ you ownership, provision and other stats about this nest.*
         }
         
 
-## Pay Remove Credits [/pay/credit/del]
+## Remove Credits [/pay/credit/del]
 
 ### /pay/credit/del [POST]
 
