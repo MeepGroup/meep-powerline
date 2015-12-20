@@ -435,3 +435,53 @@ you ownership, provision and other stats about this nest.*
         {
           "success": "Group admins not found."
         }
+        
+
+## Pay Add Credits [/pay/credit/add]
+
+### /pay/credit/add [POST]
+
++ Request 200 (application/json)
+
+        {
+            "credits": 1.25,
+            "user": "exampleuser@gmail.com"
+        }
+
++ Response 200 (application/json)
+        
+        {
+          "success": "User exampleuser@gmail.com has credited 1.25 credits"
+        }
+        
+
++ Response 404 (application/json)
+        
+        {
+          "success": "User exampleuser@gmail.com not found."
+        }
+        
+
+## Pay Remove Credits [/pay/credit/del]
+
+### /pay/credit/del [POST]
+
++ Request 200 (application/json)
+
+        {
+            "credits": 1.25,
+            "user": "exampleuser@gmail.com"
+        }
+
++ Response 200 (application/json)
+        
+        {
+          "success": "User exampleuser@gmail.com has credited 1.25 credits"
+        }
+        
+
++ Response 404 (application/json)
+        
+        {
+          "success": "User exampleuser@gmail.com not found."
+        }
