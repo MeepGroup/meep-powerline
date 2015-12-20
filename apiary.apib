@@ -100,26 +100,6 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
 
 + Response 200 (application/json)
 
-# Group Configuration
-
-
-## Config [/config]
-
-### /config [GET]
-
-+ Response 200 (application/json)
-
-        {
-            "master_address": [
-                "master.meeppanel.com",
-                "192.168.0.1"
-            ],
-            "hawk_address": "meeppanel.com:3000",
-            "trusted_connections": [
-                "192.168.0.1"
-            ]
-        }
-
 
 # Group Registry
 
@@ -192,7 +172,25 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
             "error": "Egg not found."
         }
 
-# Group Prey & Trust (Rooster)
+# Group Info
+
+## Config [/config]
+
+### /config [GET]
+
++ Response 200 (application/json)
+
+        {
+            "master_address": [
+                "master.meeppanel.com",
+                "192.168.0.1"
+            ],
+            "hawk_address": "meeppanel.com:3000",
+            "trusted_connections": [
+                "192.168.0.1"
+            ]
+        }
+
 
 ## Prey [/prey/{address}]
 *Please note, this is not the same as /nest/prey. This route gives
