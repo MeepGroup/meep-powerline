@@ -130,7 +130,8 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
         {
             "eggName": "Node Egg",
             "version": "0.0.1",
-            "egg"    : "Object (Stringified)"
+            "conflicts": "Array (Stringified)",
+            "egg": "Object (Stringified)"
         }
 
 + Response 200 (application/json)
@@ -347,7 +348,7 @@ you usage and performance statistics about the nest.*
 + Response 403 (application/json)
 
         {
-            "success": "You do not own this nest!"
+            "error": "You do not own this nest!"
         }
     
 ## Prey [/nest/prey]
@@ -410,7 +411,7 @@ you ownership, provision and other stats about this nest.*
 + Response 404 (application/json)
         
         {
-          "success": "Group admins not found."
+          "error": "Group admins not found."
         }
     
 
@@ -441,7 +442,7 @@ you ownership, provision and other stats about this nest.*
 + Response 404 (application/json)
         
         {
-          "success": "Group admins not found."
+          "error": "Group admins not found."
         }
         
 
@@ -469,7 +470,7 @@ you ownership, provision and other stats about this nest.*
 + Response 404 (application/json)
         
         {
-          "success": "User exampleuser@gmail.com not found."
+          "error": "User exampleuser@gmail.com not found."
         }
         
 
@@ -494,5 +495,39 @@ you ownership, provision and other stats about this nest.*
 + Response 404 (application/json)
         
         {
-          "success": "User exampleuser@gmail.com not found."
+          "error": "User exampleuser@gmail.com not found."
+        }
+        
+
+# Group Egg 
+
+## Install [/egg/install]
+
+### /egg/install [POST]
+
++ Request 200 (application/json)
+
+        {
+            "eggName": "node",
+            "version": "4.0.0",
+            "address": "192.168.0.1"
+        }
+
++ Response 200 (application/json)
+        
+        {
+          "success": "Installation of Node 4.0.0 has started."
+        }
+        
+
++ Response 404 (application/json)
+        
+        {
+          "error": "Egg node 4.0.0 not found!"
+        }
+        
++ Response 401 (application/json)
+        
+        {
+          "error": "You do not have the rights to install on this nest."
         }
