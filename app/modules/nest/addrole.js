@@ -12,6 +12,7 @@ var Nest = mongoose.model('Nest');
  * @param {string} options.owner - The owner of the server.
  * @param {string} options.roleType - The type of role to add user to.
  * @param {string} options.user - The user to add to the role group.
+ * @param {function} callback - Response sent here.
  */
 const addRole = function(options, callback) {
   var query = Nest.findOne({'address': options.address});
@@ -25,7 +26,7 @@ const addRole = function(options, callback) {
           callback({
             status: 403,
             data: {
-              error: "You cannot add more than one owner to a Nest."
+              error: `You cannot add more than one owner to a Nest.`
             }
           });
         }else {
@@ -33,7 +34,8 @@ const addRole = function(options, callback) {
             callback({
               status: 200,
               data: {
-                error: `User ${options.user} already exists in group ${options.role}.`
+                error: `User ${options.user} already exists in group
+                  ${options.role}.`
               }
             });
           }else {
@@ -61,7 +63,7 @@ const addRole = function(options, callback) {
       callback({
         status: 404,
         data: {
-          error: "Nest not found."
+          error: `Nest not found.`
         }
       });
     }

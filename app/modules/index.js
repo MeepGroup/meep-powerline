@@ -8,8 +8,20 @@ const addrole = require('./nest/addrole.js');
 const myNests = require('./nest/myNests.js');
 const revokerole = require('./nest/revokerole.js');
 const addCredits = require('./pay/addCredits.js');
+const delCredits = require('./pay/delCredits.js');
+const install = require('./egg/install.js');
 
 module.exports = {
-  registerEgg, allEggs, findEgg, provision, viewNest, registerNest, addrole,
-  revokerole, addCredits, myNests
+  registerEgg,
+  allEggs,
+  findEgg,
+  provision,
+  viewNest,
+  registerNest,
+  addrole,
+  revokerole,
+  addCredits,
+  myNests,
+  delCredits,
+  install
 };

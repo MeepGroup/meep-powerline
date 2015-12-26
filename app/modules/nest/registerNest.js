@@ -24,7 +24,7 @@ const registerNest = function(options, callback) {
       callback({
         status: 200,
         data: {
-          error: "Machine is already registered."
+          error: `Machine is already registered.`
         }
       });
     }else {
@@ -43,7 +43,8 @@ const registerNest = function(options, callback) {
         callback({
           status: 200,
           data: {
-            success: "Sucessfully registered nest. Provisioning is suggested as a next step."
+            success: `Sucessfully registered nest. Provisioning is suggested
+              as a next step.`
           }
         });
         console.log(err);

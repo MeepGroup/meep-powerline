@@ -22,6 +22,7 @@ const nestSchema = mongoose.Schema({
   password: String, // We need to salt and hash this
   eggs: Array,
   busy: Boolean,
+  progress: Array,
   roles: {
     owner: String,
     admins: {type: Array, default: []},
@@ -31,16 +32,27 @@ const nestSchema = mongoose.Schema({
 
 mongoose.model('Nest', nestSchema);
 
-var bcrypt   = require('bcrypt-nodejs');
+var bcrypt = require('bcrypt-nodejs');
 
 // define the schema for our user model
 var userSchema = mongoose.Schema({
 
-    local            : {
-        email        : String,
-        password     : String
+    local: {
+        email: String,
+        password: String
     },
-    isAdmin      : {default: false, type: Boolean}
+
+    isAdmin: {
+      default: false,
+      type: Boolean
+    },
+
+    account: {
+      credits: {
+        default: 0.00,
+        type: Number
+      }
+    }
 
 });
 

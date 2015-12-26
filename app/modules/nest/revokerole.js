@@ -25,7 +25,7 @@ const revokeRole = function(options, callback) {
           callback({
             status: 403,
             data: {
-              error: "You cannot remove an one owner to a Nest."
+              error: `You cannot remove an one owner to a Nest.`
             }
           });
         }else {
@@ -37,7 +37,8 @@ const revokeRole = function(options, callback) {
               callback({
                 status: 200,
                 data: {
-                  error: `User ${options.user} removed from group ${options.role}.`
+                  error: `User ${options.user} removed from group
+                    ${options.role}.`
                 }
               });
             });
@@ -62,7 +63,7 @@ const revokeRole = function(options, callback) {
       callback({
         status: 404,
         data: {
-          error: "Nest not found."
+          error: `Nest not found.`
         }
       });
     }

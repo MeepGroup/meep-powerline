@@ -7,7 +7,7 @@ let debug = true;
 
 const {
   registerEgg, allEggs, findEgg, provision, viewNest, registerNest, addrole,
-  revokerole, addCredits, myNests
+  revokerole, addCredits, myNests, delCredits, install
 } = require('./modules/');
 
 module.exports = function(app, passport) {
@@ -15,9 +15,12 @@ module.exports = function(app, passport) {
 // Core ========================================================================
 // =============================================================================
 
-  app.get('/status', function(req, res) {
-    request.get('https://meeppanel.com/hawk/status', (err,httpResponse,hawkBody) => {
-      request.get('https://meeppanel.com/rooster/status', (err,httpResponse,roosterBody) => {
+  app.get('/status',
+  function(req, res) {
+    request.get('https://meeppanel.com/hawk/status',
+    (err, httpResponse, hawkBody) => {
+      request.get('https://meeppanel.com/rooster/status',
+      (err, httpResponse, roosterBody) => {
         res.status(200).jsonp({
           hawk: JSON.parse(hawkBody),
           rooster: JSON.parse(roosterBody)
@@ -27,7 +30,8 @@ module.exports = function(app, passport) {
   });
 
   // Get config
-  app.get('/config', isLoggedIn, isAdmin, function(req, res) {
+  app.get('/config', isLoggedIn, isAdmin,
+  function(req, res) {
     request(`https://meeppanel.com/rooster`,
     function (error, response, body) {
       if(error){
@@ -39,7 +43,8 @@ module.exports = function(app, passport) {
   });
 
   // Get stats on a nest by address
-  app.get('/prey/:address', isLoggedIn, isAdmin, function(req, res) {
+  app.get('/prey/:address', isLoggedIn, isAdmin,
+  function(req, res) {
     request(`https://meeppanel.com/hawk/prey/${req.params.address}`,
     function (error, response, body) {
       if(error){
@@ -51,7 +56,8 @@ module.exports = function(app, passport) {
   });
 
   // Trust a new nest.
-  app.get('/trust/:address', isLoggedIn, isAdmin, function(req, res) {
+  app.get('/trust/:address', isLoggedIn, isAdmin,
+  function(req, res) {
     request(`https://meeppanel.com/rooster/trust/${req.params.address}`,
     function (error, response, body) {
       if(error){
@@ -64,22 +70,49 @@ module.exports = function(app, passport) {
     });
   });
 
-
 // =============================================================================
-// Pay   =======================================================================
+// Egg  ========================================================================
 // =============================================================================
 
-  app.get('/pay/credit/add', isLoggedIn, isAdmin, function(req, res) {
-    addCredits(req.body, (response) => {
+  app.post('/egg/install', isLoggedIn,
+  function(req, res) {
+    let options = req.body;
+    options.email = req.user.local.email;
+
+    install(options, (response) => {
       res.status(response.status).jsonp(response.data);
     });
   });
 
 // =============================================================================
+// Pay   =======================================================================
+// =============================================================================
+
+  app.post('/pay/credit/add', isLoggedIn, isAdmin,
+  function(req, res) {
+    let options = req.body;
+    options.email = req.user.local.email;
+
+    addCredits(options, (response) => {
+      res.status(response.status).jsonp(response.data);
+    });
+  });
+
+  app.post('/pay/credit/del', isLoggedIn, isAdmin,
+  function(req, res) {
+    let options = req.body;
+    options.email = req.user.local.email;
+
+    delCredits(options, (response) => {
+      res.status(response.status).jsonp(response.data);
+    });
+  });
+// =============================================================================
 // Nest  =======================================================================
 // =============================================================================
 
-  app.post('/nest/addrole', isLoggedIn, function(req, res) {
+  app.post('/nest/addrole', isLoggedIn,
+  function(req, res) {
     var options = req.body;
     options.owner = req.user.local.email;
 
@@ -88,7 +121,8 @@ module.exports = function(app, passport) {
     });
   });
 
-  app.post('/nest/revokerole', isLoggedIn, function(req, res) {
+  app.post('/nest/revokerole', isLoggedIn,
+  function(req, res) {
     var options = req.body;
     options.owner = req.user.local.email;
 
@@ -97,7 +131,8 @@ module.exports = function(app, passport) {
     });
   });
 
-  app.post('/nest/register', isLoggedIn, function(req, res) {
+  app.post('/nest/register', isLoggedIn,
+  function(req, res) {
     var options = req.body;
     options.owner = req.user.local.email;
 
@@ -106,7 +141,8 @@ module.exports = function(app, passport) {
     });
   });
 
-  app.post('/nest/provision', isLoggedIn, function(req, res) {
+  app.post('/nest/provision', isLoggedIn,
+  function(req, res) {
     var options = req.body;
     options.owner = req.user.local.email;
 
@@ -115,7 +151,8 @@ module.exports = function(app, passport) {
     });
   });
 
-  app.get('/nest/mynests', isLoggedIn, function(req, res) {
+  app.get('/nest/mynests', isLoggedIn,
+  function(req, res) {
     let options = {
       owner: req.user.local.email
     };
@@ -124,8 +161,9 @@ module.exports = function(app, passport) {
     });
   });
 
-  // different from /prey, /nest/prey shows database data, such as provision stats.
-  app.post('/nest/prey', isLoggedIn, isAdmin, function(req, res) {
+  // different from /prey, /nest/prey shows database data, such as stats.
+  app.post('/nest/prey', isLoggedIn, isAdmin,
+  function(req, res) {
     viewNest(req.body, (response) => {
       res.status(response.status).jsonp(response.data);
     });
@@ -136,11 +174,13 @@ module.exports = function(app, passport) {
 // =============================================================================
 
   // Register eggs
-  app.get('/registry/register', isLoggedIn, isAdmin, function(req, res) {
+  app.get('/registry/register', isLoggedIn, isAdmin,
+  function(req, res) {
     res.render('registerEgg.ejs');
   });
 
-  app.post('/registry/register', isLoggedIn, isAdmin, function(req, res) {
+  app.post('/registry/register', isLoggedIn, isAdmin,
+  function(req, res) {
     registerEgg(req.body, (response) => {
       if(debug)
         console.log(chalk.blue(`New Egg Registered by: ${req.user.email}`));
@@ -150,14 +190,16 @@ module.exports = function(app, passport) {
   });
 
   // Find All Eggs
-  app.get('/registry/list', isLoggedIn, function(req, res) {
+  app.get('/registry/list', isLoggedIn,
+  function(req, res) {
     allEggs((response) => {
       res.jsonp(response);
     });
   });
 
   // Find All Eggs
-  app.post('/registry/find', isLoggedIn, function(req, res) {
+  app.post('/registry/find', isLoggedIn,
+  function(req, res) {
     findEgg(req.body, (response) => {
       res.status(response.code).jsonp(response.data);
     });
@@ -169,7 +211,8 @@ module.exports = function(app, passport) {
 // =============================================================================
 
   // show the home page (will also have our login links)
-  app.get('/', function(req, res) {
+  app.get('/',
+  function(req, res) {
       res.jsonp({
         routes: [
           {
@@ -189,12 +232,14 @@ module.exports = function(app, passport) {
   });
 
   // PROFILE SECTION =========================
-  app.post('/profile', isLoggedIn, function(req, res) {
+  app.post('/profile', isLoggedIn,
+  function(req, res) {
       res.jsonp(req.user);
   });
 
   // LOGOUT ==============================
-  app.get('/logout', function(req, res) {
+  app.get('/logout',
+  function(req, res) {
       req.logout();
       res.redirect('/');
   });
@@ -206,12 +251,14 @@ module.exports = function(app, passport) {
     // locally --------------------------------
 
     // show the login form
-    app.get('/login', function(req, res) {
+    app.get('/login',
+    function(req, res) {
         res.render('login.ejs', { message: req.flash('loginMessage') });
     });
 
     // process the login form
-    app.post('/login', passport.authenticate('local-login'), function(req, res) {
+    app.post('/login', passport.authenticate('local-login'),
+    function(req, res) {
       if( req.user ) {
         res.status(200).jsonp({
           success: 'Successfully logged in.'
@@ -223,11 +270,13 @@ module.exports = function(app, passport) {
 
     // SIGNUP =================================
     // show the signup form
-    app.get('/signup', function(req, res) {
+    app.get('/signup',
+    function(req, res) {
         res.render('signup.ejs', { message: req.flash('signupMessage') });
     });
     // process the signup form
-    app.post('/signup', passport.authenticate('local-signup'), function(req, res) {
+    app.post('/signup', passport.authenticate('local-signup'),
+    function(req, res) {
       if( req.user ) {
         res.status(200).jsonp({
           success: 'Successfully signed up.'
@@ -243,7 +292,8 @@ module.exports = function(app, passport) {
 // =============================================================================
 
     // locally --------------------------------
-    app.get('/connect/local', function(req, res) {
+    app.get('/connect/local',
+    function(req, res) {
         res.render('connect-local.ejs', { message: req.flash('loginMessage') });
     });
     app.post('/connect/local', passport.authenticate('local-signup', {
@@ -262,7 +312,8 @@ module.exports = function(app, passport) {
 // user account will stay active in case they want to reconnect in the future
 
     // local -----------------------------------
-    app.get('/unlink/local', isLoggedIn, function(req, res) {
+    app.get('/unlink/local', isLoggedIn,
+    function(req, res) {
         var user            = req.user;
         user.local.email    = undefined;
         user.local.password = undefined;
@@ -273,12 +324,18 @@ module.exports = function(app, passport) {
 
 };
 
+// =============================================================================
+// MIDDLEWARE ==================================================================
+// =============================================================================
+
 // route middleware to ensure user is logged in
 function isAdmin(req, res, next) {
     if(req.user.isAdmin) {
       return next();
     }
-    res.status(401).jsonp({ error: 'You must be an admin to tap this powerline.' });
+    res.status(401).jsonp({
+      error: 'You must be an admin to tap this powerline.'
+    });
 }
 
 // route middleware to ensure user is logged in
@@ -286,5 +343,7 @@ function isLoggedIn(req, res, next) {
     if (req.isAuthenticated())
         return next();
 
-    res.status(401).jsonp({ error: 'You must be logged in to tap this powerline.' });
+    res.status(401).jsonp({
+      error: 'You must be logged in to tap this powerline.'
+    });
 }

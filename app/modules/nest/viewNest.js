@@ -6,11 +6,10 @@ const provision = require('meep-provision');
 var Nest = mongoose.model('Nest');
 
 /** @function
- * @name registerEgg
- * @param {object} options - Egg options
- * @param {string} options.version - The version of the Egg. Must not already exist.
- * @param {string} options.eggName - The name of the egg.
- * @param {object} options.egg - The egg.
+ * @name viewNest
+ * @param {object} options - options
+ * @param {string} options.owner - The owner of the nest.
+ * @param {object} options.address - The address of the server.
  */
 const viewNest = function(options, callback) {
   var query = Nest.findOne({

@@ -7,11 +7,10 @@ const uuid = require('uuid');
 var Nest = mongoose.model('Nest');
 
 /** @function
- * @name registerEgg
- * @param {object} options - Egg options
- * @param {string} options.version - The version of the Egg. Must not already exist.
- * @param {string} options.eggName - The name of the egg.
- * @param {object} options.egg - The egg.
+ * @name provisionServer
+ * @param {object} options - options
+ * @param {object} options.server - Server address to provision.
+ * @param {object} options.owner - Owner of the server.
  */
 const provisionServer = function(options, callback) {
   var query = Nest.findOne({'address': options.address});
@@ -23,7 +22,8 @@ const provisionServer = function(options, callback) {
       let nest = nests[0];
       if(nest.roles.owner === options.owner) {
         callback({status: 200, data: {
-          success: 'Nest provision has started please check status at /nest/find providing the provision_token',
+          success:`Nest provision has started please check status at /nest/find
+            providing the provision_token `,
           provision_token: nest.provision_token
         }});
         nest.busy = true;

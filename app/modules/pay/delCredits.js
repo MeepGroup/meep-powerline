@@ -4,14 +4,14 @@ const mongoose = require('mongoose');
 let User = mongoose.model('User');
 
 /** @function
- * @name addCredits
+ * @name delCredits
  * @param {object} options - Add credits options.
- * @param {string} options.email - user to add credits to.
- * @param {string} options.credits - The amount of credits to add.
+ * @param {string} options.email - user to del credits from.
+ * @param {string} options.credits - The amount of credits to del.
  * @param {callback} callback - Returns success or error.
  */
 
-const addCredits = function(options, callback) {
+const delCredits = function(options, callback) {
   var query = User.findOne({'local.email': options.email});
 
   query.find(function (err, users) {
@@ -19,13 +19,13 @@ const addCredits = function(options, callback) {
     if (users.length) {
       let user = users[0];
 
-      user.account.credits += parseFloat(options.credits);
+      user.account.credits -= parseFloat(options.credits);
       user.save((err) => {
         if (err) console.log(err);
         callback({
           status: 200,
           data: {
-            success: `Successfully added ${options.credits} to
+            success: `Successfully removed ${options.credits} to
               ${options.email}'s account.`
           }
         });
@@ -41,4 +41,4 @@ const addCredits = function(options, callback) {
   });
 };
 
-module.exports = addCredits;
+module.exports = delCredits;
