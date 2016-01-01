@@ -14,6 +14,7 @@ var Nest = mongoose.model('Nest');
  */
 const provisionServer = function(options, callback) {
   var query = Nest.findOne({'address': options.address});
+  var authKey = uuid.v4();
 
   query.find(function (err, nests) {
 
@@ -35,9 +36,11 @@ const provisionServer = function(options, callback) {
             port: nest.port,
             user: nest.user,
             password: nest.password
-          }
+          },
+          authKey: authKey
         }, (response) => {
           if (response.success) {
+            nest.authKey = authKey;
             nest.provisioned = true;
             nest.provisioned_at = Date.now();
             nest.busy = false;
