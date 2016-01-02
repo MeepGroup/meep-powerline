@@ -7,8 +7,12 @@ let debug = true;
 
 const {
   registerEgg, allEggs, findEgg, provision, viewNest, registerNest, addrole,
-  revokerole, addCredits, myNests, delCredits, install
+  revokerole, addCredits, myNests, delCredits, install, getAuthKey
 } = require('./modules/');
+
+const {
+  cmdShimPort
+} = require('../config/ports.js');
 
 module.exports = function(app, passport) {
 // =============================================================================
@@ -69,6 +73,40 @@ module.exports = function(app, passport) {
       }
     });
   });
+
+// =============================================================================
+// Command =====================================================================
+// =============================================================================
+
+app.post('/command/issue', isLoggedIn,
+function(req, res) {
+  // get authkey with mongon if we own this server, then redirect the request
+  let options = req.body;
+  options.email = req.user.local.email;
+  options.address = req.body.address;
+
+  getAuthKey(options, (response) => {
+    res.redirect(
+      307,
+      `http://${options.address}:${cmdShimPort}/cmd/`
+    );
+  });
+});
+
+app.post('/command/shim/add/:address', isLoggedIn,
+function(req, res) {
+  // get authkey with mongon if we own this server, then redirect the request
+  let options = req.body;
+  options.email = req.user.local.email;
+  options.address = req.params.address;
+
+  getAuthKey(options, (response) => {
+    res.redirect(
+      307,
+      `http://${options.address}:${cmdShimPort}/mod/add/${response.data.authKey}`
+    );
+  });
+});
 
 // =============================================================================
 // Egg  ========================================================================

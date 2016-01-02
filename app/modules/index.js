@@ -10,6 +10,7 @@ const revokerole = require('./nest/revokerole.js');
 const addCredits = require('./pay/addCredits.js');
 const delCredits = require('./pay/delCredits.js');
 const install = require('./egg/install.js');
+const getAuthKey = require('./command/getAuthKey.js');
 
 module.exports = {
   registerEgg,
@@ -23,5 +24,6 @@ module.exports = {
   addCredits,
   myNests,
   delCredits,
-  install
+  install,
+  getAuthKey
 };
