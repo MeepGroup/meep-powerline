@@ -499,35 +499,34 @@ you ownership, provision and other stats about this nest.*
         }
         
 
-# Group Egg 
+# Group Command 
 
-## Install [/egg/install]
+## Add Shim [/command/shim/add/:address]
 
-### /egg/install [POST]
+### /command/shim/add/:address [POST]
 
-+ Request 200 (application/json)
++ Request (multipart/form-data; boundary=---BOUNDARY)
 
-        {
-            "eggName": "node",
-            "version": "4.0.0",
-            "address": "192.168.0.1"
-        }
+        -----BOUNDARY
+        Content-Disposition: form-data; name="shim"; filename="testMod.js"
+        Content-Type: text/javascript
 
+        -----BOUNDARY
+        
 + Response 200 (application/json)
         
         {
-          "success": "Installation of Node 4.0.0 has started."
+          "success": true,
+          "message": "Successfully uploaded new shim.",
+          "shim": {
+            "fieldname": "shim",
+            "originalname": "testMod.js",
+            "encoding": "7bit",
+            "mimetype": "text/javascript",
+            "destination": "./shims/",
+            "filename": "testMod.js",
+            "path": "shims/testMod.js",
+            "size": 63
+          }
         }
         
-
-+ Response 404 (application/json)
-        
-        {
-          "error": "Egg node 4.0.0 not found!"
-        }
-        
-+ Response 401 (application/json)
-        
-        {
-          "error": "You do not have the rights to install on this nest."
-        }
