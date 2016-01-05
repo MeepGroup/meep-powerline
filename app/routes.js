@@ -3,7 +3,6 @@
 const request = require('request');
 
 const chalk = require('chalk');
-const debug = true;
 
 const {
   registerEgg, allEggs, findEgg, provision, viewNest, registerNest, addrole,
@@ -11,132 +10,37 @@ const {
 } = require('./modules/');
 
 const {
-  cmdShimPort, apiAddr
+  cmdShimPort, apiAddr, debug
 } = require('../config/global.js');
+
+const { status, config, prey, trust } = require('./routes/core.js');
+const { commandIssue, commandShim } = require('./routes/command.js');
+const { eggInstall } = require('./routes/egg.js');
 
 module.exports = function(app, passport) {
 // =============================================================================
 // Core ========================================================================
 // =============================================================================
 
-  app.get('/status',
-  function(req, res) {
-    if(debug) console.log(chalk.blue(`[${Date.now()}] /status`));
-
-    request.get(`${apiAddr}:3000/status`,
-    (err, httpResponse, hawkBody) => {
-      request.get(`${apiAddr}/rooster/status`,
-      (err, httpResponse, roosterBody) => {
-        res.status(200).jsonp({
-          hawk: JSON.parse(hawkBody),
-          rooster: JSON.parse(roosterBody)
-        });
-      });
-    });
-  });
-
-  // Get config
-  app.get('/config', isLoggedIn, isAdmin,
-  function(req, res) {
-    if(debug) console.log(chalk.blue(`[${Date.now()}] /config`));
-
-    request(`${apiAddr}:3001`,
-    function (error, response, body) {
-      if(error){
-        res.status(500).jsonp(error);
-      }else{
-        res.jsonp(JSON.parse(body));
-      }
-    });
-  });
-
-  // Get stats on a nest by address
-  app.get('/prey/:address', isLoggedIn, isAdmin,
-  function(req, res) {
-    if(debug) console.log(chalk.blue(`[${Date.now()}] /prey/${req.params.address}`));
-
-    request(`${apiAddr}:3000/prey/${req.params.address}`,
-    function (error, response, body) {
-      if(error){
-        res.status(500).jsonp(error);
-      }else{
-        res.jsonp(JSON.parse(body));
-      }
-    });
-  });
-
-  // Trust a new nest.
-  app.get('/trust/:address', isLoggedIn, isAdmin,
-  function(req, res) {
-    if(debug) console.log(chalk.blue(`[${Date.now()}] /trust/${req.params.address}`));
-
-    request(`${apiAddr}:3001/trust/${req.params.address}`,
-    function (error, response, body) {
-      if(error){
-        res.status(500).jsonp(error);
-      }else{
-        if(debug)
-          console.log(chalk.blue(`New address trusted: ${req.params.address}`));
-        res.jsonp(body);
-      }
-    });
-  });
+  app.get('/status', status);
+  app.get('/config', isLoggedIn, isAdmin, config);
+  app.get('/prey/:address', isLoggedIn, isAdmin, prey);
+  app.get('/trust/:address', isLoggedIn, isAdmin, trust);
 
 // =============================================================================
 // Command =====================================================================
 // =============================================================================
 
-app.post('/command/issue', isLoggedIn,
-function(req, res) {
-  if(debug) console.log(chalk.blue(`[${Date.now()}] /command/issue`));
-
-  // get authkey with mongon if we own this server, then redirect the request
-  let options = req.body;
-  options.email = req.user.local.email;
-  options.address = req.body.address;
-
-  getAuthKey(options, (response) => {
-    res.redirect(
-      307,
-      `http://${options.address}:${cmdShimPort}/cmd/`
-    );
-  });
-});
-
-
-app.post('/command/shim/add/:address', isLoggedIn,
-function(req, res) {
-  if(debug) console.log(chalk.blue(`[${Date.now()}] /command/shim/add/${req.params.address}`));
-
-  // get authkey with mongon if we own this server, then redirect the request
-  let options = req.body;
-  options.email = req.user.local.email;
-  options.address = req.params.address;
-
-  getAuthKey(options, (response) => {
-    res.redirect(
-      307,
-      `http://${options.address}:${cmdShimPort}/mod/add/${response.data.authKey}`
-    );
-  });
-
-});
+//TODO: Document me!
+  app.post('/command/issue', isLoggedIn, commandIssue);
+  app.post('/command/shim/add/:address', isLoggedIn, commandShim);
 
 // =============================================================================
 // Egg  ========================================================================
 // =============================================================================
 
-  app.post('/egg/install', isLoggedIn,
-  function(req, res) {
-    if(debug) console.log(chalk.blue(`[${Date.now()}] /egg/install`));
-
-    let options = req.body;
-    options.email = req.user.local.email;
-
-    install(options, (response) => {
-      res.status(response.status).jsonp(response.data);
-    });
-  });
+//TODO: Document me!
+  app.post('/egg/install', isLoggedIn, eggInstall);
 
 // =============================================================================
 // Pay   =======================================================================
