@@ -530,3 +530,25 @@ you ownership, provision and other stats about this nest.*
           }
         }
         
+
+## Send Command [/command/issue]
+
+### /command/issue [POST]
+
++ Request (multipart/form-data; boundary=---BOUNDARY)
+
+        {
+            shim: "testMod",
+            command: "ls",
+            address: "127.0.0.1"
+        }
+        
++ Response 200 (application/json)
+        
+        {
+          "success": true,
+          "message": "Successfully executed command ls.",
+          "command": ".meep"
+        }
+        
+
