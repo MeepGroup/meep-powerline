@@ -11,7 +11,11 @@ const {
 } = require('../../config/global.js');
 
 const eggInstall = function(req, res) {
-  if(debug) console.log(chalk.blue(`[${Date.now()}] /egg/install`));
+  if(debug) console.log(
+    chalk.white(
+      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /egg/install`
+    )
+  );
 
   let options = req.body;
   options.email = req.user.local.email;

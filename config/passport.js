@@ -83,7 +83,7 @@ module.exports = function(passport) {
             email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
 
         if(debug)
-          console.log(chalk.blue(`New user registered: ${email}`));
+          console.log(chalk.white(`New user registered: ${email}`));
         // asynchronous
         process.nextTick(function() {
             // if the user is not already logged in:

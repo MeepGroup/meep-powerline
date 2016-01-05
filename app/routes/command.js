@@ -11,7 +11,11 @@ const {
 const chalk = require('chalk');
 
 const commandIssue = function(req, res) {
-  if(debug) console.log(chalk.blue(`[${Date.now()}] /command/issue`));
+  if(debug) console.log(
+    chalk.white(
+      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /command/issue`
+    )
+  );
 
   // get authkey with mongon if we own this server, then redirect the request
   let options = req.body;
@@ -27,7 +31,11 @@ const commandIssue = function(req, res) {
 };
 
 const commandShim = function(req, res) {
-  if(debug) console.log(chalk.blue(`[${Date.now()}] /command/shim/add/${req.params.address}`));
+  if(debug) console.log(
+    chalk.white(
+      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /command/shim/add/${req.params.address}`
+    )
+  );
 
   // get authkey with mongon if we own this server, then redirect the request
   let options = req.body;

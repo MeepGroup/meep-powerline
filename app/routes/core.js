@@ -8,7 +8,11 @@ const {
 } = require('../../config/global.js')
 
 const status = function(req, res) {
-  if(debug) console.log(chalk.blue(`[${Date.now()}] /status`));
+  if(debug) console.log(
+    chalk.white(
+      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /status`
+    )
+  );
 
   request.get(`${apiAddr}:3000/status`,
   (err, httpResponse, hawkBody) => {
@@ -23,7 +27,11 @@ const status = function(req, res) {
 };
 
 const config = function(req, res) {
-  if(debug) console.log(chalk.blue(`[${Date.now()}] /config`));
+  if(debug) console.log(
+    chalk.white(
+      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /config`
+    )
+  );
 
   request(`${apiAddr}:3001`,
   function (error, response, body) {
@@ -36,7 +44,11 @@ const config = function(req, res) {
 };
 
 const prey = function(req, res) {
-  if(debug) console.log(chalk.blue(`[${Date.now()}] /prey/${req.params.address}`));
+  if(debug) console.log(
+    chalk.white(
+      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /prey/${req.params.address}`
+    )
+  );
 
   request(`${apiAddr}:3000/prey/${req.params.address}`,
   function (error, response, body) {
@@ -49,15 +61,22 @@ const prey = function(req, res) {
 };
 
 const trust = function(req, res) {
-  if(debug) console.log(chalk.blue(`[${Date.now()}] /trust/${req.params.address}`));
+  if(debug) console.log(
+    chalk.white(
+      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /trust/${req.params.address}`
+    )
+  );
 
   request(`${apiAddr}:3001/trust/${req.params.address}`,
   function (error, response, body) {
     if(error){
       res.status(500).jsonp(error);
     }else{
-      if(debug)
-        console.log(chalk.blue(`New address trusted: ${req.params.address}`));
+      if(debug) console.log(
+        chalk.yellow(
+          `New address trusted: ${req.params.address}`
+        )
+      );
       res.jsonp(body);
     }
   });
