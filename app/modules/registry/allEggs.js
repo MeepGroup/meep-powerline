@@ -1,7 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
 
-var Egg = mongoose.model('Egg');
+let Egg = mongoose.model('Egg');
 
 /** @function
  * @name allEggs
@@ -9,7 +9,7 @@ var Egg = mongoose.model('Egg');
  */
 
 const allEggs = function(callback) {
-  var query = Egg;
+  let query = Egg;
 
   query.find(function (err, eggs) {
     if (err) return handleError(err);

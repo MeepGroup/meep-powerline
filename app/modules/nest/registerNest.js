@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const uuid = require('uuid');
 
-var Nest = mongoose.model('Nest');
+let Nest = mongoose.model('Nest');
 
 /** @function
  * @name registerNest
@@ -15,7 +15,7 @@ var Nest = mongoose.model('Nest');
  * @param {string} options.password - The password for the server.
  */
 const registerNest = function(options, callback) {
-  var query = Nest.findOne({'address': options.address});
+  let query = Nest.findOne({'address': options.address});
 
   query.find(function (err, nests) {
     if (err) return handleError(err);
@@ -28,7 +28,7 @@ const registerNest = function(options, callback) {
         }
       });
     }else {
-      var newNest = new Nest({
+      let newNest = new Nest({
         registered_at: Date.now(),
         user: options.user,
         address: options.address,

@@ -1,17 +1,18 @@
+'use strict';
 // load all the things we need
-var LocalStrategy    = require('passport-local').Strategy;
-var FacebookStrategy = require('passport-facebook').Strategy;
-var TwitterStrategy  = require('passport-twitter').Strategy;
-var GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
-var chalk = require('chalk');
-var debug = true;
-var mongoose = require('mongoose');
+let LocalStrategy    = require('passport-local').Strategy;
+let FacebookStrategy = require('passport-facebook').Strategy;
+let TwitterStrategy  = require('passport-twitter').Strategy;
+let GoogleStrategy   = require('passport-google-oauth').OAuth2Strategy;
+let chalk = require('chalk');
+let debug = true;
+let mongoose = require('mongoose');
 
 // load up the user model
-var User       = mongoose.model('User');
+let User       = mongoose.model('User');
 
-// load the auth variables
-var configAuth = require('./auth'); // use this one for testing
+// load the auth letiables
+let configAuth = require('./auth'); // use this one for testing
 
 module.exports = function(passport) {
 
@@ -98,7 +99,7 @@ module.exports = function(passport) {
                     } else {
 
                         // create the user
-                        var newUser            = new User();
+                        let newUser            = new User();
 
                         newUser.local.email    = email;
                         newUser.local.password = newUser.generateHash(password);
@@ -124,7 +125,7 @@ module.exports = function(passport) {
                         return done(null, false, req.flash('loginMessage', 'That email is already taken.'));
                         // Using 'loginMessage instead of signupMessage because it's used by /connect/local'
                     } else {
-                        var user = req.user;
+                        let user = req.user;
                         user.local.email = email;
                         user.local.password = user.generateHash(password);
                         user.save(function (err) {
@@ -187,7 +188,7 @@ module.exports = function(passport) {
                         return done(null, user); // user found, return that user
                     } else {
                         // if there is no user, create them
-                        var newUser            = new User();
+                        let newUser            = new User();
 
                         newUser.facebook.id    = profile.id;
                         newUser.facebook.token = token;
@@ -205,7 +206,7 @@ module.exports = function(passport) {
 
             } else {
                 // user already exists and is logged in, we have to link accounts
-                var user            = req.user; // pull the user out of the session
+                let user            = req.user; // pull the user out of the session
 
                 user.facebook.id    = profile.id;
                 user.facebook.token = token;
@@ -265,7 +266,7 @@ module.exports = function(passport) {
                         return done(null, user); // user found, return that user
                     } else {
                         // if there is no user, create them
-                        var newUser                 = new User();
+                        let newUser                 = new User();
 
                         newUser.twitter.id          = profile.id;
                         newUser.twitter.token       = token;
@@ -283,7 +284,7 @@ module.exports = function(passport) {
 
             } else {
                 // user already exists and is logged in, we have to link accounts
-                var user                 = req.user; // pull the user out of the session
+                let user                 = req.user; // pull the user out of the session
 
                 user.twitter.id          = profile.id;
                 user.twitter.token       = token;
@@ -343,7 +344,7 @@ module.exports = function(passport) {
 
                         return done(null, user);
                     } else {
-                        var newUser          = new User();
+                        let newUser          = new User();
 
                         newUser.google.id    = profile.id;
                         newUser.google.token = token;
@@ -361,7 +362,7 @@ module.exports = function(passport) {
 
             } else {
                 // user already exists and is logged in, we have to link accounts
-                var user               = req.user; // pull the user out of the session
+                let user               = req.user; // pull the user out of the session
 
                 user.google.id    = profile.id;
                 user.google.token = token;

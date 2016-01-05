@@ -1,4 +1,4 @@
-var request   = require('request');
+let request   = require('request');
 
 describe('login', function () {
   it('should return profile after posting login info', function (done) {

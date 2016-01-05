@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const uuid = require('uuid');
 
-var Nest = mongoose.model('Nest');
+const Nest = mongoose.model('Nest');
 
 /** @function
  * @name getAuthKey
@@ -13,12 +13,12 @@ var Nest = mongoose.model('Nest');
 
  */
 const getAuthKey = function(options, callback) {
-  var query = Nest.findOne({'address': options.address});
+  const query = Nest.findOne({'address': options.address});
 
   query.find(function (err, nests) {
     if (err) return handleError(err);
     if(nests.length) {
-      let nest = nests[0];
+      const nest = nests[0];
       if(nest.roles.owner === options.email) {
         callback({
           status: 200,

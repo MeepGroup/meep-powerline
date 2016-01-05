@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const provision = require('meep-provision');
 const uuid = require('uuid');
 
-var Nest = mongoose.model('Nest');
+let Nest = mongoose.model('Nest');
 
 /** @function
  * @name provisionServer
@@ -13,8 +13,8 @@ var Nest = mongoose.model('Nest');
  * @param {object} options.owner - Owner of the server.
  */
 const provisionServer = function(options, callback) {
-  var query = Nest.findOne({'address': options.address});
-  var authKey = uuid.v4();
+  let query = Nest.findOne({'address': options.address});
+  let authKey = uuid.v4();
 
   query.find(function (err, nests) {
 

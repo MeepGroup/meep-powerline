@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const uuid = require('uuid');
 const EggFile = require('meep-egg');
 
-var Nest = mongoose.model('Nest');
-var Egg = mongoose.model('Egg');
+const Nest = mongoose.model('Nest');
+const Egg = mongoose.model('Egg');
 
 /** @function
  * @name install
@@ -17,15 +17,15 @@ var Egg = mongoose.model('Egg');
  */
 
 const install = function(options, callback) {
-  var query = Nest.findOne({'address': options.address});
+  const query = Nest.findOne({'address': options.address});
 
   query.find(function (err, nests) {
     if (err) return handleError(err);
     if(nests.length) {
-      let nest = nests[0];
+      const nest = nests[0];
 
       if(options.email === nest.roles.owner) {
-        var query = Egg.findOne({
+        let query = Egg.findOne({
           'name': options.eggName,
           'version': options.version
         });
@@ -42,7 +42,7 @@ const install = function(options, callback) {
             nest.progress = [0, JSON.parse(egg.egg).tasks.length];
             nest.save();
 
-            var new_egg = new EggFile({
+            let new_egg = new EggFile({
               server: {
                 host: nest.address,
                 user: nest.user,

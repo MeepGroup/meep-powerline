@@ -12,7 +12,7 @@ let User = mongoose.model('User');
  */
 
 const addCredits = function(options, callback) {
-  var query = User.findOne({'local.email': options.email});
+  let query = User.findOne({'local.email': options.email});
 
   query.find(function (err, users) {
     if (err) return handleError(err);

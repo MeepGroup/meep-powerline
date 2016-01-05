@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const provision = require('meep-provision');
 
-var Nest = mongoose.model('Nest');
+let Nest = mongoose.model('Nest');
 
 /** @function
  * @name viewNest
@@ -12,7 +12,7 @@ var Nest = mongoose.model('Nest');
  * @param {object} options.address - The address of the server.
  */
 const viewNest = function(options, callback) {
-  var query = Nest.findOne({
+  let query = Nest.findOne({
     'address': options.address
   });
 

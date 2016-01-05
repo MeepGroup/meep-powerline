@@ -3,16 +3,16 @@
 const request = require('request');
 
 const chalk = require('chalk');
-let debug = true;
+const debug = true;
 
 const {
   registerEgg, allEggs, findEgg, provision, viewNest, registerNest, addrole,
-  revokerole, addCredits, myNests, delCredits, install, getAuthKey
+  revokerole, addCredits, myNests, delCredits, install, getAuthKey, registerShim
 } = require('./modules/');
 
 const {
-  cmdShimPort
-} = require('../config/ports.js');
+  cmdShimPort, apiAddr
+} = require('../config/global.js');
 
 module.exports = function(app, passport) {
 // =============================================================================
@@ -21,9 +21,11 @@ module.exports = function(app, passport) {
 
   app.get('/status',
   function(req, res) {
-    request.get('https://meeppanel.com/hawk/status',
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /status`));
+
+    request.get(`${apiAddr}:3000/status`,
     (err, httpResponse, hawkBody) => {
-      request.get('https://meeppanel.com/rooster/status',
+      request.get(`${apiAddr}/rooster/status`,
       (err, httpResponse, roosterBody) => {
         res.status(200).jsonp({
           hawk: JSON.parse(hawkBody),
@@ -36,7 +38,9 @@ module.exports = function(app, passport) {
   // Get config
   app.get('/config', isLoggedIn, isAdmin,
   function(req, res) {
-    request(`https://meeppanel.com/rooster`,
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /config`));
+
+    request(`${apiAddr}:3001`,
     function (error, response, body) {
       if(error){
         res.status(500).jsonp(error);
@@ -49,7 +53,9 @@ module.exports = function(app, passport) {
   // Get stats on a nest by address
   app.get('/prey/:address', isLoggedIn, isAdmin,
   function(req, res) {
-    request(`https://meeppanel.com/hawk/prey/${req.params.address}`,
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /prey/${req.params.address}`));
+
+    request(`${apiAddr}:3000/prey/${req.params.address}`,
     function (error, response, body) {
       if(error){
         res.status(500).jsonp(error);
@@ -62,7 +68,9 @@ module.exports = function(app, passport) {
   // Trust a new nest.
   app.get('/trust/:address', isLoggedIn, isAdmin,
   function(req, res) {
-    request(`https://meeppanel.com/rooster/trust/${req.params.address}`,
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /trust/${req.params.address}`));
+
+    request(`${apiAddr}:3001/trust/${req.params.address}`,
     function (error, response, body) {
       if(error){
         res.status(500).jsonp(error);
@@ -80,6 +88,8 @@ module.exports = function(app, passport) {
 
 app.post('/command/issue', isLoggedIn,
 function(req, res) {
+  if(debug) console.log(chalk.blue(`[${Date.now()}] /command/issue`));
+
   // get authkey with mongon if we own this server, then redirect the request
   let options = req.body;
   options.email = req.user.local.email;
@@ -93,8 +103,11 @@ function(req, res) {
   });
 });
 
+
 app.post('/command/shim/add/:address', isLoggedIn,
 function(req, res) {
+  if(debug) console.log(chalk.blue(`[${Date.now()}] /command/shim/add/${req.params.address}`));
+
   // get authkey with mongon if we own this server, then redirect the request
   let options = req.body;
   options.email = req.user.local.email;
@@ -106,6 +119,7 @@ function(req, res) {
       `http://${options.address}:${cmdShimPort}/mod/add/${response.data.authKey}`
     );
   });
+
 });
 
 // =============================================================================
@@ -114,6 +128,8 @@ function(req, res) {
 
   app.post('/egg/install', isLoggedIn,
   function(req, res) {
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /egg/install`));
+
     let options = req.body;
     options.email = req.user.local.email;
 
@@ -128,6 +144,8 @@ function(req, res) {
 
   app.post('/pay/credit/add', isLoggedIn, isAdmin,
   function(req, res) {
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /pay/credit/add`));
+
     let options = req.body;
     options.email = req.user.local.email;
 
@@ -138,6 +156,8 @@ function(req, res) {
 
   app.post('/pay/credit/del', isLoggedIn, isAdmin,
   function(req, res) {
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /pay/credit/del`));
+
     let options = req.body;
     options.email = req.user.local.email;
 
@@ -151,7 +171,9 @@ function(req, res) {
 
   app.post('/nest/addrole', isLoggedIn,
   function(req, res) {
-    var options = req.body;
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /nest/addrole`));
+
+    let options = req.body;
     options.owner = req.user.local.email;
 
     addrole(options, (response) => {
@@ -161,7 +183,9 @@ function(req, res) {
 
   app.post('/nest/revokerole', isLoggedIn,
   function(req, res) {
-    var options = req.body;
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /nest/revokerole`));
+
+    let options = req.body;
     options.owner = req.user.local.email;
 
     revokerole(options, (response) => {
@@ -171,7 +195,9 @@ function(req, res) {
 
   app.post('/nest/register', isLoggedIn,
   function(req, res) {
-    var options = req.body;
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /nest/register`));
+
+    let options = req.body;
     options.owner = req.user.local.email;
 
     registerNest(options, (response) => {
@@ -181,7 +207,9 @@ function(req, res) {
 
   app.post('/nest/provision', isLoggedIn,
   function(req, res) {
-    var options = req.body;
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /nest/provision`));
+
+    let options = req.body;
     options.owner = req.user.local.email;
 
     provision(options, (response) => {
@@ -191,6 +219,8 @@ function(req, res) {
 
   app.get('/nest/mynests', isLoggedIn,
   function(req, res) {
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /nest/mynests`));
+
     let options = {
       owner: req.user.local.email
     };
@@ -202,6 +232,8 @@ function(req, res) {
   // different from /prey, /nest/prey shows database data, such as stats.
   app.post('/nest/prey', isLoggedIn, isAdmin,
   function(req, res) {
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /nest/prey`));
+
     viewNest(req.body, (response) => {
       res.status(response.status).jsonp(response.data);
     });
@@ -214,11 +246,15 @@ function(req, res) {
   // Register eggs
   app.get('/registry/register', isLoggedIn, isAdmin,
   function(req, res) {
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /registry/register`));
+
     res.render('registerEgg.ejs');
   });
 
   app.post('/registry/register', isLoggedIn, isAdmin,
   function(req, res) {
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /registry/register`));
+
     registerEgg(req.body, (response) => {
       if(debug)
         console.log(chalk.blue(`New Egg Registered by: ${req.user.email}`));
@@ -230,6 +266,8 @@ function(req, res) {
   // Find All Eggs
   app.get('/registry/list', isLoggedIn,
   function(req, res) {
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /registry/list`));
+
     allEggs((response) => {
       res.jsonp(response);
     });
@@ -238,11 +276,29 @@ function(req, res) {
   // Find All Eggs
   app.post('/registry/find', isLoggedIn,
   function(req, res) {
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /registry/find`));
+
     findEgg(req.body, (response) => {
       res.status(response.code).jsonp(response.data);
     });
   });
 
+// =============================================================================
+// Daemon  =====================================================================
+// =============================================================================
+
+app.post('/daemon/:address/:action', isLoggedIn, (req, res) => {
+  let options = req.body;
+  options.email = req.user.local.email;
+  options.address = req.params.address;
+
+  getAuthKey(options, (response) => {
+    res.redirect(
+      307,
+      `http://localhost:3003/${req.params.action}/${response.data.authKey}`
+    );
+  });
+});
 
 // =============================================================================
 // Normal Routes  ==============================================================
@@ -272,14 +328,18 @@ function(req, res) {
   // PROFILE SECTION =========================
   app.post('/profile', isLoggedIn,
   function(req, res) {
-      res.jsonp(req.user);
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /profile`));
+
+    res.jsonp(req.user);
   });
 
   // LOGOUT ==============================
   app.get('/logout',
   function(req, res) {
-      req.logout();
-      res.redirect('/');
+    if(debug) console.log(chalk.blue(`[${Date.now()}] /logout`));
+
+    req.logout();
+    res.redirect('/');
   });
 
 // =============================================================================
@@ -297,6 +357,8 @@ function(req, res) {
     // process the login form
     app.post('/login', passport.authenticate('local-login'),
     function(req, res) {
+      if(debug) console.log(chalk.blue(`[${Date.now()}] /login`));
+
       if( req.user ) {
         res.status(200).jsonp({
           success: 'Successfully logged in.'
@@ -352,7 +414,7 @@ function(req, res) {
     // local -----------------------------------
     app.get('/unlink/local', isLoggedIn,
     function(req, res) {
-        var user            = req.user;
+        let user            = req.user;
         user.local.email    = undefined;
         user.local.password = undefined;
         user.save(function(err) {

@@ -3,13 +3,13 @@
 const mongoose = require('mongoose');
 const provision = require('meep-provision');
 
-var Nest = mongoose.model('Nest');
+let Nest = mongoose.model('Nest');
 
 /** @function
  * @name myNests
  */
 const myNests = function(options, callback) {
-  var query = Nest.findOne({
+  let query = Nest.findOne({
     'roles.owner': options.owner
   });
 

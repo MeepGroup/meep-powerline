@@ -1,3 +1,4 @@
+'use strict';
 const mongoose = require('mongoose');
 
 const eggSchema = mongoose.Schema({
@@ -24,6 +25,7 @@ const nestSchema = mongoose.Schema({
   busy: Boolean,
   progress: Array,
   authKey: String,
+  shims: Array,
   roles: {
     owner: String,
     admins: {type: Array, default: []},
@@ -33,10 +35,10 @@ const nestSchema = mongoose.Schema({
 
 mongoose.model('Nest', nestSchema);
 
-var bcrypt = require('bcrypt-nodejs');
+let bcrypt = require('bcrypt-nodejs');
 
 // define the schema for our user model
-var userSchema = mongoose.Schema({
+let userSchema = mongoose.Schema({
 
     local: {
         email: String,

@@ -11,6 +11,7 @@ const addCredits = require('./pay/addCredits.js');
 const delCredits = require('./pay/delCredits.js');
 const install = require('./egg/install.js');
 const getAuthKey = require('./command/getAuthKey.js');
+const registerShim = require('./command/registerShim.js');
 
 module.exports = {
   registerEgg,
@@ -25,5 +26,6 @@ module.exports = {
   myNests,
   delCredits,
   install,
-  getAuthKey
+  getAuthKey,
+  registerShim
 };

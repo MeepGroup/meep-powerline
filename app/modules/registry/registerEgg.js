@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 
-var Egg = mongoose.model('Egg');
+let Egg = mongoose.model('Egg');
 
 /** @function
  * @name registerEgg
@@ -13,7 +13,7 @@ var Egg = mongoose.model('Egg');
  */
 
 const registerEgg = function(options, callback) {
-  var query = Egg
+  let query = Egg
       .findOne({
         'name': options.eggName,
         'version': options.version });
@@ -30,7 +30,7 @@ const registerEgg = function(options, callback) {
       });
     }else {
       console.log(options);
-      var newEgg = new Egg({
+      let newEgg = new Egg({
         version: options.version,
         name: options.eggName,
         egg: options.egg

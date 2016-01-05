@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const uuid = require('uuid');
 
-var Nest = mongoose.model('Nest');
+let Nest = mongoose.model('Nest');
 
 /** @function
  * @name addRole
@@ -15,7 +15,7 @@ var Nest = mongoose.model('Nest');
  * @param {function} callback - Response sent here.
  */
 const addRole = function(options, callback) {
-  var query = Nest.findOne({'address': options.address});
+  let query = Nest.findOne({'address': options.address});
 
   query.find(function (err, nests) {
     if (err) return handleError(err);
@@ -45,7 +45,7 @@ const addRole = function(options, callback) {
               callback({
                 status: 200,
                 data: {
-                  error: `User ${options.user} added to group ${options.role}.`
+                  success: `User ${options.user} added to group ${options.role}.`
                 }
               });
             });

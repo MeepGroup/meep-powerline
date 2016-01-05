@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 const uuid = require('uuid');
 
-var Nest = mongoose.model('Nest');
+let Nest = mongoose.model('Nest');
 
 /** @function
  * @name revokeRole
@@ -14,7 +14,7 @@ var Nest = mongoose.model('Nest');
  * @param {string} options.user - The user to add to the role group.
  */
 const revokeRole = function(options, callback) {
-  var query = Nest.findOne({'address': options.address});
+  let query = Nest.findOne({'address': options.address});
 
   query.find(function (err, nests) {
     if (err) return handleError(err);
