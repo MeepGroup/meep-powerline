@@ -13,7 +13,7 @@ const {
   cmdShimPort, apiAddr, debug
 } = require('../config/global.js');
 
-const { status, config, prey, trust } = require('./routes/core.js');
+const { status, config, prey, trust, root } = require('./routes/core.js');
 const { commandIssue, commandShim } = require('./routes/command.js');
 const { eggInstall } = require('./routes/egg.js');
 const { payAdd, payDel } = require('./routes/pay.js');
@@ -75,12 +75,7 @@ module.exports = function(app, passport) {
 // =============================================================================
 
   // Register eggs
-  app.get('/registry/register', isLoggedIn, isAdmin,
-  function(req, res) {
-    if(debug) console.log(chalk.white(`[${Date.now()}] Connection from ${req.connection.remoteAddress} at /registry/register`));
-
-    res.render('registerEgg.ejs');
-  });
+  app.get('/registry/register', isLoggedIn, isAdmin, registryRegister);
 
   app.post('/registry/register', isLoggedIn, isAdmin, registryRegister);
   app.get('/registry/list', isLoggedIn, registryList);
@@ -96,16 +91,16 @@ module.exports = function(app, passport) {
 // Normal Routes  ==============================================================
 // =============================================================================
 
-  app.get('/', function(req, res) {
-      res.jsonp({
-        status: 200
-      });
-  });
+  app.get('/', root);
 
   // PROFILE SECTION =========================
   app.post('/profile', isLoggedIn,
   function(req, res) {
-    if(debug) console.log(chalk.white(`[${Date.now()}] Connection from ${req.connection.remoteAddress} at /profile`));
+    if(debug) console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /profile`
+      )
+    );
 
     res.jsonp(req.user);
   });
@@ -113,7 +108,11 @@ module.exports = function(app, passport) {
   // LOGOUT ==============================
   app.get('/logout',
   function(req, res) {
-    if(debug) console.log(chalk.white(`[${Date.now()}] Connection from ${req.connection.remoteAddress} at /logout`));
+    if(debug) console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /logout`
+      )
+    );
 
     req.logout();
     res.redirect('/');
@@ -134,7 +133,11 @@ module.exports = function(app, passport) {
     // process the login form
     app.post('/login', passport.authenticate('local-login'),
     function(req, res) {
-      if(debug) console.log(chalk.white(`[${Date.now()}] Connection from ${req.connection.remoteAddress} at /login`));
+      if(debug) console.log(
+        chalk.cyan(
+          `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /login`
+        )
+      );
 
       if( req.user ) {
         res.status(200).jsonp({

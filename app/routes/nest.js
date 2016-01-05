@@ -12,7 +12,7 @@ const chalk = require('chalk');
 
 const nestAddrole = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/addrole`
     )
   );
@@ -26,7 +26,7 @@ const nestAddrole = function(req, res) {
 };
 
 const nestRevokerole = function(req, res) {
-  if(debug) console.log(chalk.white(`[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/revokerole`));
+  if(debug) console.log(chalk.cyan(`[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/revokerole`));
 
   let options = req.body;
   options.owner = req.user.local.email;
@@ -38,7 +38,7 @@ const nestRevokerole = function(req, res) {
 
 const nestRegister = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/register`
     )
   );
@@ -53,7 +53,7 @@ const nestRegister = function(req, res) {
 
 const nestProvision = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/provision`
     )
   );
@@ -68,7 +68,7 @@ const nestProvision = function(req, res) {
 
 const nestMyNests = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/mynests`
     )
   );
@@ -83,7 +83,7 @@ const nestMyNests = function(req, res) {
 
 const nestPrey = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/prey`
     )
   );

@@ -12,7 +12,7 @@ const chalk = require('chalk');
 
 const payAdd = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /pay/credit/add`
     )
   );
@@ -27,7 +27,7 @@ const payAdd = function(req, res) {
 
 const payDel = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /pay/credit/del`
     )
   );

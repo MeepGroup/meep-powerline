@@ -12,7 +12,7 @@ const {
 
 const eggInstall = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /egg/install`
     )
   );

@@ -12,7 +12,7 @@ const chalk = require('chalk');
 
 const commandIssue = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /command/issue`
     )
   );
@@ -32,7 +32,7 @@ const commandIssue = function(req, res) {
 
 const commandShim = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /command/shim/add/${req.params.address}`
     )
   );

@@ -10,9 +10,19 @@ const {
 
 const chalk = require('chalk');
 
+const registryRegisterGet = function(req, res) {
+  if(debug) console.log(
+    chalk.cyan(
+      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /registry/register`
+    )
+  );
+
+  res.render('registerEgg.ejs');
+};
+
 const registryRegister = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /registry/register`
     )
   );
@@ -30,7 +40,7 @@ const registryRegister = function(req, res) {
 
 const registryList = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /registry/list`
     )
   );
@@ -42,7 +52,7 @@ const registryList = function(req, res) {
 
 const registryFind = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /registry/find`
     )
   );
@@ -53,5 +63,5 @@ const registryFind = function(req, res) {
 };
 
 module.exports = {
-  registryRegister, registryList, registryFind
+  registryRegister, registryList, registryFind, registryRegisterGet
 };

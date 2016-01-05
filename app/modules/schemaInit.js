@@ -35,6 +35,18 @@ const nestSchema = mongoose.Schema({
 
 mongoose.model('Nest', nestSchema);
 
+const notificationSchema = mongoose.Schema({
+  uuid: String,
+  seen: Boolean,
+  message: String,
+  locked: Boolean,
+  assignee: String,
+  from: String,
+  createdAt: Date
+});
+
+mongoose.model('Notification', notificationSchema);
+
 let bcrypt = require('bcrypt-nodejs');
 
 // define the schema for our user model

@@ -9,7 +9,7 @@ const {
 
 const status = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /status`
     )
   );
@@ -28,7 +28,7 @@ const status = function(req, res) {
 
 const config = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /config`
     )
   );
@@ -45,7 +45,7 @@ const config = function(req, res) {
 
 const prey = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /prey/${req.params.address}`
     )
   );
@@ -60,9 +60,15 @@ const prey = function(req, res) {
   });
 };
 
+const root = function(req, res) {
+    res.jsonp({
+      status: 200
+    });
+};
+
 const trust = function(req, res) {
   if(debug) console.log(
-    chalk.white(
+    chalk.cyan(
       `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /trust/${req.params.address}`
     )
   );
@@ -86,5 +92,6 @@ module.exports = {
   status,
   config,
   prey,
-  trust
+  trust,
+  root
 };
