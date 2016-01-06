@@ -7,6 +7,8 @@ const EggFile = require('meep-egg');
 const Nest = mongoose.model('Nest');
 const Egg = mongoose.model('Egg');
 
+const Notify = require('../notify').Notify;
+
 /** @function
  * @name install
  * @param {object} options - Server information
@@ -60,8 +62,18 @@ const install = function(options, callback) {
             }).hatch().expect('node -v').match(new RegExp(/v4\..*\..*/),
             (res)=>{
               if(typeof(res) !== 'null') {
+
                 nest.busy = false;
                 nest.save();
+
+                let noti = new Notify({
+                  message: `${nest.address} has finished the installing ${options.eggName}, and is ready for use.`,
+                  assignee: nest.owner
+                });
+                
+                noti.dispatch((data) => {
+                  console.log(data);
+                });
 
               }
             });

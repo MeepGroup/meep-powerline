@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const provision = require('meep-provision');
 const uuid = require('uuid');
 
+const Notify = require('../notify').Notify;
+
 let Nest = mongoose.model('Nest');
 
 /** @function
@@ -47,9 +49,18 @@ const provisionServer = function(options, callback) {
             nest.save(function(err){
               if(err) console.log(err);
             });
+
+            let noti = new Notify({
+              message: `${nest.address} has finished the provisioning task and is ready for use.`,
+              assignee: nest.owner
+            });
+            noti.dispatch((data) => {
+              console.log(data);
+            });
           }else if(response.error){
             nest.provision_error = response.error;
             nest.busy = false;
+
             nest.save(function(err){
               if(err) console.log(err);
             });

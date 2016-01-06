@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const uuid = require('uuid');
+const Notify = require('../notify').Notify;
 
 let Nest = mongoose.model('Nest');
 
@@ -42,6 +43,16 @@ const addRole = function(options, callback) {
             nest.roles[options.role].push(options.user);
             nest.save(function(err) {
               if(err) console.log(err);
+
+              let noti = new Notify({
+                message: `${options.user} has been added to the role ${options.role} on your nest: ${nest.address}.`,
+                assignee: nest.owner
+              });
+
+              noti.dispatch((data) => {
+                console.log(data);
+              });
+
               callback({
                 status: 200,
                 data: {

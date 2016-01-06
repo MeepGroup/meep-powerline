@@ -1,11 +1,14 @@
+'use strict';
+
+const mongoose = require('mongoose');
 const uuid = require('uuid');
 const Notification = mongoose.model('Notification');
 const chalk = require('chalk');
 
-module.exports = class Notification {
+module.exports = class Notify {
 
   constructor(options) {
-    this.uuid = uuid.v2();
+    this.uuid = uuid.v1();
     this.seen = (options.seen) ?
       options.seen : false;
 
@@ -27,10 +30,9 @@ module.exports = class Notification {
 
   delete() {
     const query = Notification.find({ uuid: this.uuid });
-    query.findOne((error, notifications) => {
+    query.findOne((error, noti) => {
       if(error) console.log(chalk.red(error));
-      if(notifications.length) {
-        const noti = notifications[0];
+      if(noti) {
         noti.seen = true;
 
         noti.remove((err) => {
@@ -79,10 +81,9 @@ module.exports = class Notification {
 
   markSeen(callback) {
     const query = Notification.find({ uuid: this.uuid });
-    query.findOne((error, notifications) => {
+    query.findOne((error, noti) => {
       if(error) console.log(chalk.red(error));
-      if(notifications.length) {
-        const noti = notifications[0];
+      if(noti) {
         noti.seen = true;
 
         noti.save((err) => {
@@ -106,7 +107,30 @@ module.exports = class Notification {
   }
 
   togglelocked() {
-    // toggle the locked value in mongo
+    const query = Notification.find({ uuid: this.uuid });
+    query.findOne((error, noti) => {
+      if(error) console.log(chalk.red(error));
+      if(noti) {
+        noti.locked = !noti.locked;
+
+        noti.save((err) => {
+          if(err) callback({
+            error: err
+          });
+
+          callback({
+            status: 200,
+            success: `Successfully marked notification locked to ${noti.locked}.`
+          });
+        });
+
+      } else {
+        callback({
+          status: 404,
+          error: 'Notification not found.'
+        });
+      }
+    });
   }
 
 }

@@ -10,6 +10,10 @@ const {
 } = require('./modules/');
 
 const {
+  Notify, deleteNotification, toggleLocked, markSeen, notifyNewNotification
+} = require('./routes/notify.js');
+
+const {
   cmdShimPort, apiAddr, debug
 } = require('../config/global.js');
 
@@ -35,6 +39,16 @@ module.exports = function(app, passport) {
   app.get('/config', isLoggedIn, isAdmin, config);
   app.get('/prey/:address', isLoggedIn, isAdmin, prey);
   app.get('/trust/:address', isLoggedIn, isAdmin, trust);
+
+
+// =============================================================================
+// Notify ======================================================================
+// =============================================================================
+
+  app.post('/notify/add', isLoggedIn, notifyNewNotification);
+  app.post('/notify/del', isLoggedIn, deleteNotification);
+  app.post('/notify/seen', isLoggedIn, markSeen);
+  app.post('/notify/togglelock', isLoggedIn, toggleLocked);
 
 // =============================================================================
 // Command =====================================================================

@@ -22,6 +22,15 @@ const addCredits = function(options, callback) {
       user.account.credits += parseFloat(options.credits);
       user.save((err) => {
         if (err) console.log(err);
+        let noti = new Notify({
+          message: `$${options.credits} has been added to your account.`,
+          assignee: options.email
+        });
+
+        noti.dispatch((data) => {
+          console.log(data);
+        });
+
         callback({
           status: 200,
           data: {
