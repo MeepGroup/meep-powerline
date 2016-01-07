@@ -12,6 +12,7 @@ const delCredits = require('./pay/delCredits.js');
 const install = require('./egg/install.js');
 const getAuthKey = require('./command/getAuthKey.js');
 const registerShim = require('./command/registerShim.js');
+const Notify = require('./notify/notification.js');
 
 module.exports = {
   registerEgg,
@@ -27,5 +28,6 @@ module.exports = {
   delCredits,
   install,
   getAuthKey,
-  registerShim
+  registerShim,
+  Notify
 };

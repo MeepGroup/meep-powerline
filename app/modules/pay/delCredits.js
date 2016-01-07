@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 let User = mongoose.model('User');
+const Notify = require('../notify').Notify;
 
 /** @function
  * @name delCredits
@@ -10,6 +11,8 @@ let User = mongoose.model('User');
  * @param {string} options.credits - The amount of credits to del.
  * @param {callback} callback - Returns success or error.
  */
+
+
 
 const delCredits = function(options, callback) {
   let query = User.findOne({'local.email': options.email});

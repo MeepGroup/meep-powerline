@@ -70,7 +70,7 @@ const install = function(options, callback) {
                   message: `${nest.address} has finished the installing ${options.eggName}, and is ready for use.`,
                   assignee: nest.owner
                 });
-                
+
                 noti.dispatch((data) => {
                   console.log(data);
                 });

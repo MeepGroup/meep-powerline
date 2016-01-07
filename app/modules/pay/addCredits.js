@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 let User = mongoose.model('User');
+const Notify = require('../notify').Notify;
 
 /** @function
  * @name addCredits
