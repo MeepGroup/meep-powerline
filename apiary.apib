@@ -535,7 +535,7 @@ you ownership, provision and other stats about this nest.*
 
 ### /command/issue [POST]
 
-+ Request (multipart/form-data; boundary=---BOUNDARY)
++ Request 200 (application/json)
 
         {
             shim: "testMod",
@@ -550,5 +550,20 @@ you ownership, provision and other stats about this nest.*
           "message": "Successfully executed command ls.",
           "command": ".meep"
         }
-        
 
+## Daemon [/daemon/:address/:action]
+
+### /daemon/:address/:action [POST]
+
++ Request 200 (application/json)
+
+        {
+            
+        }
+        
++ Response 200 (application/json)
+        
+        {
+          "success": true,
+          "message": "Successfully :action nest :address.",
+        }
