@@ -107,7 +107,8 @@ module.exports = function(app, passport) {
     if (debug) {
       console.log(
         chalk.cyan(
-          `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /profile`
+          `[${Date.now()}] Connection from
+          ${req.connection.remoteAddress} at /profile`
         )
       );
     }
@@ -121,7 +122,8 @@ module.exports = function(app, passport) {
     if (debug) {
       console.log(
         chalk.cyan(
-          `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /logout`
+          `[${Date.now()}] Connection from
+          ${req.connection.remoteAddress} at /logout`
         )
       );
     }
@@ -148,7 +150,8 @@ module.exports = function(app, passport) {
     if (debug) {
       console.log(
         chalk.cyan(
-          `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /login`
+          `[${Date.now()}] Connection from
+          ${req.connection.remoteAddress} at /login`
         )
       );
     }
@@ -226,6 +229,13 @@ module.exports = function(app, passport) {
 // =============================================================================
 
 // route middleware to ensure user is logged in
+/** @function
+ * @name isAdmin
+ * @param {object} req - request
+ * @param {object} res - response
+ * @param {function} next - Continues to next function
+ * @return {function} next - Calls nest function
+ */
 function isAdmin(req, res, next) {
   if (req.user.isAdmin) {
     return next();
@@ -236,6 +246,13 @@ function isAdmin(req, res, next) {
 }
 
 // route middleware to ensure user is logged in
+/** @function
+ * @name isLoggedIn
+ * @param {object} req - request
+ * @param {object} res - response
+ * @param {function} next - Continues to next function
+ * @return {function} next - Calls nest function
+ */
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();

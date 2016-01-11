@@ -36,6 +36,11 @@ const provisionServer = function(options, callback) {
             providing the provision_token `,
           provisionToken: nest.provision_token
         }});
+
+        let tickCount = 0;
+
+        nest.progress = [0, 11];
+
         nest.busy = true;
         nest.save();
 
@@ -46,7 +51,13 @@ const provisionServer = function(options, callback) {
             user: nest.user,
             password: nest.password
           },
-          authKey: authKey
+          authKey: authKey,
+          tickCallback: (tick, total) => {
+            tickCount += tick;
+            // record the progress of the task for UI progress bar.
+            nest.progress = [tickCount, total];
+            nest.save();
+          }
         }, response => {
           if (response.success) {
             nest.authKey = authKey;

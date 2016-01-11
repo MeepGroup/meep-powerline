@@ -92,7 +92,8 @@ const toggleLocked = function(req, res) {
 
           res.status(200).jsonp({
             status: 200,
-            success: `Successfully changed notification locked status to ${noti.locked}.`
+            success: `Successfully changed notification locked status to
+            ${noti.locked}.`
           });
         });
       } else {
