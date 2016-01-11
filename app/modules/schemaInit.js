@@ -14,13 +14,14 @@ const nestSchema = mongoose.Schema({
   name: String,
   OS: String,
   provisioned: Boolean,
-  provisioned_at: Date,
-  provision_error: String,
-  provision_token: String,
+  provisionedAt: Date,
+  provisionError: String,
+  provisionToken: String,
   address: String,
   user: String,
   port: Number,
-  password: String, // We need to salt and hash this
+  // We need to salt and hash this
+  password: String,
   eggs: Array,
   busy: Boolean,
   progress: Array,
@@ -29,8 +30,8 @@ const nestSchema = mongoose.Schema({
   roles: {
     owner: String,
     admins: {type: Array, default: []},
-    users: {type: Array, default: []},
-  },
+    users: {type: Array, default: []}
+  }
 });
 
 mongoose.model('Nest', nestSchema);

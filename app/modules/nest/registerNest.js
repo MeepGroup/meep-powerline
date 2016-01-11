@@ -1,7 +1,6 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const uuid = require('uuid');
 
 let Nest = mongoose.model('Nest');
 
@@ -13,23 +12,29 @@ let Nest = mongoose.model('Nest');
  * @param {number} options.port - The port for the server.
  * @param {string} options.owner - The owner of the server.
  * @param {string} options.password - The password for the server.
+ * @param {funciton} callback - Err response
  */
 const registerNest = function(options, callback) {
-  let query = Nest.findOne({'address': options.address});
+  let query = Nest.findOne({address: options.address});
 
-  query.find(function (err, nests) {
-    if (err) return handleError(err);
-    if(nests.length) {
-      let nest = nests[0];
-      callback({
+  query.find(function(err, nests) {
+    if (err) {
+      callback(new Error(
+        'Unknown Mongoose issue.',
+        'nest/addrole.js',
+        '20'
+      ), {});
+    }
+    if (nests.length) {
+      callback(false, {
         status: 200,
         data: {
           error: `Machine is already registered.`
         }
       });
-    }else {
+    } else {
       let newNest = new Nest({
-        registered_at: Date.now(),
+        registeredAt: Date.now(),
         user: options.user,
         address: options.address,
         name: options.name,
@@ -39,15 +44,17 @@ const registerNest = function(options, callback) {
         },
         password: options.password
       });
-      newNest.save((err) => {
-        callback({
+      newNest.save(err => {
+        if (err) {
+          console.warn(err);
+        }
+        callback(false, {
           status: 200,
           data: {
             success: `Sucessfully registered nest. Provisioning is suggested
               as a next step.`
           }
         });
-        console.log(err);
       });
     }
   });

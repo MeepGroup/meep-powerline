@@ -1,28 +1,35 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const provision = require('meep-provision');
 
 let Nest = mongoose.model('Nest');
 
 /** @function
  * @name myNests
+ * @param {object} options - Server information
+ * @param {function} callback - Err / Response
  */
 const myNests = function(options, callback) {
   let query = Nest.findOne({
     'roles.owner': options.owner
   });
 
-  query.find(function (err, nests) {
-    if (err) return handleError(err);
+  query.find(function(err, nests) {
+    if (err) {
+      callback(new Error(
+        'Unknown Mongoose issue.',
+        'nest/myNests.js',
+        '16'
+      ), {});
+    }
 
-    if(nests.length) {
+    if (nests.length) {
       nests.map((nest, i) => {
-        nests[i].password = "REDACTED"
+        nests[i].password = 'REDACTED';
       });
-      callback({status: 200, data: nests});
-    }else {
-      callback({status: 404, data: {
+      callback(false, {status: 200, data: nests});
+    } else {
+      callback(false, {status: 404, data: {
         error: `No nests found!`
       }});
     }

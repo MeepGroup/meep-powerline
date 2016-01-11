@@ -1,26 +1,20 @@
 'use strict';
 
-const request = require('request');
-
 const chalk = require('chalk');
 
 const {
-  registerEgg, allEggs, findEgg, provision, viewNest, registerNest, addrole,
-  revokerole, addCredits, myNests, delCredits, install, getAuthKey, registerShim
-} = require('./modules/');
-
-const {
-  Notify, deleteNotification, toggleLocked, markSeen, notifyNewNotification
+  deleteNotification, toggleLocked, markSeen, notifyNewNotification,
+  getMyNotifications
 } = require('./routes/notify.js');
 
 const {
-  cmdShimPort, apiAddr, debug
+  debug
 } = require('../config/global.js');
 
-const { status, config, prey, trust, root } = require('./routes/core.js');
-const { commandIssue, commandShim } = require('./routes/command.js');
-const { eggInstall } = require('./routes/egg.js');
-const { payAdd, payDel } = require('./routes/pay.js');
+const {status, config, prey, trust, root} = require('./routes/core.js');
+const {commandIssue, commandShim} = require('./routes/command.js');
+const {eggInstall} = require('./routes/egg.js');
+const {payAdd, payDel} = require('./routes/pay.js');
 const {
   nestAddrole, nestRevokerole, nestProvision, nestRegister, nestMyNests,
   nestPrey
@@ -28,7 +22,7 @@ const {
 const {
   registryRegister, registryList, registryFind
 } = require('./routes/registry.js');
-const { daemon } = require('./routes/daemon.js');
+const {daemon} = require('./routes/daemon.js');
 
 module.exports = function(app, passport) {
 // =============================================================================
@@ -40,7 +34,6 @@ module.exports = function(app, passport) {
   app.get('/prey/:address', isLoggedIn, isAdmin, prey);
   app.get('/trust/:address', isLoggedIn, isAdmin, trust);
 
-
 // =============================================================================
 // Notify ======================================================================
 // =============================================================================
@@ -49,12 +42,13 @@ module.exports = function(app, passport) {
   app.post('/notify/del', isLoggedIn, deleteNotification);
   app.post('/notify/seen', isLoggedIn, markSeen);
   app.post('/notify/togglelock', isLoggedIn, toggleLocked);
+  app.post('/notify', isLoggedIn, getMyNotifications);
 
 // =============================================================================
 // Command =====================================================================
 // =============================================================================
 
-//TODO: Document me!
+  // TODO: Document me!
   app.post('/command/issue', isLoggedIn, commandIssue);
   app.post('/command/shim/add/:address', isLoggedIn, commandShim);
 
@@ -62,7 +56,7 @@ module.exports = function(app, passport) {
 // Egg  ========================================================================
 // =============================================================================
 
-//TODO: Document me!
+  // TODO: Document me!
   app.post('/egg/install', isLoggedIn, eggInstall);
 
 // =============================================================================
@@ -110,11 +104,13 @@ module.exports = function(app, passport) {
   // PROFILE SECTION =========================
   app.post('/profile', isLoggedIn,
   function(req, res) {
-    if(debug) console.log(
-      chalk.cyan(
-        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /profile`
-      )
-    );
+    if (debug) {
+      console.log(
+        chalk.cyan(
+          `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /profile`
+        )
+      );
+    }
 
     res.jsonp(req.user);
   });
@@ -122,11 +118,13 @@ module.exports = function(app, passport) {
   // LOGOUT ==============================
   app.get('/logout',
   function(req, res) {
-    if(debug) console.log(
-      chalk.cyan(
-        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /logout`
-      )
-    );
+    if (debug) {
+      console.log(
+        chalk.cyan(
+          `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /logout`
+        )
+      );
+    }
 
     req.logout();
     res.redirect('/');
@@ -136,68 +134,70 @@ module.exports = function(app, passport) {
 // AUTHENTICATE (FIRST LOGIN) ==================================================
 // =============================================================================
 
-    // locally --------------------------------
+  // locally --------------------------------
 
-    // show the login form
-    app.get('/login',
-    function(req, res) {
-        res.render('login.ejs', { message: req.flash('loginMessage') });
-    });
+  // show the login form
+  app.get('/login',
+  function(req, res) {
+    res.render('login.ejs', {message: req.flash('loginMessage')});
+  });
 
-    // process the login form
-    app.post('/login', passport.authenticate('local-login'),
-    function(req, res) {
-      if(debug) console.log(
+  // process the login form
+  app.post('/login', passport.authenticate('local-login'),
+  function(req, res) {
+    if (debug) {
+      console.log(
         chalk.cyan(
           `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /login`
         )
       );
+    }
 
-      if( req.user ) {
-        res.status(200).jsonp({
-          success: 'Successfully logged in.'
-        });
-      } else {
-        res.status(500).jsonp({error: 'Failed to authenticate'});
-      }
-    });
+    if (req.user) {
+      res.status(200).jsonp({
+        success: 'Successfully logged in.'
+      });
+    } else {
+      res.status(500).jsonp({error: 'Failed to authenticate'});
+    }
+  });
 
-    // SIGNUP =================================
-    // show the signup form
-    app.get('/signup',
-    function(req, res) {
-        res.render('signup.ejs', { message: req.flash('signupMessage') });
-    });
-    // process the signup form
-    app.post('/signup', passport.authenticate('local-signup'),
-    function(req, res) {
-      if( req.user ) {
-        res.status(200).jsonp({
-          success: 'Successfully signed up.'
-        });
-      } else {
-        res.status(500).jsonp({error: 'Failed to sign up.'});
-      }
-    });
-
+  // SIGNUP =================================
+  // show the signup form
+  app.get('/signup',
+  function(req, res) {
+    res.render('signup.ejs', {message: req.flash('signupMessage')});
+  });
+  // process the signup form
+  app.post('/signup', passport.authenticate('local-signup'),
+  function(req, res) {
+    if (req.user) {
+      res.status(200).jsonp({
+        success: 'Successfully signed up.'
+      });
+    } else {
+      res.status(500).jsonp({error: 'Failed to sign up.'});
+    }
+  });
 
 // =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
 // =============================================================================
 
-    // locally --------------------------------
-    app.get('/connect/local',
-    function(req, res) {
-        res.render('connect-local.ejs', { message: req.flash('loginMessage') });
-    });
+  // locally --------------------------------
+  app.get('/connect/local',
+  function(req, res) {
+    res.render('connect-local.ejs', {message: req.flash('loginMessage')});
+  });
 
-    app.post('/connect/local', passport.authenticate('local-signup', {
-        successRedirect : '/profile', // redirect to the secure profile section
-        failureRedirect : '/connect/local', // redirect back to the signup page if there is an error
-        failureFlash : true // allow flash messages
-    }));
-
-
+  app.post('/connect/local', passport.authenticate('local-signup', {
+    // redirect to the secure profile section
+    successRedirect: '/profile',
+    // redirect back to the signup page if there is an error
+    failureRedirect: '/connect/local',
+    // allow flash messages
+    failureFlash: true
+  }));
 
 // =============================================================================
 // UNLINK ACCOUNTS =============================================================
@@ -206,17 +206,19 @@ module.exports = function(app, passport) {
 // for local account, remove email and password
 // user account will stay active in case they want to reconnect in the future
 
-    // local -----------------------------------
-    app.get('/unlink/local', isLoggedIn,
-    function(req, res) {
-        let user            = req.user;
-        user.local.email    = undefined;
-        user.local.password = undefined;
-        user.save(function(err) {
-            res.redirect('/profile');
-        });
+  // local -----------------------------------
+  app.get('/unlink/local', isLoggedIn,
+  function(req, res) {
+    let user = req.user;
+    user.local.email = undefined;
+    user.local.password = undefined;
+    user.save(function(err) {
+      if (err) {
+        console.warn(err);
+      }
+      res.redirect('/profile');
     });
-
+  });
 };
 
 // =============================================================================
@@ -225,20 +227,21 @@ module.exports = function(app, passport) {
 
 // route middleware to ensure user is logged in
 function isAdmin(req, res, next) {
-    if(req.user.isAdmin) {
-      return next();
-    }
-    res.status(401).jsonp({
-      error: 'You must be an admin to tap this powerline.'
-    });
+  if (req.user.isAdmin) {
+    return next();
+  }
+  res.status(401).jsonp({
+    error: 'You must be an admin to tap this powerline.'
+  });
 }
 
 // route middleware to ensure user is logged in
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())
-        return next();
+  if (req.isAuthenticated()) {
+    return next();
+  }
 
-    res.status(401).jsonp({
-      error: 'You must be logged in to tap this powerline.'
-    });
+  res.status(401).jsonp({
+    error: 'You must be logged in to tap this powerline.'
+  });
 }

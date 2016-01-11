@@ -11,31 +11,40 @@ const {
 const chalk = require('chalk');
 
 const payAdd = function(req, res) {
-  if(debug) console.log(
-    chalk.cyan(
-      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /pay/credit/add`
-    )
-  );
+  if (debug) {
+    console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /pay/credit/add`
+      )
+    );
+  }
 
   let options = req.body;
   options.email = req.user.local.email;
 
-  addCredits(options, (response) => {
+  addCredits(options, (err, response) => {
+    if (err) {
+      console.warn(err);
+    }
     res.status(response.status).jsonp(response.data);
   });
 };
 
 const payDel = function(req, res) {
-  if(debug) console.log(
-    chalk.cyan(
-      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /pay/credit/del`
-    )
-  );
-
+  if (debug) {
+    console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /pay/credit/del`
+      )
+    );
+  }
   let options = req.body;
   options.email = req.user.local.email;
 
-  delCredits(options, (response) => {
+  delCredits(options, (err, response) => {
+    if (err) {
+      console.warn(err);
+    }
     res.status(response.status).jsonp(response.data);
   });
 };

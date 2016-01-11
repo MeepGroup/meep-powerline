@@ -28,26 +28,35 @@ module.exports = class Notify {
       options.from : 'System';
   }
 
-  delete() {
-    const query = Notification.find({ uuid: this.uuid });
+  delete(callback) {
+    const query = Notification.find({uuid: this.uuid});
     query.findOne((error, noti) => {
-      if(error) console.log(chalk.red(error));
-      if(noti) {
+      if (error) {
+        console.warn(
+          chalk.red(error)
+        );
+      }
+      if (noti) {
         noti.seen = true;
 
-        noti.remove((err) => {
-          if(err) callback({
-            error: err
-          });
+        noti.remove(err => {
+          if (err) {
+            callback(new Error(
+              'error removing notification',
+              'notify/notification.js',
+              '42'
+            ), {
+              error: err
+            });
+          }
 
-          callback({
+          callback(false, {
             status: 200,
             success: 'Successfully deleted notification.'
           });
         });
-
       } else {
-        callback({
+        callback(false, {
           status: 404,
           error: 'Notification not found.'
         });
@@ -67,38 +76,44 @@ module.exports = class Notify {
       from: this.from
     });
 
-    noti.save((err) => {
-      if(err) callback({
-        error: err
-      });
+    noti.save(err => {
+      if (err) {
+        callback(err, {
+          error: err
+        });
+      }
 
-      callback({
+      callback(false, {
         status: 200,
-        success: 'Successfully dispatched a new notification.'
+        success: 'Successfully dispatched a new notification.',
+        noti: noti
       });
     });
   }
 
   markSeen(callback) {
-    const query = Notification.find({ uuid: this.uuid });
+    const query = Notification.find({uuid: this.uuid});
     query.findOne((error, noti) => {
-      if(error) console.log(chalk.red(error));
-      if(noti) {
+      if (error) {
+        console.warn(chalk.red(error));
+      }
+      if (noti) {
         noti.seen = true;
 
-        noti.save((err) => {
-          if(err) callback({
-            error: err
-          });
+        noti.save(err => {
+          if (err) {
+            callback(err, {
+              error: err
+            });
+          }
 
-          callback({
+          callback(false, {
             status: 200,
             success: 'Successfully marked notification as seeen.'
           });
         });
-
       } else {
-        callback({
+        callback(false, {
           status: 404,
           error: 'Notification not found.'
         });
@@ -106,24 +121,27 @@ module.exports = class Notify {
     });
   }
 
-  togglelocked() {
-    const query = Notification.find({ uuid: this.uuid });
+  togglelocked(callback) {
+    const query = Notification.find({uuid: this.uuid});
     query.findOne((error, noti) => {
-      if(error) console.log(chalk.red(error));
-      if(noti) {
+      if (error) {
+        console.log(chalk.red(error));
+      }
+      if (noti) {
         noti.locked = !noti.locked;
 
-        noti.save((err) => {
-          if(err) callback({
-            error: err
-          });
+        noti.save(err => {
+          if (err) {
+            callback(err, {
+              error: err
+            });
+          }
 
           callback({
             status: 200,
             success: `Successfully marked notification locked to ${noti.locked}.`
           });
         });
-
       } else {
         callback({
           status: 404,
@@ -132,5 +150,4 @@ module.exports = class Notify {
       }
     });
   }
-
-}
+};

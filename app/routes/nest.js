@@ -11,84 +11,113 @@ const {
 const chalk = require('chalk');
 
 const nestAddrole = function(req, res) {
-  if(debug) console.log(
-    chalk.cyan(
-      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/addrole`
-    )
-  );
+  if (debug) {
+    console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/addrole`
+      )
+    );
+  }
 
   let options = req.body;
   options.owner = req.user.local.email;
 
-  addrole(options, (response) => {
+  addrole(options, (err, response) => {
+    if (err) {
+      console.warn(err);
+    }
     res.status(response.status).jsonp(response.data);
   });
 };
 
 const nestRevokerole = function(req, res) {
-  if(debug) console.log(chalk.cyan(`[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/revokerole`));
-
+  if (debug) {
+    console.log(chalk.cyan(`[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/revokerole`));
+  }
   let options = req.body;
   options.owner = req.user.local.email;
 
-  revokerole(options, (response) => {
+  revokerole(options, (err, response) => {
+    if (err) {
+      console.warn(err);
+    }
     res.status(response.status).jsonp(response.data);
   });
 };
 
 const nestRegister = function(req, res) {
-  if(debug) console.log(
-    chalk.cyan(
-      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/register`
-    )
-  );
+  if (debug) {
+    console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/register`
+      )
+    );
+  }
 
   let options = req.body;
   options.owner = req.user.local.email;
 
-  registerNest(options, (response) => {
+  registerNest(options, (err, response) => {
+    if (err) {
+      console.warn(err);
+    }
     res.status(response.status).jsonp(response.data);
   });
 };
 
 const nestProvision = function(req, res) {
-  if(debug) console.log(
-    chalk.cyan(
-      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/provision`
-    )
-  );
+  if (debug) {
+    console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/provision`
+      )
+    );
+  }
 
   let options = req.body;
   options.owner = req.user.local.email;
 
-  provision(options, (response) => {
+  provision(options, (err, response) => {
+    if (err) {
+      console.warn(err);
+    }
     res.status(response.status).jsonp(response.data);
   });
 };
 
 const nestMyNests = function(req, res) {
-  if(debug) console.log(
-    chalk.cyan(
-      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/mynests`
-    )
-  );
+  if (debug) {
+    console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/mynests`
+      )
+    );
+  }
 
   let options = {
     owner: req.user.local.email
   };
-  myNests(options, (response) => {
+  myNests(options, (err, response) => {
+    if (err) {
+      console.warn(err);
+    }
     res.status(response.status).jsonp(response.data);
   });
 };
 
 const nestPrey = function(req, res) {
-  if(debug) console.log(
-    chalk.cyan(
-      `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/prey`
-    )
-  );
+  if (debug) {
+    console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/prey`
+      )
+    );
+  }
 
-  viewNest(req.body, (response) => {
+  viewNest(req.body, (err, response) => {
+    if (err) {
+      console.warn(err);
+    }
     res.status(response.status).jsonp(response.data);
   });
 };
@@ -100,4 +129,4 @@ module.exports = {
   nestProvision,
   nestMyNests,
   nestPrey
-}
+};

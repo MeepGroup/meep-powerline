@@ -1,7 +1,6 @@
 'use strict';
 
 const mongoose = require('mongoose');
-const provision = require('meep-provision');
 
 let Nest = mongoose.model('Nest');
 
@@ -10,22 +9,28 @@ let Nest = mongoose.model('Nest');
  * @param {object} options - options
  * @param {string} options.owner - The owner of the nest.
  * @param {object} options.address - The address of the server.
+ * @param {function} callback - err, Response
  */
 const viewNest = function(options, callback) {
   let query = Nest.findOne({
-    'address': options.address
+    address: options.address
   });
 
-  query.find(function (err, nests) {
+  query.find(function(err, nests) {
+    if (err) {
+      callback(new Error(
+        'Unknown Mongoose issue.',
+        'nest/viewNest.js',
+        '19'
+      ), {});
+    }
 
-    if (err) return handleError(err);
-
-    if(nests.length) {
+    if (nests.length) {
       let nest = nests[0];
       nest.password = 'REDACTED';
-      callback({status: 200, data: nest});
-    }else {
-      callback({status: 404, data: {
+      callback(false, {status: 200, data: nest});
+    } else {
+      callback(false, {status: 404, data: {
         error: `Nest not found!`
       }});
     }

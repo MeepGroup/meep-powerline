@@ -28,7 +28,9 @@
     "request": "^2.67.0",
     "uuid": "^2.0.1"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "eslint-config-google": "^0.3.0"
+  },
   "scripts": {
     "test": "jasmine-node-karma test/",
     "start": "node --harmony-destructuring powerline.js"
