@@ -20,6 +20,7 @@ const nestSchema = mongoose.Schema({
   address: String,
   user: String,
   port: Number,
+  details: Object,
   // We need to salt and hash this
   password: String,
   eggs: Array,

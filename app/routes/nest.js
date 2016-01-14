@@ -56,7 +56,7 @@ const nestRegister = function(req, res) {
 
   let options = req.body;
   options.owner = req.user.local.email;
-
+  
   registerNest(options, (err, response) => {
     if (err) {
       console.warn(err);

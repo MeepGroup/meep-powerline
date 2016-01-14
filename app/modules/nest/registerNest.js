@@ -37,6 +37,13 @@ const registerNest = function(options, callback) {
         registeredAt: Date.now(),
         user: options.user,
         address: options.address,
+        details: {
+          os: options.os,
+          provider: options.provider,
+          package: options.package,
+          location: options.location,
+          network: options.network
+        },
         name: options.name,
         port: options.port,
         roles: {
