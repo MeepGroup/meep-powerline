@@ -44,7 +44,8 @@ const addRole = function(options, callback) {
             ), {
               status: 500,
               data: {
-                error: `User ${options.user} already exists in group ${options.role}.`
+                error: `User ${options.user} already exists in group
+                  ${options.role}.`
               }
             });
           } else {
@@ -59,7 +60,8 @@ const addRole = function(options, callback) {
               }
 
               let noti = new Notify({
-                message: `${options.user} has been added to the role ${options.role} on your nest: ${nest.address}.`,
+                message: `${options.user} has been added to the role
+                  ${options.role} on your nest: ${nest.address}.`,
                 assignee: nest.roles.owner
               });
 
@@ -70,7 +72,8 @@ const addRole = function(options, callback) {
               callback(false, {
                 status: 200,
                 data: {
-                  success: `User ${options.user} added to group ${options.role}.`
+                  success: `User ${options.user} added to group
+                    ${options.role}.`
                 }
               });
             });

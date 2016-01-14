@@ -3,8 +3,14 @@
 const mongoose = require('mongoose');
 const provision = require('meep-provision');
 const uuid = require('uuid');
+const request = require('request');
+const chalk = require('chalk');
 
 const Notify = require('../notify').Notify;
+
+const {
+ apiAddr, debug
+} = require('../../../config/global.js');
 
 let Nest = mongoose.model('Nest');
 
@@ -31,6 +37,23 @@ const provisionServer = function(options, callback) {
     if (nests.length) {
       let nest = nests[0];
       if (nest.roles.owner === options.owner) {
+        /* eslint-disable no-unused-vars */
+        request(`${apiAddr}:3001/trust/${options.address}`,
+        function(error, response, body) {
+        /* eslint-enable no-unused-vars */
+          if (error) {
+            console.warn(err);
+          } else {
+            if (debug) {
+              console.log(
+                chalk.yellow(
+                  `New address trusted: ${options.address}`
+                )
+              );
+            }
+          }
+        });
+
         callback(false, {status: 200, data: {
           success: `Nest provision has started please check status at /nest/find
             providing the provision_token `,
