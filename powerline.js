@@ -35,7 +35,9 @@ app.use(cors({
     'http://192.168.1.100:3005/',
     'http://localhost',
     'http://localhost:3004',
-    'http://localhost:3004/'
+    'http://localhost:3004/',
+    'https://gomeep.com',
+    'https://gomeep.com/'
   ],
   credentials: true
 }));
