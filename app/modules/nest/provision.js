@@ -37,23 +37,6 @@ const provisionServer = function(options, callback) {
     if (nests.length) {
       let nest = nests[0];
       if (nest.roles.owner === options.owner) {
-        /* eslint-disable no-unused-vars */
-        request(`${apiAddr}:3001/trust/${options.address}`,
-        function(error, response, body) {
-        /* eslint-enable no-unused-vars */
-          if (error) {
-            console.warn(err);
-          } else {
-            if (debug) {
-              console.log(
-                chalk.yellow(
-                  `New address trusted: ${options.address}`
-                )
-              );
-            }
-          }
-        });
-
         callback(false, {status: 200, data: {
           success: `Nest provision has started please check status at /nest/find
             providing the provision_token `,
@@ -68,6 +51,7 @@ const provisionServer = function(options, callback) {
         nest.save();
 
         provision({
+          meepConfig: options.meepConfig,
           server: {
             host: nest.address,
             port: nest.port,
