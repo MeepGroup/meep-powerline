@@ -98,7 +98,7 @@ const nestProvision = function(req, res) {
   let options = req.body;
   options.owner = req.user.local.email;
   options.meepConfig = meepConfig(req.body.address);
-
+  console.log(meepConfig(req.body.address));
   provision(options, (err, response) => {
     if (err) {
       console.warn(err);

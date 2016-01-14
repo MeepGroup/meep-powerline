@@ -1,5 +1,5 @@
 module.exports = function(address) {
-  return `
+  return (`
   module.exports = {
     meepDir: '~/.meep',
     master: false,
@@ -8,5 +8,5 @@ module.exports = function(address) {
       myAddress: '${address}'
     }
   };
-  `;
+  `);
 };
