@@ -66,10 +66,7 @@ const getMyNotifications = function(req, res) {
     if (notifications && notifications.length) {
       res.status(200).jsonp(notifications);
     } else {
-      res.status(404).jsonp({
-        status: 404,
-        error: 'You\'ve got no notifications'
-      });
+      res.status(200).jsonp({});
     }
   });
 };
