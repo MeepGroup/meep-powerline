@@ -13,6 +13,7 @@ const install = require('./egg/install.js');
 const getAuthKey = require('./command/getAuthKey.js');
 const registerShim = require('./command/registerShim.js');
 const Notify = require('./notify/notification.js');
+const hawk = require('./nest/hawk.js');
 
 module.exports = {
   registerEgg,
@@ -29,5 +30,6 @@ module.exports = {
   install,
   getAuthKey,
   registerShim,
-  Notify
+  Notify,
+  hawk
 };

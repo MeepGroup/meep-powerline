@@ -17,7 +17,7 @@ const {eggInstall} = require('./routes/egg.js');
 const {payAdd, payDel} = require('./routes/pay.js');
 const {
   nestAddrole, nestRevokerole, nestProvision, nestRegister, nestMyNests,
-  nestPrey
+  nestPrey, nestHawk
 } = require('./routes/nest.js');
 const {
   registryRegister, registryList, registryFind
@@ -75,6 +75,7 @@ module.exports = function(app, passport) {
   app.post('/nest/register', isLoggedIn, nestRegister);
   app.post('/nest/provision', isLoggedIn, nestProvision);
   app.get('/nest/mynests', isLoggedIn, nestMyNests);
+  app.post('/nest/hawk', isLoggedIn, nestHawk);
   // different from /prey, /nest/prey shows database data, such as stats.
   app.post('/nest/prey', isLoggedIn, isAdmin, nestPrey);
 

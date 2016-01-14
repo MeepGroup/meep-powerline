@@ -28,6 +28,7 @@ const nestSchema = mongoose.Schema({
   progress: Array,
   authKey: String,
   shims: Array,
+  usage: Object,
   roles: {
     owner: String,
     admins: {type: Array, default: []},
