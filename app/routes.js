@@ -75,7 +75,7 @@ module.exports = function(app, passport) {
   app.post('/nest/register', isLoggedIn, nestRegister);
   app.post('/nest/provision', isLoggedIn, nestProvision);
   app.get('/nest/mynests', isLoggedIn, nestMyNests);
-  app.post('/nest/hawk', isLoggedIn, nestHawk);
+  app.post('/nest/hawk', nestHawk);
   // different from /prey, /nest/prey shows database data, such as stats.
   app.post('/nest/prey', isLoggedIn, isAdmin, nestPrey);
 
