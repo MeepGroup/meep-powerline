@@ -46,25 +46,6 @@ const config = function(req, res) {
   });
 };
 
-const prey = function(req, res) {
-  if (debug) {
-    console.log(
-      chalk.cyan(
-        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /prey/${req.params.address}`
-      )
-    );
-  }
-
-  request(`${apiAddr}:3000/prey/${req.params.address}`,
-  function(error, response, body) {
-    if (error) {
-      res.status(500).jsonp(error);
-    } else {
-      res.jsonp(JSON.parse(body));
-    }
-  });
-};
-
 const root = function(req, res) {
   res.jsonp({
     status: 200
@@ -100,7 +81,6 @@ const trust = function(req, res) {
 module.exports = {
   status,
   config,
-  prey,
   trust,
   root
 };

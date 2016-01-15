@@ -11,7 +11,7 @@ const {
   debug
 } = require('../config/global.js');
 
-const {status, config, prey, trust, root} = require('./routes/core.js');
+const {status, config, trust, root} = require('./routes/core.js');
 const {commandIssue, commandShim} = require('./routes/command.js');
 const {eggInstall} = require('./routes/egg.js');
 const {payAdd, payDel} = require('./routes/pay.js');
@@ -31,8 +31,6 @@ module.exports = function(app, passport) {
 
   app.get('/status', status);
   app.get('/config', isLoggedIn, isAdmin, config);
-  app.get('/prey/:address', isLoggedIn, isAdmin, prey);
-  app.get('/trust/:address', isLoggedIn, isAdmin, trust);
 
 // =============================================================================
 // Notify ======================================================================
