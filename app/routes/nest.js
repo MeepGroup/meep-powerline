@@ -1,14 +1,35 @@
 'use strict';
 
 const {
-  addrole, revokerole, registerNest, provision, myNests, viewNest
+  addrole, revokerole, registerNest, provision, myNests, viewNest, hawk
 } = require('../modules/');
+
+const meepConfig = require('../../config/meepConfig.js');
 
 const {
   debug
 } = require('../../config/global.js');
 
 const chalk = require('chalk');
+
+const nestHawk = function(req, res) {
+  if (debug) {
+    console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/hawk`
+      )
+    );
+  }
+
+  let options = req.body;
+
+  hawk(options, (err, response) => {
+    if (err) {
+      console.warn(err);
+    }
+    res.status(response.status).jsonp(response.data);
+  });
+};
 
 const nestAddrole = function(req, res) {
   if (debug) {
@@ -56,7 +77,7 @@ const nestRegister = function(req, res) {
 
   let options = req.body;
   options.owner = req.user.local.email;
-  
+
   registerNest(options, (err, response) => {
     if (err) {
       console.warn(err);
@@ -76,7 +97,8 @@ const nestProvision = function(req, res) {
 
   let options = req.body;
   options.owner = req.user.local.email;
-
+  options.meepConfig = meepConfig(req.body.address);
+  console.log(meepConfig(req.body.address));
   provision(options, (err, response) => {
     if (err) {
       console.warn(err);
@@ -128,5 +150,6 @@ module.exports = {
   nestRegister,
   nestProvision,
   nestMyNests,
-  nestPrey
+  nestPrey,
+  nestHawk
 };

@@ -11,13 +11,13 @@ const {
   debug
 } = require('../config/global.js');
 
-const {status, config, prey, trust, root} = require('./routes/core.js');
+const {status, config, trust, root} = require('./routes/core.js');
 const {commandIssue, commandShim} = require('./routes/command.js');
 
 const {payAdd, payDel} = require('./routes/pay.js');
 const {
   nestAddrole, nestRevokerole, nestProvision, nestRegister, nestMyNests,
-  nestPrey
+  nestPrey, nestHawk
 } = require('./routes/nest.js');
 
 const {daemon} = require('./routes/daemon.js');
@@ -29,8 +29,6 @@ module.exports = function(app, passport) {
 
   app.get('/status', status);
   app.get('/config', isLoggedIn, isAdmin, config);
-  app.get('/prey/:address', isLoggedIn, isAdmin, prey);
-  app.get('/trust/:address', isLoggedIn, isAdmin, trust);
 
 // =============================================================================
 // Notify ======================================================================
@@ -66,6 +64,7 @@ module.exports = function(app, passport) {
   app.post('/nest/register', isLoggedIn, nestRegister);
   app.post('/nest/provision', isLoggedIn, nestProvision);
   app.get('/nest/mynests', isLoggedIn, nestMyNests);
+  app.post('/nest/hawk', nestHawk);
   // different from /prey, /nest/prey shows database data, such as stats.
   app.post('/nest/prey', isLoggedIn, isAdmin, nestPrey);
 
