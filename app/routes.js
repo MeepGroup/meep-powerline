@@ -13,15 +13,13 @@ const {
 
 const {status, config, prey, trust, root} = require('./routes/core.js');
 const {commandIssue, commandShim} = require('./routes/command.js');
-const {eggInstall} = require('./routes/egg.js');
+
 const {payAdd, payDel} = require('./routes/pay.js');
 const {
   nestAddrole, nestRevokerole, nestProvision, nestRegister, nestMyNests,
   nestPrey
 } = require('./routes/nest.js');
-const {
-  registryRegister, registryList, registryFind
-} = require('./routes/registry.js');
+
 const {daemon} = require('./routes/daemon.js');
 
 module.exports = function(app, passport) {
@@ -53,13 +51,6 @@ module.exports = function(app, passport) {
   app.post('/command/shim/add/:address', isLoggedIn, commandShim);
 
 // =============================================================================
-// Egg  ========================================================================
-// =============================================================================
-
-  // TODO: Document me!
-  app.post('/egg/install', isLoggedIn, eggInstall);
-
-// =============================================================================
 // Pay   =======================================================================
 // =============================================================================
 
@@ -77,17 +68,6 @@ module.exports = function(app, passport) {
   app.get('/nest/mynests', isLoggedIn, nestMyNests);
   // different from /prey, /nest/prey shows database data, such as stats.
   app.post('/nest/prey', isLoggedIn, isAdmin, nestPrey);
-
-// =============================================================================
-// Registry ====================================================================
-// =============================================================================
-
-  // Register eggs
-  app.get('/registry/register', isLoggedIn, isAdmin, registryRegister);
-
-  app.post('/registry/register', isLoggedIn, isAdmin, registryRegister);
-  app.get('/registry/list', isLoggedIn, registryList);
-  app.post('/registry/find', isLoggedIn, registryFind);
 
 // =============================================================================
 // Daemon  =====================================================================
