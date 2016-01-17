@@ -11,24 +11,29 @@ const {
   debug
 } = require('../config/global.js');
 
-const {status, config, trust, root} = require('./routes/core.js');
+const {root} = require('./routes/core.js');
 const {commandIssue, commandShim} = require('./routes/command.js');
 
 const {payAdd, payDel} = require('./routes/pay.js');
 const {
   nestAddrole, nestRevokerole, nestProvision, nestRegister, nestMyNests,
-  nestPrey, nestHawk
+  nestPrey, nestHawk, nestInstall
 } = require('./routes/nest.js');
+
+const {
+  registryRegister, registryAll, registryFind
+} = require('./routes/registry.js');
 
 const {daemon} = require('./routes/daemon.js');
 
 module.exports = function(app, passport) {
 // =============================================================================
-// Core ========================================================================
+// Registry ====================================================================
 // =============================================================================
 
-  app.get('/status', status);
-  app.get('/config', isLoggedIn, isAdmin, config);
+  app.post('/registry/register', isLoggedIn, isAdmin, registryRegister);
+  app.post('/registry/all', isLoggedIn, registryAll);
+  app.post('/registry/find', isLoggedIn, registryFind);
 
 // =============================================================================
 // Notify ======================================================================
@@ -65,8 +70,8 @@ module.exports = function(app, passport) {
   app.post('/nest/provision', isLoggedIn, nestProvision);
   app.get('/nest/mynests', isLoggedIn, nestMyNests);
   app.post('/nest/hawk', nestHawk);
-  // different from /prey, /nest/prey shows database data, such as stats.
   app.post('/nest/prey', isLoggedIn, isAdmin, nestPrey);
+  app.post('/nest/install', isLoggedIn, nestInstall);
 
 // =============================================================================
 // Daemon  =====================================================================

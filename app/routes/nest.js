@@ -1,7 +1,7 @@
 'use strict';
 
 const {
-  addrole, revokerole, registerNest, provision, myNests, viewNest, hawk
+  addrole, revokerole, registerNest, provision, myNests, viewNest, hawk, install
 } = require('../modules/');
 
 const meepConfig = require('../../config/meepConfig.js');
@@ -24,6 +24,26 @@ const nestHawk = function(req, res) {
   let options = req.body;
 
   hawk(options, (err, response) => {
+    if (err) {
+      console.warn(err);
+    }
+    res.status(response.status).jsonp(response.data);
+  });
+};
+
+const nestInstall = function(req, res) {
+  if (debug) {
+    console.log(
+      chalk.cyan(
+        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /nest/hawk`
+      )
+    );
+  }
+
+  let options = req.body;
+  options.owner = req.user.local.email;
+
+  install(options, (err, response) => {
     if (err) {
       console.warn(err);
     }
@@ -151,5 +171,6 @@ module.exports = {
   nestProvision,
   nestMyNests,
   nestPrey,
-  nestHawk
+  nestHawk,
+  nestInstall
 };

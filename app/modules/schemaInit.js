@@ -1,16 +1,17 @@
 'use strict';
 const mongoose = require('mongoose');
 
-const eggSchema = mongoose.Schema({
+const yolkSchema = mongoose.Schema({
+  registeredAt: Date,
   name: String,
   version: String,
-  egg: Object
+  module: Object
 });
 
-mongoose.model('Egg', eggSchema);
+mongoose.model('Yolk', yolkSchema);
 
 const nestSchema = mongoose.Schema({
-  registered_at: Date,
+  registeredAt: Date,
   name: String,
   OS: String,
   provisioned: Boolean,

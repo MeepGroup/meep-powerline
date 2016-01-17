@@ -1,6 +1,7 @@
-const Yolk = require('./yolk-transpiler.js');
+'use strict';
+const Yolk = require('./yolk_transpiler.js');
 
-const git_ubuntu = new Yolk(`
+const mongo_ubuntu = new Yolk(`
 sudo apt-get update
 sudo apt-get install -y mongodb mongodb-server
 `,
@@ -10,3 +11,4 @@ sudo apt-get install -y mongodb mongodb-server
   'restart': 'sudo service mongod restart'
 ]
 );
+module.exports = mongo_ubuntu;
