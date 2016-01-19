@@ -47,6 +47,8 @@ const install = function(options, callback) {
                   nest.progress = [0, tasks.length];
                   nest.save();
 
+                  nest.eggs.push(yolk);
+
                   new EggFile({
                     server: {
                       host: nest.address,
