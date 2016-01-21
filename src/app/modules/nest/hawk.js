@@ -10,7 +10,7 @@ let Nest = mongoose.model('Nest');
  * @param {string} options.address - The address of the server.
  * @param {string} options.authKey - AuthKey for this server.
  * @param {string} options.data - The user to add to the role group.
- * @param {function} callback - Response sent here.
+ * @return {promise} promise - Returns new promise.
  */
 const hawk = function(options) {
   return new Promise((resolve, reject) => {

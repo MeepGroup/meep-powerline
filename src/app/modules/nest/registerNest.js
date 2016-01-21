@@ -12,7 +12,7 @@ let Nest = mongoose.model('Nest');
  * @param {number} options.port - The port for the server.
  * @param {string} options.owner - The owner of the server.
  * @param {string} options.password - The password for the server.
- * @param {funciton} callback - Err response
+ * @return {promise} promise - Returns new promise.
  */
 const registerNest = function(options) {
   return new Promise((resolve, reject) => {

@@ -10,9 +10,9 @@ let Yolk = mongoose.model('Yolk');
  * @param {string} options.name - The name of the Yolk
  * @param {string} options.version - The version of the Yolk
  * @param {number} options.module - The module which should be used.
- * @param {funciton} callback - Err response
+ * @return {promise} promise - Returns new promise.
  */
-const register = function(options, callback) {
+const register = function(options) {
   return new Promise((resolve, reject) => {
     let query = Yolk.findOne({name: options.name, version: options.version});
     if (options.name && options.version && options.module) {

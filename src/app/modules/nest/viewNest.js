@@ -9,9 +9,9 @@ let Nest = mongoose.model('Nest');
  * @param {object} options - options
  * @param {string} options.owner - The owner of the nest.
  * @param {object} options.address - The address of the server.
- * @param {function} callback - err, Response
+ * @return {promise} promise - Returns new promise.
  */
-const viewNest = async function(options) {
+const viewNest = function(options) {
   return new Promise((resolve, reject) => {
     let query = Nest.findOne({
       address: options.address

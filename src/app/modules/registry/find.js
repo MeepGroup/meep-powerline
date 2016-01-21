@@ -8,6 +8,7 @@ let Yolk = mongoose.model('Yolk');
  * @name find
  * @param {object} options - Query options (name / version)
  * @param {funciton} callback - Err response
+ * @return {promise} promise - Returns new promise
  */
 const find = function(options) {
   return new Promise((resolve, reject) => {
@@ -21,10 +22,22 @@ const find = function(options) {
             '20'
           ));
         }
+        let transpiled = {};
+
+        if (yolks[0].module) {
+          let module = require(`../../../yolks/${yolks[0].module}.yolk.js`);
+          module.transpile((tasks, translator) => {
+            transpiled = {
+              tasks,
+              translator
+            };
+          });
+        }
         resolve({
           status: 200,
           data: {
-            yolks: yolks
+            yolk: yolks[0],
+            module: transpiled
           }
         });
       });

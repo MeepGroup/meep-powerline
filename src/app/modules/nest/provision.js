@@ -19,7 +19,7 @@ let Nest = mongoose.model('Nest');
  * @param {object} options - options
  * @param {object} options.server - Server address to provision.
  * @param {object} options.owner - Owner of the server.
- * @param {function} callback - Err, response
+ * @return {promise} promise - Returns new promise.
  */
 const provisionServer = function(options) {
   return new Promise((resolve, reject) => {

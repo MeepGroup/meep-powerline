@@ -6,7 +6,7 @@ let Yolk = mongoose.model('Yolk');
 
 /** @function
  * @name all
- * @param {funciton} callback - Err response
+ * @return {promise} promise - Returns new promise.
  */
 const all = function() {
   return new Promise((resolve, reject) => {

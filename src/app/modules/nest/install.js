@@ -10,7 +10,7 @@ const Nest = mongoose.model('Nest');
 /** @function
  * @name install
  * @param {object} options - Query options (name / version)
- * @param {funciton} callback - Err response
+ * @return {promise} promise - Returns new promise.
  */
 const install = function(options) {
   return new Promise((resolve, reject) => {

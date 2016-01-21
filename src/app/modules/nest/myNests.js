@@ -7,7 +7,7 @@ let Nest = mongoose.model('Nest');
 /** @function
  * @name myNests
  * @param {object} options - Server information
- * @param {function} callback - Err / Response
+ * @return {promise} promise - Returns new promise.
  */
 const myNests = function(options) {
   return new Promise((resolve, reject) => {

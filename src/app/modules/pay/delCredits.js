@@ -8,7 +8,7 @@ let User = mongoose.model('User');
  * @param {object} options - Add credits options.
  * @param {string} options.email - user to del credits from.
  * @param {string} options.credits - The amount of credits to del.
- * @param {callback} callback - Returns success or error.
+ * @return {promise} promise - Returns new promise.
  */
 
 const delCredits = function(options) {

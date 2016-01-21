@@ -9,7 +9,7 @@ const Notify = require('../notify').Notify;
  * @param {object} options - Add credits options.
  * @param {string} options.email - user to add credits to.
  * @param {string} options.credits - The amount of credits to add.
- * @param {callback} callback - Returns success or error.
+ * @return {promise} promise - Returns new promise.
  */
 
 const addCredits = function(options) {

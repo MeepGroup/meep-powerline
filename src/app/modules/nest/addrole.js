@@ -12,7 +12,7 @@ let Nest = mongoose.model('Nest');
  * @param {string} options.owner - The owner of the server.
  * @param {string} options.roleType - The type of role to add user to.
  * @param {string} options.user - The user to add to the role group.
- * @param {function} callback - Response sent here.
+ * @return {promise} promise - Returns new promise.
  */
 const addRole = function(options) {
   return new Promise((resolve, reject) => {
