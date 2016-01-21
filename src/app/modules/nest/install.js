@@ -65,21 +65,18 @@ const install = function(options) {
                         nest.progress = [tickCount, total];
                         nest.save();
                       }
-                    }).hatch().expect('ls').match(new RegExp(/.*/),
-                    res => {
-                      if (typeof (res)) {
-                        nest.busy = false;
-                        nest.save();
+                    }).hatch().expect('ls').match(new RegExp(/.*/), () => {
+                      nest.busy = false;
+                      nest.save();
 
-                        let noti = new Notify({
-                          message: `${nest.address} has finished the installing ${yolk.name}, and is ready for use.`,
-                          assignee: nest.owner
-                        });
+                      let noti = new Notify({
+                        message: `${nest.address} has finished the installing ${yolk.name}, and is ready for use.`,
+                        assignee: nest.owner
+                      });
 
-                        noti.dispatch(data => {
-                          console.log(data);
-                        });
-                      }
+                      noti.dispatch(data => {
+                        console.log(data);
+                      });
                     });
 
                     resolve({
