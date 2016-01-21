@@ -65,14 +65,14 @@ const install = function(options) {
                         nest.progress = [tickCount, total];
                         nest.save();
                       }
-                    }).hatch().expect('node -v').match(new RegExp(/v4\..*\..*/),
+                    }).hatch().expect('ls').match(new RegExp(/.*/),
                     res => {
                       if (typeof (res)) {
                         nest.busy = false;
                         nest.save();
 
                         let noti = new Notify({
-                          message: `${nest.address} has finished the installing ${options.eggName}, and is ready for use.`,
+                          message: `${nest.address} has finished the installing ${yolk.name}, and is ready for use.`,
                           assignee: nest.owner
                         });
 

@@ -19,6 +19,7 @@ const all = function() {
           '20'
         ));
       }
+
       resolve({
         status: 200,
         data: {
