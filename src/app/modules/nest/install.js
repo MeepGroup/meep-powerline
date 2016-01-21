@@ -65,7 +65,7 @@ const install = function(options) {
                         nest.progress = [tickCount, total];
                         nest.save();
                       }
-                    }).hatch().expect('ls').match(new RegExp(/.*/), () => {
+                    }).hatch().expect('node -v').match(new RegExp(/.*/), () => {
                       nest.busy = false;
                       nest.save();
 
@@ -74,9 +74,7 @@ const install = function(options) {
                         assignee: nest.owner
                       });
 
-                      noti.dispatch(data => {
-                        console.log(data);
-                      });
+                      noti.dispatch(() => {});
                     });
 
                     resolve({
