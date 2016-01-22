@@ -37,60 +37,76 @@ const install = function(options) {
             } else {
               if (nests.length) {
                 let nest = nests[0];
-                if (nest.roles.owner === options.owner) {
-                  let yolkModule = require(`../../../yolks/${yolk.module}.yolk.js`);
-                  yolkModule.transpile((tasks, translator) => {
-                    let tickCount = 0;
+                // Check if nest yolks contain the name of this module anywhere
+                let dedupe = nest.eggs.filter(existingYolk => {
+                  if (existingYolk.name === yolk.name) {
+                    return existingYolk;
+                  }
+                });
 
-                    nest.busy = true;
-                    nest.save();
-
-                    nest.progress = [0, tasks.length];
-                    nest.save();
-
-                    nest.eggs.push(yolk);
-
-                    new EggFile({
-                      server: {
-                        host: nest.address,
-                        user: nest.user,
-                        password: nest.password,
-                        port: nest.port
-                      },
-                      tasks: tasks,
-                      test: true,
-                      tickCallback: (tick, total) => {
-                        tickCount += tick;
-                        // record the progress of the task for UI progress bar.
-                        nest.progress = [tickCount, total];
-                        nest.save();
-                      }
-                    }).hatch().expect('node -v').match(new RegExp(/.*/), () => {
-                      nest.busy = false;
-                      nest.save();
-
-                      let noti = new Notify({
-                        message: `${nest.address} has finished the installing ${yolk.name}, and is ready for use.`,
-                        assignee: nest.owner
-                      });
-
-                      noti.dispatch(() => {});
-                    });
-
-                    resolve({
-                      status: 200,
-                      data: {
-                        success: 'Egg hatching has started.'
-                      }
-                    });
-                  });
-                } else {
+                if (dedupe.length > 0) {
                   resolve({
-                    status: 500,
+                    status: 409,
                     data: {
-                      error: 'You do not own this nest.'
+                      success: 'Egg already installed.'
                     }
                   });
+                } else {
+                  if (nest.roles.owner === options.owner) {
+                    let yolkModule = require(`../../../yolks/${yolk.module}.yolk.js`);
+                    yolkModule.transpile((tasks, translator) => {
+                      let tickCount = 0;
+
+                      nest.busy = true;
+                      nest.save();
+
+                      nest.progress = [0, tasks.length];
+                      nest.save();
+
+                      nest.eggs.push(yolk);
+
+                      new EggFile({
+                        server: {
+                          host: nest.address,
+                          user: nest.user,
+                          password: nest.password,
+                          port: nest.port
+                        },
+                        tasks: tasks,
+                        test: true,
+                        tickCallback: (tick, total) => {
+                          tickCount += tick;
+                          // record the progress of the task for UI progress bar.
+                          nest.progress = [tickCount, total];
+                          nest.save();
+                        }
+                      }).hatch().expect('node -v').match(new RegExp(/.*/), () => {
+                        nest.busy = false;
+                        nest.save();
+
+                        let noti = new Notify({
+                          message: `${nest.address} has finished the installing ${yolk.name}, and is ready for use.`,
+                          assignee: nest.owner
+                        });
+
+                        noti.dispatch(() => {});
+                      });
+
+                      resolve({
+                        status: 200,
+                        data: {
+                          success: 'Egg hatching has started.'
+                        }
+                      });
+                    });
+                  } else {
+                    resolve({
+                      status: 500,
+                      data: {
+                        error: 'You do not own this nest.'
+                      }
+                    });
+                  }
                 }
               } else {
                 resolve({
