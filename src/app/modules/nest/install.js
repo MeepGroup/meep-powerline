@@ -38,12 +38,12 @@ const install = function(options) {
               if (nests.length) {
                 let nest = nests[0];
                 // Check if nest yolks contain the name of this module anywhere
+
                 let dedupe = nest.eggs.filter(existingYolk => {
                   if (existingYolk.name === yolk.name) {
                     return existingYolk;
                   }
                 });
-
                 if (dedupe.length > 0) {
                   resolve({
                     status: 409,
@@ -54,6 +54,13 @@ const install = function(options) {
                 } else {
                   if (nest.roles.owner === options.owner) {
                     let yolkModule = require(`../../../yolks/${yolk.module}.yolk.js`);
+                    resolve({
+                      status: 200,
+                      data: {
+                        success: 'Egg hatching has started.'
+                      }
+                    });
+
                     yolkModule.transpile((tasks, translator) => {
                       let tickCount = 0;
 
@@ -90,13 +97,6 @@ const install = function(options) {
                         });
 
                         noti.dispatch(() => {});
-                      });
-
-                      resolve({
-                        status: 200,
-                        data: {
-                          success: 'Egg hatching has started.'
-                        }
                       });
                     });
                   } else {
