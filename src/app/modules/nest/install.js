@@ -44,7 +44,6 @@ const install = function(options) {
 
                     nest.busy = true;
                     nest.save();
-
                     nest.progress = [0, tasks.length];
                     nest.save();
 
