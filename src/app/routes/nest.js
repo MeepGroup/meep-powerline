@@ -23,7 +23,7 @@ const nestHawk = async function(req, res) {
 
   let options = req.body;
 
-  let response = hawk(options);
+  let response = await hawk(options);
   res.status(response.status).jsonp(response.data);
 };
 
@@ -39,12 +39,8 @@ const nestInstall = async function(req, res) {
   let options = req.body;
   options.owner = req.user.local.email;
 
-  install(options, (err, response) => {
-    if (err) {
-      console.warn(err);
-    }
-    res.status(response.status).jsonp(response.data);
-  });
+  let response = await install(options);
+  res.status(response.status).jsonp(response.data);
 };
 
 const nestAddrole = async function(req, res) {
@@ -88,8 +84,6 @@ const nestRegister = async function(req, res) {
   options.owner = req.user.local.email;
 
   let response = await registerNest(options);
-
-  console.log(response);
   res.status(response.status).jsonp(response.data);
 };
 

@@ -1,11 +1,17 @@
 'use strict';
 
 const {
-  getAuthKey
+  exec
 } = require('../modules/');
 
-const {
-  debug
-} = require('../../config/global.js');
+const cmdExec = async function(req, res) {
+  let options = req.body;
+  options.email = req.user.local.email;
 
-const chalk = require('chalk');
+  let response = await exec(options);
+  res.status(response.status).jsonp(response);
+};
+
+module.exports = {
+  cmdExec
+};
