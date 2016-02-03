@@ -28,7 +28,7 @@ Powerline Manual:
 * [Registering a Nest](https://github.com/MeepGroup/meep-powerline/blob/master/docs/newNest.md)
 * [Reserved Ports](https://github.com/MeepGroup/meep-powerline/blob/master/docs/portReserve.md)
 
-## Developer Documentation
+## Apiary Documentation
 
 API Developer documentation can be found on apiary.io via the link below.
 
