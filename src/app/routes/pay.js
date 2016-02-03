@@ -4,21 +4,7 @@ const {
   addCredits, delCredits
 } = require('../modules/');
 
-const {
-  debug
-} = require('../../config/global.js');
-
-const chalk = require('chalk');
-
 const payAdd = async function(req, res) {
-  if (debug) {
-    console.log(
-      chalk.cyan(
-        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /pay/credit/add`
-      )
-    );
-  }
-
   let options = req.body;
   options.email = req.user.local.email;
 
@@ -27,13 +13,6 @@ const payAdd = async function(req, res) {
 };
 
 const payDel = async function(req, res) {
-  if (debug) {
-    console.log(
-      chalk.cyan(
-        `[${Date.now()}] Connection from ${req.connection.remoteAddress} at /pay/credit/del`
-      )
-    );
-  }
   let options = req.body;
   options.email = req.user.local.email;
 

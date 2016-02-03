@@ -10,6 +10,7 @@ const Nest = mongoose.model('Nest');
  * @param {string} options.owner - The owner of the server.
  * @param {string} options.address - The address of the server we'd like the authkey for.
  * @param {function} callback - Returns error if true, and data
+ * @return {promise} promise - Returns new promise.
  */
 const getAuthKey = function(options) {
   return new Promise((resolve, reject) => {

@@ -21,11 +21,15 @@ npm install
 npm start
 ```
 
+## Documentation
+
+Powerline Manual:
+* [Feature List](https://github.com/MeepGroup/meep-powerline/blob/master/docs/featureList.md)
+* [Registering a Nest](https://github.com/MeepGroup/meep-powerline/blob/master/docs/newNest.md)
+* [Reserved Ports](https://github.com/MeepGroup/meep-powerline/blob/master/docs/portReserve.md)
+
 ## Developer Documentation
 
-Developer documentation can be found on apiary.io via the link below.
+API Developer documentation can be found on apiary.io via the link below.
 
-http://docs.powerline.apiary.io/#
-
-Notice: Due to limitations with browser sessions you will not be able to test methods
-that require authentication right now. 
+http://docs.powerline.apiary.io/

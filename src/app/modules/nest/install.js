@@ -52,7 +52,9 @@ const install = function(options) {
                   });
                 } else {
                   if (nest.roles.owner === options.owner) {
-                    let yolkModule = require(`../../../yolks/${yolk.module}.yolk.js`);
+                    let yolkModule = require(
+                      `../../../yolks/${yolk.module}.yolk.js`
+                    );
                     resolve({
                       status: 200,
                       data: {
@@ -60,7 +62,7 @@ const install = function(options) {
                       }
                     });
 
-                    yolkModule.transpile((tasks, translator) => {
+                    yolkModule.transpile(tasks => {
                       let tickCount = 0;
 
                       nest.busy = true;
@@ -86,17 +88,20 @@ const install = function(options) {
                           nest.progress = [tickCount, total];
                           nest.save();
                         }
-                      }).hatch().expect('node -v').match(new RegExp(/.*/), () => {
-                        nest.busy = false;
-                        nest.save();
+                      }).hatch()
+                        .expect('node -v')
+                        .match(new RegExp(/.*/), () => {
+                          nest.busy = false;
+                          nest.save();
 
-                        let noti = new Notify({
-                          message: `${nest.address} has finished the installing ${yolk.name}, and is ready for use.`,
-                          assignee: nest.owner
+                          let noti = new Notify({
+                            message:
+`${nest.address} has finished the installing ${yolk.name}.`,
+                            assignee: nest.owner
+                          });
+
+                          noti.dispatch(() => {});
                         });
-
-                        noti.dispatch(() => {});
-                      });
                     });
                   } else {
                     resolve({

@@ -20,10 +20,12 @@ const {
 } = require('./routes/nest.js');
 
 const {
+  cmdExec
+} = require('./routes/command.js');
+
+const {
   registryRegister, registryAll, registryFind
 } = require('./routes/registry.js');
-
-const {daemon} = require('./routes/daemon.js');
 
 module.exports = function(app, passport) {
 // =============================================================================
@@ -63,12 +65,7 @@ module.exports = function(app, passport) {
   app.post('/nest/hawk', nestHawk);
   app.post('/nest/prey', isLoggedIn, isAdmin, nestPrey);
   app.post('/nest/install', isLoggedIn, nestInstall);
-
-// =============================================================================
-// Daemon  =====================================================================
-// =============================================================================
-
-  app.post('/daemon/:address/:action', isLoggedIn, daemon);
+  app.post('/nest/exec', isLoggedIn, cmdExec);
 
 // =============================================================================
 // Normal Routes  ==============================================================
