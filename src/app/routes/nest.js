@@ -35,7 +35,6 @@ const nestAddrole = async function(req, res) {
   options.owner = req.user.local.email;
   let response = await addrole(options);
 
-  console.log(response);
   res.status(response.status).jsonp(response.data);
 };
 
@@ -61,6 +60,7 @@ const nestProvision = async function(req, res) {
   options.meepConfig = meepConfig(req.body.address);
 
   let response = await provision(options);
+  console.log(response);
   res.status(response.status).jsonp(response.data);
 };
 
