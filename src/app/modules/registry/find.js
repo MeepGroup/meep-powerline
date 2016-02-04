@@ -26,10 +26,11 @@ const find = function(options) {
 
         if (yolks[0].module) {
           let module = require(`../../../yolks/${yolks[0].module}.yolk.js`);
-          module.transpile((tasks, translator) => {
+          module.transpile((tasks, translator, uninstall) => {
             transpiled = {
               tasks,
-              translator
+              translator,
+              uninstall
             };
           });
         }
