@@ -16,7 +16,7 @@ const {root} = require('./routes/core.js');
 const {payAdd, payDel} = require('./routes/pay.js');
 const {
   nestAddrole, nestRevokerole, nestProvision, nestRegister, nestMyNests,
-  nestPrey, nestHawk, nestInstall
+  nestPrey, nestHawk, nestInstall, nestUninstall
 } = require('./routes/nest.js');
 
 const {
@@ -65,6 +65,7 @@ module.exports = function(app, passport) {
   app.post('/nest/hawk', nestHawk);
   app.post('/nest/prey', isLoggedIn, isAdmin, nestPrey);
   app.post('/nest/install', isLoggedIn, nestInstall);
+  app.post('/nest/uninstall', isLoggedIn, nestUninstall);
   app.post('/nest/exec', isLoggedIn, cmdExec);
 
 // =============================================================================
