@@ -25,7 +25,7 @@ const getAuthKey = function(options) {
 
       if (nests.length) {
         const nest = nests[0];
-        if (nest.roles.owner === options.email) {
+        if (nest.roles.owner === options.owner) {
           resolve({
             status: 200,
             data: {

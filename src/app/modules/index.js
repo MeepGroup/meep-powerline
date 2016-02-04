@@ -1,6 +1,7 @@
 const provision = require('./nest/provision.js');
 const viewNest = require('./nest/viewNest.js');
 const registerNest = require('./nest/registerNest.js');
+const unregisterNest = require('./nest/unregisterNest.js');
 const addrole = require('./nest/addrole.js');
 const myNests = require('./nest/myNests.js');
 const revokerole = require('./nest/revokerole.js');
@@ -14,11 +15,13 @@ const all = require('./registry/all.js');
 const find = require('./registry/find.js');
 const install = require('./nest/install.js');
 const uninstall = require('./nest/uninstall.js');
+const exec = require('./command/exec.js');
 
 module.exports = {
   provision,
   viewNest,
   registerNest,
+  unregisterNest,
   addrole,
   revokerole,
   addCredits,
@@ -31,5 +34,6 @@ module.exports = {
   all,
   find,
   install,
-  uninstall
+  uninstall,
+  exec
 };

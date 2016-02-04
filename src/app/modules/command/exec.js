@@ -1,7 +1,6 @@
 'use strict';
 
 const request = require('request');
-const getAuthKey = require('./getAuthKey');
 
 const commandBlacklist = require('../../../config/global.js').commandBlacklist;
 
@@ -14,18 +13,13 @@ const commandBlacklist = require('../../../config/global.js').commandBlacklist;
  * @param {string} options.owner - The owner of the nest.
  * @return {promise} promise - Returns new promise
  */
-const exec = async function(options) {
-  let authKey = await getAuthKey({
-    address: options.address,
-    owner: options.owner
-  });
-
+const exec = function(options) {
   return new Promise((resolve, reject) => {
     let issueCommand = () => {
-      request.post(`http://${options.address}:3000/exec`, {
+      request.post(`http://${options.address}:3000/exec`, {form: {
         command: options.command,
-        authKey: authKey
-      }, (err, httpResponse, body) => {
+        authKey: options.authKey
+      }}, (err, httpResponse, body) => {
         if (err) {
           reject({
             status: 500,
@@ -34,7 +28,7 @@ const exec = async function(options) {
         } else {
           resolve({
             status: 200,
-            data: body
+            data: 'Successfully sent command request.'
           });
         }
       });
@@ -45,7 +39,7 @@ const exec = async function(options) {
       if (options.command.match(item.regex)) {
         reject({
           error: 403,
-          error: `Forbidden command, ${item.reason}`
+          data: `Forbidden command, ${item.reason}`
         });
       } else if (i + 1 === commandBlacklist.length) {
         issueCommand();

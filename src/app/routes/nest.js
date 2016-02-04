@@ -54,6 +54,14 @@ const nestRegister = async function(req, res) {
   res.status(response.status).jsonp(response.data);
 };
 
+const nestUnregister = async function(req, res) {
+  let options = req.body;
+  options.owner = req.user.local.email;
+
+  let response = await unregisterNest(options);
+  res.status(response.status).jsonp(response.data);
+};
+
 const nestProvision = async function(req, res) {
   let options = req.body;
   options.owner = req.user.local.email;
@@ -82,6 +90,7 @@ module.exports = {
   nestAddrole,
   nestRevokerole,
   nestRegister,
+  nestUnregister,
   nestProvision,
   nestMyNests,
   nestPrey,

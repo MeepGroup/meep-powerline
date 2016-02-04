@@ -1,12 +1,17 @@
 'use strict';
 
 const {
-  exec
+  exec, getAuthKey
 } = require('../modules/');
 
 const cmdExec = async function(req, res) {
   let options = req.body;
-  options.email = req.user.local.email;
+  options.owner = req.user.local.email;
+  let authKeyData = await getAuthKey({
+    address: req.body.address,
+    owner: req.user.local.email
+  });
+  options.authKey = authKeyData.data.authKey;
 
   let response = await exec(options);
   res.status(response.status).jsonp(response);
