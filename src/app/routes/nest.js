@@ -2,7 +2,7 @@
 
 const {
   addrole, revokerole, registerNest, provision, myNests, viewNest, hawk,
-  install, uninstall
+  install, uninstall, unregisterNest
 } = require('../modules/');
 
 const meepConfig = require('../../config/meepConfig.js');
