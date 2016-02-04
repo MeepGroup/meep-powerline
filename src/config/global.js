@@ -6,5 +6,6 @@ module.exports = {
     {
       regex: /.*rm .*\w?\//,
       reason: 'rm commands are restricted to prevent damage.'
+    }
   ]
 };

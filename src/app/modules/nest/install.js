@@ -96,7 +96,7 @@ const install = function(options) {
 
                           let noti = new Notify({
                             message:
-`${nest.address} has finished the installing ${yolk.name}.`,
+`${nest.address} has finished installing ${yolk.name}.`,
                             assignee: nest.owner
                           });
 

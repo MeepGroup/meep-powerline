@@ -13,6 +13,7 @@ const register = require('./registry/register.js');
 const all = require('./registry/all.js');
 const find = require('./registry/find.js');
 const install = require('./nest/install.js');
+const uninstall = require('./nest/uninstall.js');
 
 module.exports = {
   provision,
@@ -29,5 +30,6 @@ module.exports = {
   register,
   all,
   find,
-  install
+  install,
+  uninstall
 };

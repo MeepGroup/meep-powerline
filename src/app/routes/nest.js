@@ -1,7 +1,8 @@
 'use strict';
 
 const {
-  addrole, revokerole, registerNest, provision, myNests, viewNest, hawk, install
+  addrole, revokerole, registerNest, provision, myNests, viewNest, hawk,
+  install, uninstall
 } = require('../modules/');
 
 const meepConfig = require('../../config/meepConfig.js');
@@ -18,6 +19,14 @@ const nestInstall = async function(req, res) {
   options.owner = req.user.local.email;
 
   let response = await install(options);
+  res.status(response.status).jsonp(response.data);
+};
+
+const nestUninstall = async function(req, res) {
+  let options = req.body;
+  options.owner = req.user.local.email;
+
+  let response = await uninstall(options);
   res.status(response.status).jsonp(response.data);
 };
 
@@ -77,5 +86,6 @@ module.exports = {
   nestMyNests,
   nestPrey,
   nestHawk,
-  nestInstall
+  nestInstall,
+  nestUninstall
 };
