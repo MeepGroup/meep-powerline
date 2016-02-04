@@ -39,8 +39,7 @@ const provisionServer = function(options) {
         let nest = nests[0];
         if (nest.roles.owner === options.owner) {
           resolve({status: 200, data: {
-            success: `Nest provision has started please check status at /nest/find
-              providing the provision_token `,
+            success: `Nest provision has started.`,
             provisionToken: nest.provision_token
           }});
 
@@ -79,7 +78,7 @@ const provisionServer = function(options) {
               });
 
               let noti = new Notify({
-                message: `${nest.address} has finished the provisioning task and is ready for use.`,
+                message: `${nest.address} has finished the provisioning.`,
                 assignee: nest.roles.owner
               });
               noti.dispatch(data => {

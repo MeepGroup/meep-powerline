@@ -59,8 +59,7 @@ const registerNest = function(options) {
           resolve({
             status: 200,
             data: {
-              success: `Sucessfully registered nest. Provisioning is suggested
-                as a next step.`
+              success: `Sucessfully registered nest. Ready to provision.`
             }
           });
         });

@@ -46,7 +46,8 @@ const revokeRole = function(options) {
                 }
 
                 let noti = new Notify({
-                  message: `${options.user} has been added removed from the role ${options.role} on your nest: ${nest.address}.`,
+                  message:
+`${options.user} was removed from role ${options.role} on ${nest.address}.`,
                   assignee: nest.roles.owner
                 });
 
@@ -57,8 +58,8 @@ const revokeRole = function(options) {
                 resolve({
                   status: 200,
                   data: {
-                    error: `User ${options.user} removed from group
-                      ${options.role}.`
+                    error:
+                      `User ${options.user} removed from group ${options.role}.`
                   }
                 });
               });

@@ -17,7 +17,7 @@
     * Add Role
     * Revoke Role
     * View All Nests
-
+    * Uninstall software
 
 * Notifications
     * Create Notification
@@ -39,13 +39,13 @@
 
 
 ## In Progress
-* Nest
-  * Uninstall software
 
-
-## Planned Features
 * Nest
     * Unregister / Remove
+
+    
+## Planned Features
+* Nest
     * Instanced Software Managment (i.e. Minecraft Server)
     * Freeze
     * Backup

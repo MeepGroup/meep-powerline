@@ -22,25 +22,34 @@ const find = function(options) {
             '20'
           ));
         }
-        let transpiled = {};
+        if (yolks.length) {
+          let transpiled = {};
 
-        if (yolks[0].module) {
-          let module = require(`../../../yolks/${yolks[0].module}.yolk.js`);
-          module.transpile((tasks, translator, uninstall) => {
-            transpiled = {
-              tasks,
-              translator,
-              uninstall
-            };
+          if (yolks[0].module) {
+            let module = require(`../../../yolks/${yolks[0].module}.yolk.js`);
+            module.transpile((tasks, translator, uninstall) => {
+              transpiled = {
+                tasks,
+                translator,
+                uninstall
+              };
+            });
+          }
+          resolve({
+            status: 200,
+            data: {
+              yolk: yolks[0],
+              module: transpiled
+            }
+          });
+        } else {
+          resolve({
+            status: 404,
+            data: {
+              error: 'Yolk not found.'
+            }
           });
         }
-        resolve({
-          status: 200,
-          data: {
-            yolk: yolks[0],
-            module: transpiled
-          }
-        });
       });
     } else {
       resolve({
