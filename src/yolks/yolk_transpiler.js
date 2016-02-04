@@ -1,13 +1,14 @@
 'use strict';
 
 module.exports = class Yolk {
-  constructor(tasks, translations) {
+  constructor(tasks, uninstall, translations) {
     this.ta = tasks;
+    this.un = uninstall;
     this.tr = translations;
   }
 
-  interpTasks() {
-    let taskArray = this.ta.split('\n');
+  interpTasks(type) {
+    let taskArray = this[type].split('\n');
     taskArray.shift();
     taskArray.pop();
     return taskArray;
@@ -15,8 +16,9 @@ module.exports = class Yolk {
 
   transpile(callback) {
     callback(
-      this.interpTasks(),
-      this.tr
+      this.interpTasks(ta),
+      this.tr,
+      this.interpTasks(un)
     );
   }
 };

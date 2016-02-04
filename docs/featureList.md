@@ -14,8 +14,6 @@
     * Usage Viewing
     * Software Installation
     * Software Commands Management
-        * TODO: Make sure command exists in yolk before
-        executing to prevent hijacking
     * Add Role
     * Revoke Role
     * View All Nests
@@ -39,9 +37,14 @@
     * Add Credits
     * Remove Credits
 
+
+## In Progress
+* Nest
+  * Uninstall software
+
+
 ## Planned Features
 * Nest
-    * Uninstall software
     * Unregister / Remove
     * Instanced Software Managment (i.e. Minecraft Server)
     * Freeze

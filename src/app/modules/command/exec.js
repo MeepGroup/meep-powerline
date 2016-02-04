@@ -3,6 +3,8 @@
 const request = require('request');
 const getAuthKey = require('./getAuthKey');
 
+const commandBlacklist = require('../../../config/global.js').commandBlacklist;
+
 /** @function
  * @name exec
  * @param {object} options - Authkey, Address, Command.
@@ -19,20 +21,34 @@ const exec = async function(options) {
   });
 
   return new Promise((resolve, reject) => {
-    request.post(`http://${options.address}:3000/exec`, {
-      command: options.command,
-      authKey: authKey
-    }, (err, httpResponse, body) => {
-      if (err) {
+    let issueCommand = () => {
+      request.post(`http://${options.address}:3000/exec`, {
+        command: options.command,
+        authKey: authKey
+      }, (err, httpResponse, body) => {
+        if (err) {
+          reject({
+            status: 500,
+            error: err
+          });
+        } else {
+          resolve({
+            status: 200,
+            data: body
+          });
+        }
+      });
+    };
+
+    // Make sure the command being issued is not blacklisted before sending.
+    commandBlacklist.map((item, i) => {
+      if (options.command.match(item.regex)) {
         reject({
-          status: 500,
-          error: err
+          error: 403,
+          error: `Forbidden command, ${item.reason}`
         });
-      } else {
-        resolve({
-          status: 200,
-          data: body
-        });
+      } else if (i + 1 === commandBlacklist.length) {
+        issueCommand();
       }
     });
   });
