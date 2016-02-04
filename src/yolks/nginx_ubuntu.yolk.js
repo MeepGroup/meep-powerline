@@ -6,6 +6,7 @@ sudo apt-get update
 sudo apt-get install -y nginx
 `,
 `
+sudo nginx -s stop
 sudo apt-get remove -y nginx
 `,
 {
