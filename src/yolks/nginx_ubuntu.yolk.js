@@ -4,6 +4,7 @@ const Yolk = require('./yolk_transpiler.js');
 const nginx_ubuntu = new Yolk(`
 sudo apt-get update
 sudo apt-get install -y nginx
+sudo nginx
 `,
 `
 sudo nginx -s stop
