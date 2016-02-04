@@ -16,9 +16,9 @@ module.exports = class Yolk {
 
   transpile(callback) {
     callback(
-      this.interpTasks(this.ta),
+      this.interpTasks('ta'),
       this.tr,
-      this.interpTasks(this.un)
+      this.interpTasks('un')
     );
   }
 };
