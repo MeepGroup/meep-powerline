@@ -9,6 +9,7 @@
 
 * Nest
     * Register
+    * Unregister / Remove
     * Provision
     * Usage Reporting
     * Usage Viewing
@@ -41,10 +42,11 @@
 ## In Progress
 
 * Nest
-    * Unregister / Remove
+    * Instanced Software Managment (i.e. Minecraft Server)
 
-    
+
 ## Planned Features
+
 * Nest
     * Instanced Software Managment (i.e. Minecraft Server)
     * Freeze
