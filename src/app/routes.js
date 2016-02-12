@@ -1,3 +1,5 @@
+/* This file is subject to the terms and conditions defined in
+   file 'LICENSE.md', which is part of this source code package. */
 'use strict';
 
 const chalk = require('chalk');
@@ -76,32 +78,12 @@ module.exports = function(app, passport) {
   app.get('/', root);
 
   // PROFILE SECTION =========================
-  app.post('/profile', isLoggedIn,
-  function(req, res) {
-    if (debug) {
-      console.log(
-        chalk.cyan(
-          `[${Date.now()}] Connection from
-          ${req.connection.remoteAddress} at /profile`
-        )
-      );
-    }
-
+  app.post('/profile', isLoggedIn, function(req, res) {
     res.jsonp(req.user);
   });
 
   // LOGOUT ==============================
-  app.get('/logout',
-  function(req, res) {
-    if (debug) {
-      console.log(
-        chalk.cyan(
-          `[${Date.now()}] Connection from
-          ${req.connection.remoteAddress} at /logout`
-        )
-      );
-    }
-
+  app.get('/logout', function(req, res) {
     req.logout();
     res.redirect('/');
   });
@@ -112,24 +94,9 @@ module.exports = function(app, passport) {
 
   // locally --------------------------------
 
-  // show the login form
-  app.get('/login',
-  function(req, res) {
-    res.render('login.ejs', {message: req.flash('loginMessage')});
-  });
-
   // process the login form
   app.post('/login', passport.authenticate('local-login'),
   function(req, res) {
-    if (debug) {
-      console.log(
-        chalk.cyan(
-          `[${Date.now()}] Connection from
-          ${req.connection.remoteAddress} at /login`
-        )
-      );
-    }
-
     if (req.user) {
       res.status(200).jsonp({
         success: 'Successfully logged in.'
@@ -140,11 +107,7 @@ module.exports = function(app, passport) {
   });
 
   // SIGNUP =================================
-  // show the signup form
-  app.get('/signup',
-  function(req, res) {
-    res.render('signup.ejs', {message: req.flash('signupMessage')});
-  });
+
   // process the signup form
   app.post('/signup', passport.authenticate('local-signup'),
   function(req, res) {

@@ -1,4 +1,5 @@
 'use strict';
+
 // load all the things we need
 let LocalStrategy    = require('passport-local').Strategy;
 let FacebookStrategy = require('passport-facebook').Strategy;

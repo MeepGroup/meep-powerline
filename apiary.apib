@@ -204,9 +204,9 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
         {
             "error": "Yolk not found."
         }
-     
+
 # Group Nest
-   
+
 ## Register [/nest/register]
 *Please note, Nest will be automatically assigned to the user who issued the request.*
 ### /nest/register [POST]
@@ -247,13 +247,13 @@ Powerline is the powerhouse API that runs Meep. It's build on NodeJS and support
         {
             "success": "Sucessfully started provisioning, check /nest/view for status."
         }
-        
+
 + Response 403 (application/json)
 
         {
             "error": "You do not own this nest!"
         }
-    
+
 ## Prey [/nest/prey]
 
 *Please note, this is not the same as /prey. This route gives
@@ -268,7 +268,7 @@ you ownership, provision and other stats about this nest.*
         }
 
 + Response 200 (application/json)
-        
+
         {
           "_id": "566b9011b63ac11cc4e7c111",
           "address": "75.126.217.82",
@@ -286,7 +286,7 @@ you ownership, provision and other stats about this nest.*
           ],
           "usage": "Redacted due to length"
         }
-        
+
 
 ## Add Role [/nest/addrole]
 
@@ -301,23 +301,23 @@ you ownership, provision and other stats about this nest.*
         }
 
 + Response 200 (application/json)
-        
+
         {
           "success": "User exampleuser@gmail.com has been added to group admins"
         }
-        
+
 + Response 200 (application/json)
-        
+
         {
         "success": "User already in group admins"
         }
 
 + Response 404 (application/json)
-        
+
         {
           "error": "Group admins not found."
         }
-    
+
 
 ## Revoke Role [/nest/revokerole]
 
@@ -332,23 +332,23 @@ you ownership, provision and other stats about this nest.*
         }
 
 + Response 200 (application/json)
-        
+
         {
           "success": "User exampleuser@gmail.com has been removed from group admins"
         }
-        
+
 + Response 200 (application/json)
-        
+
         {
         "success": "User not in group admins"
         }
 
 + Response 404 (application/json)
-        
+
         {
           "error": "Group admins not found."
         }
-        
+
 
 ## Install [/nest/install]
 
@@ -363,23 +363,23 @@ you ownership, provision and other stats about this nest.*
         }
 
 + Response 200 (application/json)
-        
+
         {
         "success": "Egg installation started."
         }
 
 + Response 409 (application/json)
-        
+
         {
           "success": "Egg already installed."
         }
-        
+
 ## My Nests [/nest/mynests]
 
 ### /nest/mynests [GET]
 
 + Response 200 (application/json)
-        
+
         [
           {
             "__v": 18,
@@ -510,7 +510,7 @@ you ownership, provision and other stats about this nest.*
             ]
           },
         ]
-        
+
 
 # Group Payments
 
@@ -526,18 +526,18 @@ you ownership, provision and other stats about this nest.*
         }
 
 + Response 200 (application/json)
-        
+
         {
           "success": "User exampleuser@gmail.com has credited 1.25 credits"
         }
-        
+
 
 + Response 404 (application/json)
-        
+
         {
           "error": "User exampleuser@gmail.com not found."
         }
-        
+
 
 ## Remove Credits [/pay/credit/del]
 
@@ -551,20 +551,20 @@ you ownership, provision and other stats about this nest.*
         }
 
 + Response 200 (application/json)
-        
+
         {
           "success": "User exampleuser@gmail.com has credited 1.25 credits"
         }
-        
+
 
 + Response 404 (application/json)
-        
+
         {
           "error": "User exampleuser@gmail.com not found."
         }
-        
 
-# Group Command 
+
+# Group Command
 
 ## Add Shim [/command/shim/add/:address]
 
@@ -577,9 +577,9 @@ you ownership, provision and other stats about this nest.*
         Content-Type: text/javascript
 
         -----BOUNDARY
-        
+
 + Response 200 (application/json)
-        
+
         {
           "success": true,
           "message": "Successfully uploaded new shim.",
@@ -594,7 +594,7 @@ you ownership, provision and other stats about this nest.*
             "size": 63
           }
         }
-        
+
 
 ## Send Command [/command/issue]
 
@@ -607,17 +607,17 @@ you ownership, provision and other stats about this nest.*
             command: "ls",
             address: "127.0.0.1"
         }
-        
+
 + Response 200 (application/json)
-        
+
         {
           "success": true,
           "message": "Successfully executed command ls.",
           "command": ".meep"
         }
-        
 
-# Group Notify 
+
+# Group Notify
 
 ## New Notification [/notify/add]
 ### /notify/add [POST]
@@ -627,9 +627,9 @@ you ownership, provision and other stats about this nest.*
         {
             message: "test notification"
         }
-        
+
 + Response 200 (application/json)
-        
+
         {
           "status": 200,
           "success": "Successfully dispatched a new notification.",
@@ -645,8 +645,8 @@ you ownership, provision and other stats about this nest.*
             "_id": "56b10ad9bd34de6868dd78aa"
           }
         }
-     
-        
+
+
 
 ## Delete Notification [/notify/del]
 ### /notify/del [POST]
@@ -656,21 +656,21 @@ you ownership, provision and other stats about this nest.*
         {
             uuid: "999b0550-c9e7-11e5-9815-db7dd0c63db7"
         }
-        
+
 + Response 200 (application/json)
-        
+
         {
           "status": 200,
           "success": "Successfully deleted notification."
         }
-        
+
 + Response 404 (application/json)
-        
+
         {
           "status": 404,
           "error": "Notification not found."
         }
-        
+
 
 ## Mark Notification Seen [/notify/seen]
 ### /notify/seen [POST]
@@ -680,21 +680,21 @@ you ownership, provision and other stats about this nest.*
         {
             uuid: "999b0550-c9e7-11e5-9815-db7dd0c63db7"
         }
-        
+
 + Response 200 (application/json)
-        
+
         {
           "status": 200,
           "success": "Successfully marked notification as seen."
         }
-        
+
 + Response 404 (application/json)
-        
+
         {
           "status": 404,
           "error": "Notification not found."
         }
-        
+
 
 ## Toggle Notification Lock [/notify/togglelock]
 ### /notify/togglelock [POST]
@@ -704,28 +704,28 @@ you ownership, provision and other stats about this nest.*
         {
             uuid: "999b0550-c9e7-11e5-9815-db7dd0c63db7"
         }
-        
+
 + Response 200 (application/json)
-        
+
         {
           "status": 200,
           "success": "Successfully changed notification locked status to true."
         }
-        
+
 + Response 200 (application/json)
 
         {
           "status": 200,
           "success": "Successfully changed notification locked status to false."
         }
-        
+
 + Response 404 (application/json)
-        
+
         {
           "status": 404,
           "error": "Notification not found."
         }
-        
+
 
 ## Get Notifications [/notify]
 ### /notify [POST]
@@ -734,9 +734,9 @@ you ownership, provision and other stats about this nest.*
 
         {
         }
-        
+
 + Response 200 (application/json)
-        
+
         [
           {
             "uuid": "032881e0-c093-11e5-9238-a3ca6eecc6d0",
