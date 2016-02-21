@@ -29,7 +29,20 @@ const {
   registryRegister, registryAll, registryFind
 } = require('./routes/registry.js');
 
+const {
+  instanceSpawn, instanceDespawn, instanceCycle, instanceInstance
+} = require('./routes/instance.js');
+
 module.exports = function(app, passport) {
+// =============================================================================
+// Instance ====================================================================
+// =============================================================================
+
+  app.post('/instance/spawn', isLoggedIn, instanceSpawn);
+  app.post('/instance/despawn', isLoggedIn, instanceDespawn);
+  app.post('/instance/cycle', isLoggedIn, instanceCycle);
+  app.post('/instance', isLoggedIn, instanceInstance);
+
 // =============================================================================
 // Registry ====================================================================
 // =============================================================================
