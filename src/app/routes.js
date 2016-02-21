@@ -2,16 +2,10 @@
    file 'LICENSE.md', which is part of this source code package. */
 'use strict';
 
-const chalk = require('chalk');
-
 const {
   deleteNotification, toggleLocked, markSeen, notifyNewNotification,
   getMyNotifications
 } = require('./routes/notify.js');
-
-const {
-  debug
-} = require('../config/global.js');
 
 const {root} = require('./routes/core.js');
 
@@ -30,7 +24,7 @@ const {
 } = require('./routes/registry.js');
 
 const {
-  instanceSpawn, instanceDespawn, instanceCycle, instanceInstance
+  spawn, despawn, cycle, instance
 } = require('./routes/instance.js');
 
 module.exports = function(app, passport) {
@@ -38,10 +32,10 @@ module.exports = function(app, passport) {
 // Instance ====================================================================
 // =============================================================================
 
-  app.post('/instance/spawn', isLoggedIn, instanceSpawn);
-  app.post('/instance/despawn', isLoggedIn, instanceDespawn);
-  app.post('/instance/cycle', isLoggedIn, instanceCycle);
-  app.post('/instance', isLoggedIn, instanceInstance);
+  app.post('/instance/spawn', isLoggedIn, spawn);
+  app.post('/instance/despawn', isLoggedIn, despawn);
+  app.post('/instance/cycle', isLoggedIn, cycle);
+  app.post('/instance', isLoggedIn, instance);
 
 // =============================================================================
 // Registry ====================================================================
