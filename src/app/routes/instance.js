@@ -17,11 +17,11 @@ const spawn = async function(req, res) {
   });
   options.authKey = authKeyData.data.authKey;
 
-  console.log('options ready', options);
   request.post(`http://{options.address}:3000/spawn`, {
     form: options
   }, (err, httpResponse, body) => {
-    console.log('got response');
+    console.log('got response body', body);
+    console.log('got response httpResponse', httpResponse);
     if (err) {
       res.status(500).jsonp(body);
     } else {
