@@ -24,9 +24,9 @@ const spawn = async function(req, res) {
     console.log('got response body', body);
     console.log('got response httpResponse', httpResponse);
     if (err) {
-      res.status(500).jsonp(body);
+      res.status(500).jsonp(JSON.parse(body));
     } else {
-      res.status(200).jsonp(body);
+      res.status(200).jsonp(JSON.parse(body));
     }
   });
 };
@@ -44,9 +44,9 @@ const despawn = async function(req, res) {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
-      res.status(500).jsonp(body);
+      res.status(500).jsonp(JSON.parse(body));
     } else {
-      res.status(200).jsonp(body);
+      res.status(200).jsonp(JSON.parse(body));
     }
   });
 };
@@ -64,9 +64,9 @@ const cycle = async function(req, res) {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
-      res.status(500).jsonp(body);
+      res.status(500).jsonp(JSON.parse(body));
     } else {
-      res.status(200).jsonp(body);
+      res.status(200).jsonp(JSON.parse(body));
     }
   });
 };
@@ -84,9 +84,9 @@ const instance = async function(req, res) {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
-      res.status(500).jsonp(body);
+      res.status(500).jsonp(JSON.parse(body));
     } else {
-      res.status(200).jsonp(body);
+      res.status(200).jsonp(JSON.parse(body));
     }
   });
 };
