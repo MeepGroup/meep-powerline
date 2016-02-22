@@ -19,6 +19,8 @@
     * Revoke Role
     * View All Nests
     * Uninstall software
+    * Instanced Software Managment (i.e. Minecraft Server)
+
 
 * Notifications
     * Create Notification
@@ -41,15 +43,10 @@
 
 ## In Progress
 
-* Nest
-    * Instanced Software Managment (i.e. Minecraft Server)
-
 
 ## Planned Features
 
 * Nest
-    * Instanced Software Managment (i.e. Minecraft Server)
-    * Freeze
     * Backup
     * Restore
 

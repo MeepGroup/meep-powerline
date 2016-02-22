@@ -57,7 +57,7 @@ module.exports = function(passport) {
 
                 // if no user is found, return the message
                 if (!user)
-                    return done(null, false, req.flash('loginMessage', 'No user found.'));
+                    return done(null, false, req.flash('loginMessage', 'Account not found, check your email.'));
 
                 if (!user.validPassword(password))
                     return done(null, false, req.flash('loginMessage', 'Oops! Wrong password.'));
@@ -83,8 +83,6 @@ module.exports = function(passport) {
         if (email)
             email = email.toLowerCase(); // Use lower-case e-mails to avoid case-sensitive e-mail matching
 
-        if(debug)
-          console.log(chalk.cyan(`New user registered: ${email}`));
         // asynchronous
         process.nextTick(function() {
             // if the user is not already logged in:

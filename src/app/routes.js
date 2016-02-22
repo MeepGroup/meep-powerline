@@ -101,31 +101,28 @@ module.exports = function(app, passport) {
 
   // locally --------------------------------
 
-  // process the login form
-  app.post('/login', passport.authenticate('local-login'),
-  function(req, res) {
-    if (req.user) {
-      res.status(200).jsonp({
-        success: 'Successfully logged in.'
-      });
-    } else {
-      res.status(500).jsonp({error: 'Failed to authenticate'});
-    }
+  app.get('/login', function(req, res) {
+    res.jsonp({error: req.flash('loginMessage')});
   });
+
+  // process the login form
+  app.post('/login', passport.authenticate('local-login', {
+      successRedirect : '/profile',
+      failureRedirect : '/login',
+      failureFlash : true
+  }));
 
   // SIGNUP =================================
+  app.get('/signup', function(req, res) {
+    res.jsonp({error: req.flash('signupMessage')});
+  });
 
   // process the signup form
-  app.post('/signup', passport.authenticate('local-signup'),
-  function(req, res) {
-    if (req.user) {
-      res.status(200).jsonp({
-        success: 'Successfully signed up.'
-      });
-    } else {
-      res.status(500).jsonp({error: 'Failed to sign up.'});
-    }
-  });
+  app.post('/signup', passport.authenticate('local-signup', {
+      successRedirect : '/profile',
+      failureRedirect : '/signup',
+      failureFlash : true
+  }));
 
 // =============================================================================
 // AUTHORIZE (ALREADY LOGGED IN / CONNECTING OTHER SOCIAL ACCOUNT) =============
