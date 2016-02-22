@@ -17,7 +17,7 @@ const spawn = async function(req, res) {
   });
   options.authKey = authKeyData.data.authKey;
 
-  request.post(`http://{options.address}:3000/spawn`, {
+  request.post(`http://${options.address}:3000/spawn`, {
     form: options
   }, (err, httpResponse, body) => {
     console.log('got error', err);
@@ -40,7 +40,7 @@ const despawn = async function(req, res) {
   });
   options.authKey = authKeyData.data.authKey;
 
-  request.post(`http://{options.address}:3000/despawn`, {
+  request.post(`http://${options.address}:3000/despawn`, {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
@@ -60,7 +60,7 @@ const cycle = async function(req, res) {
   });
   options.authKey = authKeyData.data.authKey;
 
-  request.post(`http://{options.address}:3000/cycle`, {
+  request.post(`http://${options.address}:3000/cycle`, {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
@@ -80,7 +80,7 @@ const instance = async function(req, res) {
   });
   options.authKey = authKeyData.data.authKey;
 
-  request.post(`http://{options.address}:3000/instance`, {
+  request.post(`http://${options.address}:3000/instance`, {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
