@@ -20,6 +20,7 @@ const spawn = async function(req, res) {
   request.post(`http://{options.address}:3000/spawn`, {
     form: options
   }, (err, httpResponse, body) => {
+    console.log('got error', err);
     console.log('got response body', body);
     console.log('got response httpResponse', httpResponse);
     if (err) {
