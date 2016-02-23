@@ -106,11 +106,30 @@ module.exports = function(app, passport) {
   });
 
   // process the login form
-  app.post('/login', passport.authenticate('local-login', {
-      successRedirect : '/profile',
-      failureRedirect : '/login',
-      failureFlash : true
-  }));
+  app.post('/login', function(req, res, next) {
+    passport.authenticate('local-login', function(err, user, info) {
+      if (err) {
+      return next(err); // will generate a 500 error
+    }
+    // Generate a JSON response reflecting authentication status
+    if (! user) {
+      return res.send({
+        success : false,
+        message : 'Incorrect email or password.'
+      });
+    }
+
+    req.login(user, loginErr => {
+      if (loginErr) {
+        return next(loginErr);
+      }
+      return res.send({
+        success : true,
+        message : 'authentication succeeded'
+      });
+    });
+    })(req, res, next);
+  });
 
   // SIGNUP =================================
   app.get('/signup', function(req, res) {
@@ -119,7 +138,6 @@ module.exports = function(app, passport) {
 
   // process the signup form
   app.post('/signup', passport.authenticate('local-signup', {
-      successRedirect : '/profile',
       failureRedirect : '/signup',
       failureFlash : true
   }));
