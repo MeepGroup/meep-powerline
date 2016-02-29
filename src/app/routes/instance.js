@@ -91,9 +91,30 @@ const instance = async function(req, res) {
   });
 };
 
+const instances = async function(req, res) {
+  let options = req.body;
+  options.owner = req.user.local.email;
+  let authKeyData = await getAuthKey({
+    address: req.body.address,
+    owner: req.user.local.email
+  });
+  options.authKey = authKeyData.data.authKey;
+
+  request.post(`http://${options.address}:3000/instances`, {
+    form: options
+  }, (err, httpResponse, body) => {
+    if (err) {
+      res.status(500).jsonp(JSON.parse(body));
+    } else {
+      res.status(200).jsonp(JSON.parse(body));
+    }
+  });
+};
+
 module.exports = {
   spawn,
   despawn,
   cycle,
-  instance
+  instance,
+  instances
 };
