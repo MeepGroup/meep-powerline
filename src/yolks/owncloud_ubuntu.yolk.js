@@ -15,4 +15,4 @@ sudo apt-get remove -y owncloud
 {}
 );
 
-module.exports = nginx_ubuntu;
+module.exports = owncloud_ubuntu;
