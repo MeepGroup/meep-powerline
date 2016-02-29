@@ -104,9 +104,9 @@ const instances = async function(req, res) {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
-      res.status(500).jsonp(body);
+      res.status(500).jsonp(JSON.parse(body));
     } else {
-      res.status(200).jsonp(body);
+      res.status(200).jsonp(JSON.parse(body));
     }
   });
 };
