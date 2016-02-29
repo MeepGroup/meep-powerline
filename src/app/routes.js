@@ -24,7 +24,7 @@ const {
 } = require('./routes/registry.js');
 
 const {
-  spawn, despawn, cycle, instance
+  spawn, despawn, cycle, instance, instances
 } = require('./routes/instance.js');
 
 module.exports = function(app, passport) {
@@ -36,6 +36,7 @@ module.exports = function(app, passport) {
   app.post('/instance/despawn', isLoggedIn, despawn);
   app.post('/instance/cycle', isLoggedIn, cycle);
   app.post('/instance', isLoggedIn, instance);
+  app.post('/instances', isLoggedIn, instances);
 
 // =============================================================================
 // Registry ====================================================================
