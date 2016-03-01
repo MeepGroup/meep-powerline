@@ -18,10 +18,15 @@ const commandBlacklist = require('../../../config/global.js').commandBlacklist;
 const exec = function(options) {
   return new Promise((resolve, reject) => {
     let issueCommand = () => {
-      request.post(`http://${options.address}:3000/exec`, {form: {
-        command: options.command,
-        authKey: options.authKey
-      }}, (err, httpResponse, body) => {
+      let form = (options.instanceName) ? {
+         command: options.command,
+         authKey: options.authKey,
+         options: options.instanceName
+      } : {
+         command: options.command,
+         authKey: options.authKey
+      };
+      request.post(`http://${options.address}:3000/exec`, {form: form}, (err, httpResponse, body) => {
         if (err) {
           reject({
             status: 500,
