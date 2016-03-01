@@ -21,7 +21,7 @@ const exec = function(options) {
       let form = (options.instanceName) ? {
          command: options.command,
          authKey: options.authKey,
-         options: options.instanceName
+         instanceName: options.instanceName
       } : {
          command: options.command,
          authKey: options.authKey
