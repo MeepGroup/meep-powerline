@@ -42,7 +42,9 @@ app.use(cors({
     'http://localhost:3004',
     'http://localhost:3004/',
     'https://gomeep.com',
-    'https://gomeep.com/'
+    'https://gomeep.com/',
+    'http://osprey.link:3004/',
+    'http://osprey.link:3004'
   ],
   credentials: true
 }));

@@ -21,29 +21,29 @@ const all = function() {
           '20'
         ));
       }
-      (function transpileAndRepeat(i) {
-         let transpiled = {};
 
-         if (yolks[i].module) {
-            let module = require(`../../../yolks/${yolks[i].module}.yolk.js`);
+      let allYolks = yolks;
+      (function transpileAndRepeat(i) {
+
+         if (allYolks[i].module) {
+            let module = require(`../../../yolks/${allYolks[i].module}.yolk.js`);
             module.transpile((tasks, translator, uninstall) => {
-              transpiled = {
+              allYolks[i] = {
+                info: allYolks[i],
                 tasks,
                 translator,
                 uninstall
               };
             });
          }
-         
-         yolks[i].transpiled = transpiled;
-         
-         if (i + 1 < yolks.length) {
+          
+         if (i + 1 < allYolks.length) {
             transpileAndRepeat(i + 1);
          } else {
             resolve({
               status: 200,
               data: {
-                yolks: yolks
+                yolks: allYolks
               }
             });
          }
