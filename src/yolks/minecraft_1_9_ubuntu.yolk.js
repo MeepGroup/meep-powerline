@@ -18,11 +18,15 @@ sudo rm -rf ./minecraft
 `,
 // Translator
 {
-  'start': false,
   'stop': 'stop',
-  'restart': false,
   'instanced': true,
-  'instanceName': 'Minecraft-1-9'
+  'instace': {
+    'name': 'minecraft',
+    'startCommand': 'java',
+    'startOptions': ['-jar', 'minecraft_server.1.9.jar', 'nogui'],
+    'stopCommand': 'stop',
+    'dir': '/root/minecraft'
+  }
 },
 // Backup
 `
