@@ -21,13 +21,33 @@ const all = function() {
           '20'
         ));
       }
+      (function transpileAndRepeat(i) {
+         let transpiled = {};
 
-      resolve({
-        status: 200,
-        data: {
-          yolks: yolks
-        }
-      });
+         if (yolks[i].module) {
+            let module = require(`../../../yolks/${yolks[i].module}.yolk.js`);
+            module.transpile((tasks, translator, uninstall) => {
+              transpiled = {
+                tasks,
+                translator,
+                uninstall
+              };
+            });
+         }
+         
+         yolks[i].transpiled = transpiled;
+         
+         if (i + 1 < yolks.length) {
+            transpileAndRepeat(i + 1);
+         } else {
+            resolve({
+              status: 200,
+              data: {
+                yolks: yolks
+              }
+            });
+         }
+      })(0);
     });
   });
 };
