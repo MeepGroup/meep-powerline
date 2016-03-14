@@ -20,7 +20,7 @@ sudo rm -rf ./minecraft
 {
   'stop': 'stop',
   'instanced': true,
-  'instace': {
+  'instance': {
     'name': 'minecraft',
     'startCommand': 'java',
     'startOptions': ['-jar', 'minecraft_server.1.9.jar', 'nogui'],
