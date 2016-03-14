@@ -24,9 +24,17 @@ const spawn = async function(req, res) {
     console.log('got response body', body);
     console.log('got response httpResponse', httpResponse);
     if (err) {
-      res.status(500).jsonp(JSON.parse(body));
+      try {
+         res.status(500).jsonp(JSON.parse(body));
+      } catch (e) {
+         res.status(500).jsonp(e);
+      }
     } else {
-      res.status(200).jsonp(JSON.parse(body));
+      try {
+         res.status(200).jsonp(JSON.parse(body));
+      } catch (e) {
+         res.status(500).jsonp(e);
+      }
     }
   });
 };
@@ -44,9 +52,17 @@ const despawn = async function(req, res) {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
-      res.status(500).jsonp(JSON.parse(body));
+      try {
+         res.status(500).jsonp(JSON.parse(body));
+      } catch (e) {
+         res.status(500).jsonp(e);
+      }
     } else {
-      res.status(200).jsonp(JSON.parse(body));
+      try {
+         res.status(200).jsonp(JSON.parse(body));
+      } catch (e) {
+         res.status(500).jsonp(e);
+      }
     }
   });
 };
@@ -64,9 +80,17 @@ const cycle = async function(req, res) {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
-      res.status(500).jsonp(JSON.parse(body));
+      try {
+         res.status(500).jsonp(JSON.parse(body));
+      } catch (e) {
+         res.status(500).jsonp(e);
+      }
     } else {
-      res.status(200).jsonp(JSON.parse(body));
+      try {
+         res.status(200).jsonp(JSON.parse(body));
+      } catch (e) {
+         res.status(500).jsonp(e);
+      }
     }
   });
 };
@@ -84,9 +108,17 @@ const instance = async function(req, res) {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
-      res.status(500).jsonp(JSON.parse(body));
+      try {
+         res.status(500).jsonp(JSON.parse(body));
+      } catch (e) {
+         res.status(500).jsonp(e);
+      }
     } else {
-      res.status(200).jsonp(JSON.parse(body));
+      try {
+         res.status(200).jsonp(JSON.parse(body));
+      } catch (e) {
+         res.status(500).jsonp(e);
+      }
     }
   });
 };
@@ -104,9 +136,17 @@ const instances = async function(req, res) {
     form: options
   }, (err, httpResponse, body) => {
     if (err) {
-      res.status(500).jsonp(JSON.parse(body));
+      try {
+         res.status(500).jsonp(JSON.parse(body));
+      } catch (e) {
+         res.status(500).jsonp(e);
+      }
     } else {
-      res.status(200).jsonp(JSON.parse(body));
+      try {
+         res.status(200).jsonp(JSON.parse(body));
+      } catch (e) {
+         res.status(500).jsonp(e);
+      }
     }
   });
 };
